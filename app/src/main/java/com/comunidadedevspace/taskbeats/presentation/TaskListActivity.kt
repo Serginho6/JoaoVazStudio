@@ -35,6 +35,10 @@ class MainActivity : AppCompatActivity() {
         TaskListAdapter(::onListItemClicked)
     }
 
+    private val viewModel: TaskListViewModel by lazy {
+        TaskListViewModel.create(application)
+    }
+
     lateinit var dataBase : AppDataBase
 
     private val dao by lazy {
