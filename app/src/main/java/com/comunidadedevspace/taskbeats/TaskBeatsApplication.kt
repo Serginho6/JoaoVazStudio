@@ -6,7 +6,7 @@ import com.comunidadedevspace.taskbeats.data.AppDataBase
 
 class TaskBeatsApplication: Application() {
 
-    private lateinit var dataBase : AppDataBase
+    lateinit var dataBase : AppDataBase
 
     override fun onCreate() {
         super.onCreate()

@@ -3,7 +3,6 @@ package com.comunidadedevspace.taskbeats.presentation
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -11,19 +10,12 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.comunidadedevspace.taskbeats.R
-import com.comunidadedevspace.taskbeats.TaskBeatsApplication
-import com.comunidadedevspace.taskbeats.data.AppDataBase
 import com.comunidadedevspace.taskbeats.data.Task
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.launch
 import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
@@ -39,12 +31,6 @@ class MainActivity : AppCompatActivity() {
         TaskListViewModel.create(application)
     }
 
-    lateinit var dataBase : AppDataBase
-
-    private val dao by lazy {
-        dataBase.taskDao()
-    }
-
     private val startForResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result: ActivityResult ->
@@ -52,13 +38,8 @@ class MainActivity : AppCompatActivity() {
             val data = result.data
             val TASK_ACTION_RESULT = "TASK_ACTION_RESULT"
             val taskAction = data?.getSerializableExtra(TASK_ACTION_RESULT) as TaskAction
-            val task: Task = taskAction.task
 
-            when (taskAction.actionType) {
-                ActionType.DELETE.name -> deleteById(task.id)
-                ActionType.CREATE.name -> insertIntoDataBase(task)
-                ActionType.UPDATE.name -> updateIntoDataBase(task)
-            }
+            viewModel.execute(taskAction)
         }
     }
 
@@ -81,61 +62,28 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-
-        dataBase = (application as TaskBeatsApplication).dataBase
-
-        Log.d("SérgioTeste", dataBase.toString())
         listFromDataBase()
-    }
-
-    // CRUD = Create, Read, Update and Delete
-
-    //CREATE
-    private fun insertIntoDataBase(task: Task) {
-        CoroutineScope(IO).launch {
-            dao.insert(task)
-            listFromDataBase()
-        }
     }
 
     //READ
     private fun listFromDataBase() {
-        CoroutineScope(IO).launch {
-            val myDataBaseList: List<Task> = dao.getAll()
-            adapter.submitList(myDataBaseList)
-
-            CoroutineScope(Main).launch {
-                if (myDataBaseList.isEmpty()) {
+            //Observer
+            val listObserver = Observer<List<Task>>{ listTasks ->
+                if(listTasks.isEmpty()){
                     ctnContent.visibility = View.VISIBLE
                 } else {
                     ctnContent.visibility = View.GONE
                 }
+                adapter.submitList(listTasks)
             }
-        }
+
+            //Live data
+            viewModel.taskListLiveData.observe(this@MainActivity, listObserver)
     }
 
-    //UPDATE
-    private fun updateIntoDataBase(task: Task) {
-        CoroutineScope(IO).launch {
-            dao.update(task)
-            listFromDataBase()
-        }
-    }
-
-    //DELETE ALL
     private fun deleteAll() {
-        CoroutineScope(IO).launch {
-            dao.deleteAll()
-            listFromDataBase()
-        }
-    }
-
-    //DELETE BY ID
-    private fun deleteById(id: Int) {
-        CoroutineScope(IO).launch {
-            dao.deleteById(id)
-            listFromDataBase()
-        }
+        val taskAction = TaskAction(null,ActionType.DELETE_ALL.name)
+        viewModel.execute(taskAction)
     }
 
     private fun showMessage(view: View, message: String) {
@@ -172,12 +120,13 @@ class MainActivity : AppCompatActivity() {
     // CRUD - Create, Read, Update e Delete
     enum class ActionType {
         DELETE,
+        DELETE_ALL,
         UPDATE,
         CREATE,
     }
 
     data class TaskAction(
-        val task: Task,
+        val task: Task?,
         val actionType: String
     ) : Serializable
 
