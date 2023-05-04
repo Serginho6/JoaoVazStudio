@@ -14,6 +14,7 @@ TaskBeats é um aplicativo de lista de tarefas, onde você pode adicionar, atual
 * CRUD
 * Room DataBase
 * Arquitetura MVVM
+* LiveData
 
 ### TODO
 - Melhorar estilização do app
