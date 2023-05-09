@@ -19,12 +19,12 @@ class TaskListViewModel(
 
     val taskListLiveData: LiveData<List<Task>> = taskDao.getAll()
 
-    fun execute(taskAction: MainActivity.TaskAction){
+    fun execute(taskAction: TaskListActivity.TaskAction){
         when (taskAction.actionType) {
-            MainActivity.ActionType.DELETE.name -> deleteById(taskAction.task!!.id)
-            MainActivity.ActionType.CREATE.name -> insertIntoDataBase(taskAction.task!!)
-            MainActivity.ActionType.UPDATE.name -> updateIntoDataBase(taskAction.task!!)
-            MainActivity.ActionType.DELETE_ALL.name -> deleteAll()
+            TaskListActivity.ActionType.DELETE.name -> deleteById(taskAction.task!!.id)
+            TaskListActivity.ActionType.CREATE.name -> insertIntoDataBase(taskAction.task!!)
+            TaskListActivity.ActionType.UPDATE.name -> updateIntoDataBase(taskAction.task!!)
+            TaskListActivity.ActionType.DELETE_ALL.name -> deleteAll()
         }
     }
 

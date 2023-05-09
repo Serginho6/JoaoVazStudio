@@ -54,9 +54,9 @@ class TaskDetailActivity : AppCompatActivity() {
 
             if(title.isNotEmpty() && desc.isNotEmpty()){
                 if(task == null) {
-                    addOrUpdateTask(0, title, desc, MainActivity.ActionType.CREATE)
+                    addOrUpdateTask(0, title, desc, TaskListActivity.ActionType.CREATE)
                 }else{
-                    addOrUpdateTask(task!!.id, title, desc, MainActivity.ActionType.UPDATE)
+                    addOrUpdateTask(task!!.id, title, desc, TaskListActivity.ActionType.UPDATE)
                 }
             }else{
                 showMessage(it, "Fields are required")
@@ -74,7 +74,7 @@ class TaskDetailActivity : AppCompatActivity() {
         id: Int,
         title:String,
         description:String,
-        actionType: MainActivity.ActionType
+        actionType: TaskListActivity.ActionType
     ){
         val task = Task(id, title, description)
         returnAction(task, actionType)
@@ -91,7 +91,7 @@ class TaskDetailActivity : AppCompatActivity() {
             R.id.delete_task -> {
 
                 if(task != null){
-                    returnAction(task!!, MainActivity.ActionType.DELETE)
+                    returnAction(task!!, TaskListActivity.ActionType.DELETE)
                 }else{
                     showMessage(btnDone, "Item not found")
                 }
@@ -102,10 +102,10 @@ class TaskDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun returnAction(task: Task, actionType: MainActivity.ActionType){
+    private fun returnAction(task: Task, actionType: TaskListActivity.ActionType){
         val intent = Intent()
             .apply {
-                val taskAction = MainActivity.TaskAction(task, actionType.name)
+                val taskAction = TaskListActivity.TaskAction(task, actionType.name)
                 putExtra(TASK_ACTION_RESULT, taskAction)
             }
         setResult(RESULT_OK, intent)

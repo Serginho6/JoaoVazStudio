@@ -2,7 +2,7 @@ package com.comunidadedevspace.taskbeats
 
 import com.comunidadedevspace.taskbeats.data.Task
 import com.comunidadedevspace.taskbeats.data.TaskDao
-import com.comunidadedevspace.taskbeats.presentation.MainActivity
+import com.comunidadedevspace.taskbeats.presentation.TaskListActivity
 import com.comunidadedevspace.taskbeats.presentation.TaskListViewModel
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -26,9 +26,9 @@ class TaskListViewModelTest {
     @Test
     fun delete_all() = runTest {
         //Given
-        val taskAction = MainActivity.TaskAction(
+        val taskAction = TaskListActivity.TaskAction(
             task = null,
-            actionType = MainActivity.ActionType.DELETE_ALL.name
+            actionType = TaskListActivity.ActionType.DELETE_ALL.name
         )
 
         //When
@@ -47,9 +47,9 @@ class TaskListViewModelTest {
             description = "description"
         )
 
-        val taskAction = MainActivity.TaskAction(
+        val taskAction = TaskListActivity.TaskAction(
             task = task,
-            actionType = MainActivity.ActionType.UPDATE.name
+            actionType = TaskListActivity.ActionType.UPDATE.name
         )
 
         //When
@@ -68,9 +68,9 @@ class TaskListViewModelTest {
             description = "description"
         )
 
-        val taskAction = MainActivity.TaskAction(
+        val taskAction = TaskListActivity.TaskAction(
             task = task,
-            actionType = MainActivity.ActionType.CREATE.name
+            actionType = TaskListActivity.ActionType.CREATE.name
         )
 
         //When
@@ -89,9 +89,9 @@ class TaskListViewModelTest {
             description = "description"
         )
 
-        val taskAction = MainActivity.TaskAction(
+        val taskAction = TaskListActivity.TaskAction(
             task = task,
-            actionType = MainActivity.ActionType.DELETE.name
+            actionType = TaskListActivity.ActionType.DELETE.name
         )
 
         //When
