@@ -37,7 +37,6 @@ class TaskListAdapter(
             return oldItem.title == newItem.title &&
                     oldItem.description == newItem.description
         }
-
     }
 }
 
@@ -52,7 +51,7 @@ class TaskListViewHolder(private val view: View) : RecyclerView.ViewHolder(view)
     ) {
         tvTitle.text = task.title
         tvDesc.text = task.description
-        /*tvDesc.text = "${task.id}-  ${task.description}"*/
+        tvDesc.text = "${task.id}-  ${task.description}"
 
         view.setOnClickListener {
             openTaskDetailView.invoke(task)

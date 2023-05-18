@@ -40,6 +40,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.core:core-ktx:1.10.0'
+    implementation "io.coil-kt:coil:2.3.0"
 
     def room_version = "2.4.1"
     implementation "androidx.room:room-runtime:$room_version"
@@ -83,6 +84,7 @@ dependencies {
     // optional - Test helpers
     //noinspection GradleDependency
     testImplementation "androidx.room:room-testing:$room_version"
+
 
     implementation 'com.google.android.gms:play-services-tasks:18.0.2'
     testImplementation 'junit:junit:4.13.2'
