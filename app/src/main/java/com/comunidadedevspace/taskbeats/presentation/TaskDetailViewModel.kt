@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 
 class TaskDetailViewModel(
     private val taskDao: TaskDao,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
 
     fun execute(taskAction: TaskAction){
@@ -26,21 +25,21 @@ class TaskDetailViewModel(
 
     //CREATE
     private fun insertIntoDataBase(task: Task) {
-        viewModelScope.launch(dispatcher) {
+        viewModelScope.launch {
             taskDao.insert(task)
         }
     }
 
     //DELETE BY ID
     private fun deleteById(id: Int) {
-        viewModelScope.launch(dispatcher) {
+        viewModelScope.launch {
             taskDao.deleteById(id)
         }
     }
 
     //UPDATE
     private fun updateIntoDataBase(task: Task) {
-        viewModelScope.launch(dispatcher) {
+        viewModelScope.launch {
             taskDao.update(task)
         }
     }
