@@ -4,7 +4,7 @@ TaskBeats é um aplicativo de lista de tarefas, onde você pode adicionar, atual
 
 ## :camera_flash: Screenshots
 <!-- You can add more screenshots here if you like -->
-<img src="/screenshots/Screenshot_20230418_194327.png" width="260">&emsp;<img src="/screenshots/Screenshot_20230418_194413.png" width="260">&emsp;<img src="/screenshots/Screenshot_20230418_194700.png" width="260">
+<img src="/screenshots/Screenshot_1.png" width="260">&emsp;<img src="/screenshots/Screenshot_2.png" width="260">&emsp;<img src="/screenshots/Screenshot_3.png" width="260">
 
 ## Tecnologias
 * Kotlin
