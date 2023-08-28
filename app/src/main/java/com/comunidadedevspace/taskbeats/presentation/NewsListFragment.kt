@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.comunidadedevspace.taskbeats.R
-import com.comunidadedevspace.taskbeats.data.News
+import com.comunidadedevspace.taskbeats.data.local.News
 
 class NewsListFragment : Fragment() {
 
