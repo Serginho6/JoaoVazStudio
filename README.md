@@ -1,5 +1,5 @@
 # TaskBeats
-TaskBeats é um aplicativo de lista de tarefas, onde você pode adicionar, atualizar ou remover tarefas do seu cotidiano, tudo integrado à uma base de dados local no seu aparelho. 
+TaskBeats é um aplicativo de lista de tarefas, onde você pode adicionar, atualizar ou remover tarefas do seu cotidiano, tudo integrado à uma base de dados local no seu aparelho e consumindo uma API de notícias que é exibida em outro fragment. 
 
 
 ## :camera_flash: Screenshots
