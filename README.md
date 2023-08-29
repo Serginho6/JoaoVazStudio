@@ -15,7 +15,12 @@ TaskBeats é um aplicativo de lista de tarefas, onde você pode adicionar, atual
 * Room DataBase
 * MVVM Architecture
 * Unit Testing
+
+##TODO:
+
 * Retrofit
+* LiveData
+* API Communication
 
 ## Author
 Sérgio Bismark Cim Marchewsky (follow me on [Linkedin](https://www.linkedin.com/in/s%C3%A9rgio-bismark-cim-marchewsky-ab0062129/))
