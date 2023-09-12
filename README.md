@@ -1,10 +1,9 @@
-# TaskBeats
-TaskBeats é um aplicativo de lista de tarefas, onde você pode adicionar, atualizar ou remover tarefas do seu cotidiano, tudo integrado à uma base de dados local no seu aparelho e consumindo uma API de notícias que é exibida em outro fragment. 
-
+# JoaoVazStudio
+É um aplicativo em fase de desenvolvimento para criação de treinos e controle de evolução do físico para os alunos do Studio João Vaz Training.
 
 ## :camera_flash: Screenshots
 <!-- You can add more screenshots here if you like -->
-<img src="/screenshots/Screenshot_1.png" width="260">&emsp;<img src="/screenshots/Screenshot_2.png" width="260">&emsp;<img src="/screenshots/Screenshot_3.png" width="260">
+<!--<img src="/screenshots/Screenshot_1.png" width="260">&emsp;<img src="/screenshots/Screenshot_2.png" width="260">&emsp;<img src="/screenshots/Screenshot_3.png" width="260">-->
 
 ## Tecnologias
 * Kotlin
@@ -15,13 +14,7 @@ TaskBeats é um aplicativo de lista de tarefas, onde você pode adicionar, atual
 * Room DataBase
 * MVVM Architecture
 * Unit Testing
-* Retrofit
 * LiveData
-* API Communication
-
-## To Do:
-
-* Notifications
 
 ## Author
 Sérgio Bismark Cim Marchewsky (follow me on [Linkedin](https://www.linkedin.com/in/s%C3%A9rgio-bismark-cim-marchewsky-ab0062129/))
