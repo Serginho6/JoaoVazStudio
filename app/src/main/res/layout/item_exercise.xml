@@ -40,9 +40,9 @@
 
     <ImageView
         android:id="@+id/iv_task_image"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_margin="5dp"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_margin="0dp"
         android:src="@drawable/no_img_placeholder"
         android:layout_alignParentEnd="true" />
 

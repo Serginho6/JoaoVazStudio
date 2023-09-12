@@ -56,26 +56,14 @@ class ExerciseListAdapter(
             holder.tvDesc.setTextColor(ContextCompat.getColor(context, R.color.selectedTextColor))
             holder.checkbox.setTextColor(ContextCompat.getColor(context, R.color.selectedTextColor))
             holder.checkbox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.selectedTextColor))
-
-//            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.selectedBackgroundColor))
-
-            holder.tvTitle.alpha = 0.5f
-            holder.tvDesc.alpha = 0.5f
             holder.ivTaskImage.alpha = 0.5f
-            holder.checkbox.alpha = 0.5f
         } else {
             // Restaure a aparência padrão quando o CheckBox NÃO estiver selecionado
             holder.tvTitle.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
             holder.tvDesc.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
             holder.checkbox.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
             holder.checkbox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.defaultTextColor))
-
-//            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.defaultBackgroundColor))
-
-            holder.tvTitle.alpha = 1.0f
-            holder.tvDesc.alpha = 1.0f
             holder.ivTaskImage.alpha = 1.0f
-            holder.checkbox.alpha = 1.0f
         }
     }
 
