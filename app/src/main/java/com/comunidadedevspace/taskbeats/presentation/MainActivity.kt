@@ -19,19 +19,19 @@ class MainActivity : AppCompatActivity() {
             openTaskListDetail()
         }
 
-        val taskListFragment = TaskListFragment.newInstance()
-        val newsListFragment = NewsListFragment.newInstance()
+        val exerciseListFragment = ExerciseListFragment.newInstance()
+        val moreFragment = MoreFragment.newInstance()
 
         supportFragmentManager.commit {
-            replace(R.id.fragment_container_view, taskListFragment)
+            replace(R.id.fragment_container_view, exerciseListFragment)
             setReorderingAllowed(true)
         }
 
         bottomNavView.setOnItemSelectedListener { menuItem ->
             val fragment = when(menuItem.itemId){
-                R.id.task_list -> taskListFragment
-                R.id.news_list -> newsListFragment
-                else -> taskListFragment
+                R.id.train -> exerciseListFragment
+                R.id.more -> moreFragment
+                else -> exerciseListFragment
             }
 
             supportFragmentManager.commit {
@@ -45,10 +45,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openTaskListDetail() {
-        val intent = TaskDetailActivity.start(this, null)
+        val intent = ExerciseDetailActivity.start(this, null)
         startActivity(intent)
     }
-
-
-
 }

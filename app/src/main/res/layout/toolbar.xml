@@ -7,9 +7,8 @@
     android:elevation="4dp">
     
     <TextView
-        style="@style/Title3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""/>
+        android:textStyle="bold"/>
 
 </androidx.appcompat.widget.Toolbar>

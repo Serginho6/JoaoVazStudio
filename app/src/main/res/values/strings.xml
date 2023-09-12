@@ -1,5 +1,69 @@
 <resources>
-    <string name="app_name">TaskBeats</string>
+    <string name="app_name">Joao Vaz Studio</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="message_classificacao">Classificação: %1$s!</string>
+
+    <string name="textNewUser">Ainda não é cadastrado? <xliff:g id="link" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" example="register">Registre-se aqui.</xliff:g></string>
+
+    // Strings IMC Result
+    <string name="seu_imc">Seu IMC é:</string>
+    <string name="tabela">VEJA ABAIXO A TABELA:</string>
+    <string name="abaixo_do_peso">MENOR QUE 18,50 - ABAIXO DO PESO</string>
+    <string name="peso_normal">ENTRE 18,50 E 24,99 - PESO NORMAL</string>
+    <string name="acima_do_peso">ENTRE 25,00 E 29,99 - ACIMA DO PESO</string>
+    <string name="obesidade_grau_i">ENTRE 30,00 E 39,99 - OBESIDADE GRAU I</string>
+    <string name="obesidade_grau_ii">ACIMA DE 40,00 - OBESIDADE GRAU II</string>
+    <string name="saber_mais">Pra saber mais sobre o IMC e como ele influencia na sua saúde, consulte um profissional.</string>
+
+    // Strings IMC
+    <string name="preencha_os_campos">Preencha os campos abaixo conforme exemplos pra obter o seu Índice de Massa Corporal (IMC):</string>
+    <string name="peso">Peso: Ex.: 95 Kg</string>
+    <string name="altura">Altura: Ex.: 1.85 mt</string>
+    <string name="calcular">CALCULAR</string>
+    <string name="title_activity_physical_assessment">PhysicalAssessment</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="lorem_ipsum">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
+        volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
+        dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
+        litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse blandit eleifend
+        diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,
+        ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.\n\n
+        Suspendisse interdum ornare ante. Aliquam nec cursus lorem. Morbi id magna felis. Vivamus
+        egestas, est a condimentum egestas, turpis nisl iaculis ipsum, in dictum tellus dolor sed
+        neque. Morbi tellus erat, dapibus ut sem a, iaculis tincidunt dui. Interdum et malesuada
+        fames ac ante ipsum primis in faucibus. Curabitur et eros porttitor, ultricies urna vitae,
+        molestie nibh. Phasellus at commodo eros, non aliquet metus. Sed maximus nisl nec dolor
+        bibendum, vel congue leo egestas.\n\n
+        Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit
+        amet auctor at, mollis non turpis. Nullam pretium libero vestibulum, finibus orci vel,
+        molestie quam. Fusce blandit tincidunt nulla, quis sollicitudin libero facilisis et. Integer
+        interdum nunc ligula, et fermentum metus hendrerit id. Vestibulum lectus felis, dictum at
+        lacinia sit amet, tristique id quam. Cras eu consequat dui. Suspendisse sodales nunc ligula,
+        in lobortis sem porta sed. Integer id ultrices magna, in luctus elit. Sed a pellentesque
+        est.\n\n
+        Aenean nunc velit, lacinia sed dolor sed, ultrices viverra nulla. Etiam a venenatis nibh.
+        Morbi laoreet, tortor sed facilisis varius, nibh orci rhoncus nulla, id elementum leo dui
+        non lorem. Nam mollis ipsum quis auctor varius. Quisque elementum eu libero sed commodo. In
+        eros nisl, imperdiet vel imperdiet et, scelerisque a mauris. Pellentesque varius ex nunc,
+        quis imperdiet eros placerat ac. Duis finibus orci et est auctor tincidunt. Sed non viverra
+        ipsum. Nunc quis augue egestas, cursus lorem at, molestie sem. Morbi a consectetur ipsum, a
+        placerat diam. Etiam vulputate dignissim convallis. Integer faucibus mauris sit amet finibus
+        convallis.\n\n
+        Phasellus in aliquet mi. Pellentesque habitant morbi tristique senectus et netus et
+        malesuada fames ac turpis egestas. In volutpat arcu ut felis sagittis, in finibus massa
+        gravida. Pellentesque id tellus orci. Integer dictum, lorem sed efficitur ullamcorper,
+        libero justo consectetur ipsum, in mollis nisl ex sed nisl. Donec maximus ullamcorper
+        sodales. Praesent bibendum rhoncus tellus nec feugiat. In a ornare nulla. Donec rhoncus
+        libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
+        vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
+    </string>
+
 </resources>
