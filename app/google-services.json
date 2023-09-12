@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1077267690769",
+    "project_id": "joaovazstudio-a2218",
+    "storage_bucket": "joaovazstudio-a2218.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1077267690769:android:442d6622157c74a361c8b0",
+        "android_client_info": {
+          "package_name": "com.comunidadedevspace.joaovazstudio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeGDzQ1AUe8-kytcVLjxUuVex0sDk-7L8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
