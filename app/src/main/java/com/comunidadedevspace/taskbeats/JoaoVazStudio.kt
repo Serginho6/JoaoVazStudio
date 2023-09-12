@@ -11,7 +11,7 @@ class JoaoVazStudio: Application() {
     override fun onCreate() {
         super.onCreate()
 
-        dataBase = Room.databaseBuilder(applicationContext, AppDataBase::class.java, "joaovazstudio-database")
+        dataBase = Room.databaseBuilder(applicationContext, AppDataBase::class.java, "joao-vaz-studio-database")
             .addMigrations(AppDataBase.MIGRATION_1_2, AppDataBase.MIGRATION_2_3, AppDataBase.MIGRATION_3_4)
             .build()
     }
