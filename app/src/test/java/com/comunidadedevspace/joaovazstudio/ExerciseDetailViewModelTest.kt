@@ -31,6 +31,7 @@ class ExerciseDetailViewModelTest {
         //Given
         val task = Task(
             id = 1,
+            userId = 0,
             title = "title",
             description = "description",
             image = imageByteArray,
@@ -54,6 +55,7 @@ class ExerciseDetailViewModelTest {
         //Given
         val task = Task(
             id = 1,
+            userId = 0,
             title = "title",
             description = "description",
             image = imageByteArray,
@@ -77,6 +79,7 @@ class ExerciseDetailViewModelTest {
         //Given
         val task = Task(
             id = 1,
+            userId = 0,
             title = "title",
             description = "description",
             image = imageByteArray,
