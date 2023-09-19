@@ -103,14 +103,14 @@
     </com.google.android.material.card.MaterialCardView>
 
     <TextView
-        android:id="@+id/textview_error"
+        android:id="@+id/tv_error_signin"
         style="@style/Body1"
         android:textColor="@color/red"
         android:textSize="12sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Email ou senha incorreto(s)"
+        android:text="Email ou senha incorreto(s)."
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password_cardview" />

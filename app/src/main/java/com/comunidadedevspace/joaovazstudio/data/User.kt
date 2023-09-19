@@ -12,6 +12,6 @@ data class User(
     val password: String,
     val phone: String,
     val gender: String,
-    val height: Double,
-    val weight: Double
+    val height: String,
+    val weight: String
 )

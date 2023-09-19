@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
-import android.widget.RadioGroup
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
@@ -24,12 +24,11 @@ class SignUp : AppCompatActivity() {
     private lateinit var phoneEditText: EditText
     private lateinit var heightEditText: EditText
     private lateinit var weightEditText: EditText
+    private var gender: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
-
-        val registerButton = findViewById<Button>(R.id.btn_register)
 
         nameEditText = findViewById(R.id.name_edt_text)
         emailEditText = findViewById(R.id.email_edt_text)
@@ -38,9 +37,38 @@ class SignUp : AppCompatActivity() {
         heightEditText = findViewById(R.id.height_edt_text)
         weightEditText = findViewById(R.id.weight_edt_text)
 
-        registerButton.setOnClickListener {
-            saveUserToDatabase()
+        val maleRadioButton = findViewById<RadioButton>(R.id.male_radio)
+        val femaleRadioButton = findViewById<RadioButton>(R.id.female_radio)
+
+        maleRadioButton.setOnClickListener {
+            gender = "Masculino"
         }
+
+        femaleRadioButton.setOnClickListener {
+            gender = "Feminino"
+        }
+
+        val registerButton = findViewById<Button>(R.id.btn_register)
+        registerButton.setOnClickListener {
+            if (isInputValid()) {
+                saveUserToDatabase()
+            } else {
+                showErrorMessage("É necessário preencher todos os campos.")
+            }
+        }
+    }
+
+    private fun isInputValid(): Boolean {
+        val name = nameEditText.text.toString()
+        val email = emailEditText.text.toString()
+        val password = passwordEditText.text.toString()
+        val phone = phoneEditText.text.toString()
+        val gender = gender.isNotEmpty()
+        val height = heightEditText.text.toString()
+        val weight = weightEditText.text.toString()
+
+        return name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() &&
+                phone.isNotEmpty() && gender && height.isNotEmpty() && weight.isNotEmpty()
     }
 
     private fun saveUserToDatabase() {
@@ -48,20 +76,15 @@ class SignUp : AppCompatActivity() {
         val email = emailEditText.text.toString()
         val password = passwordEditText.text.toString()
         val phone = phoneEditText.text.toString()
-
-        val selectedGender = findViewById<RadioButton>(
-            findViewById<RadioGroup>(R.id.gender_radio_group).checkedRadioButtonId
-        )?.text.toString()
-
-        val height = heightEditText.text.toString().toDouble()
-        val weight = weightEditText.text.toString().toDouble()
+        val height = heightEditText.text.toString()
+        val weight = weightEditText.text.toString()
 
         val user = User(
             name = name,
             email = email,
             password = password,
             phone = phone,
-            gender = selectedGender,
+            gender = gender,
             height = height,
             weight = weight
         )
@@ -74,11 +97,10 @@ class SignUp : AppCompatActivity() {
             ).build().userDao()
 
             userDao.insert(user)
+
             runOnUiThread {
                 clearEditTextFields()
-
-                val intent = Intent(this@SignUp, SignIn::class.java)
-                startActivity(intent)
+                navigateToSignIn()
             }
         }
     }
@@ -92,56 +114,14 @@ class SignUp : AppCompatActivity() {
         weightEditText.text.clear()
     }
 
-    fun onRadioButtonClicked(view: View) {
-        val isSelected = (view as RadioButton).isChecked
-        val maleRadioButton = findViewById<RadioButton>(R.id.male_radio)
-        val femaleRadioButton = findViewById<RadioButton>(R.id.female_radio)
+    private fun navigateToSignIn() {
+        val intent = Intent(this@SignUp, SignIn::class.java)
+        startActivity(intent)
+    }
 
-        when (view.id) {
-            R.id.female_radio -> {
-                if (isSelected) {
-                    maleRadioButton.isChecked = false
-                }
-            }
-
-            R.id.male_radio -> {
-                if (isSelected) {
-                    femaleRadioButton.isChecked = false
-                }
-            }
-        }
+    private fun showErrorMessage(message: String) {
+        val errorMessageTextView = findViewById<TextView>(R.id.tv_error_signup)
+        errorMessageTextView.visibility = View.VISIBLE
+        errorMessageTextView.text = message
     }
 }
-
-
-//Mostra uma mensagem ao clicar no botão de salvar.
-
-//    private fun showAlertDialog() {
-//        val alertDialog = AlertDialog.Builder(this)
-//            .setTitle("Tem certeza que deseja sair?")
-//            .setMessage("Seus dados não serão salvos.")
-//            .setPositiveButton("Sim") { dialog, which ->
-//                finish()
-//            }
-//            .setNegativeButton("Não") { dialog, which -> }
-//            .create()
-//        alertDialog.show()
-//    }
-
-//    private fun isPasswordValid(password: String): Boolean{
-//        val hasUpperCase = password.any{
-//            it.isUpperCase()
-//        }
-//
-//        val hasLowerCase = password.any{
-//            it.isLowerCase()
-//        }
-//
-//        val hasDigit = password.any{
-//            it.isDigit()
-//        }
-//
-//        val isLenghtValid = password.length >= 8
-//
-//        return hasUpperCase && hasLowerCase && hasDigit && isLenghtValid
-//    }

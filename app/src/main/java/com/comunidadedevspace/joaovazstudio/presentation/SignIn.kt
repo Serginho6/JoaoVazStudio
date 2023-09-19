@@ -43,7 +43,7 @@ class SignIn : AppCompatActivity() {
 
         val btnLogin = findViewById<Button>(R.id.btn_login)
 
-        errorTextView = findViewById(R.id.textview_error)
+        errorTextView = findViewById(R.id.tv_error_signin)
         errorTextView.visibility = View.GONE
 
         emailEditText = findViewById(R.id.email_edt_text)
