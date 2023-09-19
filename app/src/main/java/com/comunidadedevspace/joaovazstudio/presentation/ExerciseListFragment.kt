@@ -1,11 +1,12 @@
 package com.comunidadedevspace.joaovazstudio.presentation
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.LinearLayout
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.comunidadedevspace.joaovazstudio.R
@@ -29,7 +30,6 @@ class ExerciseListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_exercise_list, container, false)
     }
 
@@ -37,9 +37,16 @@ class ExerciseListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         ctnContent = view.findViewById(R.id.ctn_content)
 
-        //RecyclerView
         val rvTasks: RecyclerView = view.findViewById(R.id.rv_task_list)
         rvTasks.adapter = adapter
+
+        adapter.setOnItemClickListener { task ->
+            val videoId = task.youtubeVideoId
+            if (!videoId.isNullOrEmpty()) {
+                val editTextVideoId = requireActivity().findViewById<EditText>(R.id.edt_task_video_id)
+                editTextVideoId?.setText(videoId)
+            }
+        }
     }
 
     override fun onStart() {

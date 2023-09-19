@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.comunidadedevspace.joaovazstudio.JoaoVazStudio
+import com.comunidadedevspace.joaovazstudio.authentication.AuthenticationManager
 import com.comunidadedevspace.joaovazstudio.data.Task
 import com.comunidadedevspace.joaovazstudio.data.TaskDao
 import kotlinx.coroutines.launch
@@ -13,9 +14,11 @@ class ExerciseDetailViewModel(
     private val taskDao: TaskDao,
 ): ViewModel() {
 
+    private val userId = AuthenticationManager.getCurrentUserId()
+
     fun execute(taskAction: TaskAction){
         when (taskAction.actionType) {
-            ActionType.DELETE.name -> deleteById(taskAction.task!!.id)
+            ActionType.DELETE.name -> deleteById(taskAction.task!!.id, userId)
             ActionType.CREATE.name -> insertIntoDataBase(taskAction.task!!)
             ActionType.UPDATE.name -> updateIntoDataBase(taskAction.task!!)
         }
@@ -29,9 +32,9 @@ class ExerciseDetailViewModel(
     }
 
     //DELETE BY ID
-    private fun deleteById(id: Int) {
+    private fun deleteById(id: Int, userId: Long) {
         viewModelScope.launch {
-            taskDao.deleteById(id)
+            taskDao.deleteById(id, userId)
         }
     }
 

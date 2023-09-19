@@ -8,10 +8,11 @@ object AuthenticationManager {
     // Esta função retorna o ID do usuário atualmente logado, se houver algum, ou null caso contrário.
     fun getCurrentUserId(): Long {
         val currentUser = auth.currentUser
-        if (currentUser != null) {
-            return currentUser.uid.toLong()
+        return if (currentUser != null && currentUser.isEmailVerified) {
+            currentUser.uid.toLong()
+        } else {
+            -1
         }
-        return -1
     }
 
     // Implemente aqui a função de login com email e senha, se ainda não estiver implementada.

@@ -2,13 +2,13 @@ package com.comunidadedevspace.joaovazstudio.presentation
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.BitmapFactory
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
-import android.widget.ImageView
 import android.widget.TextView
+import android.widget.VideoView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -33,20 +33,21 @@ class ExerciseListAdapter(
         val task = getItem(position)
         holder.bind(task, openExerciseDetailView)
 
+        holder.itemView.setOnClickListener {
+            openExerciseDetailView(task)
+        }
+
         holder.checkbox.setOnCheckedChangeListener { _, isChecked ->
             task.isSelected = isChecked
             updateTaskAppearance(holder, isChecked)
         }
         updateTaskAppearance(holder, task.isSelected)
+    }
 
-        // Carregando a imagem da tarefa no ImageView
-        if (task.image != null) {
-            val bitmap = BitmapFactory.decodeByteArray(task.image, 0, task.image!!.size)
-            holder.ivTaskImage.setImageBitmap(bitmap)
-        } else {
-            // Caso a imagem seja nula, você pode definir uma imagem padrão
-            holder.ivTaskImage.setImageResource(R.drawable.no_img_placeholder)
-        }
+    private var onItemClickListener: ((Task) -> Unit)? = null
+
+    fun setOnItemClickListener(listener: (Task) -> Unit) {
+        onItemClickListener = listener
     }
 
     private fun updateTaskAppearance(holder: TaskListViewHolder, isSelected: Boolean) {
@@ -56,14 +57,12 @@ class ExerciseListAdapter(
             holder.tvDesc.setTextColor(ContextCompat.getColor(context, R.color.selectedTextColor))
             holder.checkbox.setTextColor(ContextCompat.getColor(context, R.color.selectedTextColor))
             holder.checkbox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.selectedTextColor))
-            holder.ivTaskImage.alpha = 0.5f
         } else {
             // Restaure a aparência padrão quando o CheckBox NÃO estiver selecionado
             holder.tvTitle.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
             holder.tvDesc.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
             holder.checkbox.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
             holder.checkbox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.defaultTextColor))
-            holder.ivTaskImage.alpha = 1.0f
         }
     }
 
@@ -83,7 +82,7 @@ class ExerciseListAdapter(
 class TaskListViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
     val tvTitle: TextView = view.findViewById(R.id.tv_task_title)
     val tvDesc: TextView = view.findViewById(R.id.tv_task_description)
-    val ivTaskImage: ImageView = view.findViewById(R.id.iv_task_image)
+    val videoView: VideoView = view.findViewById(R.id.video_view_task)
     val checkbox: CheckBox = view.findViewById(R.id.checkbox_task)
 
     fun bind(
@@ -97,5 +96,19 @@ class TaskListViewHolder(private val view: View) : RecyclerView.ViewHolder(view)
         view.setOnClickListener {
             openTaskDetailView.invoke(task)
         }
+
+        videoView.setOnClickListener {
+            val youtubeVideoId = task.youtubeVideoId
+            if (!youtubeVideoId.isNullOrEmpty()) {
+                val videoUrl = "https://www.youtube.com/watch?v=$youtubeVideoId"
+                playVideoInVideoView(videoView, videoUrl)
+            }
+        }
+    }
+
+    private fun playVideoInVideoView(videoView: VideoView, videoUrl: String) {
+        val videoUri = Uri.parse(videoUrl)
+        videoView.setVideoURI(videoUri)
+        videoView.start()
     }
 }

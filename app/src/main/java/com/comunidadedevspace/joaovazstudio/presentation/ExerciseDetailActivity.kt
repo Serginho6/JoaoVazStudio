@@ -1,35 +1,28 @@
 package com.comunidadedevspace.joaovazstudio.presentation
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageButton
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.comunidadedevspace.joaovazstudio.R
 import com.comunidadedevspace.joaovazstudio.authentication.AuthenticationManager.getCurrentUserId
 import com.comunidadedevspace.joaovazstudio.data.Task
 import com.google.android.material.snackbar.Snackbar
-import java.io.ByteArrayOutputStream
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
 class ExerciseDetailActivity : AppCompatActivity() {
 
-    private val PICK_IMAGE_REQUEST_CODE = 123
-    private val CROP_IMAGE_REQUEST_CODE = 124
+    private lateinit var youtubePlayerView: YouTubePlayerView
+    private lateinit var editTextVideoId: EditText
+    private var youtubeVideoUrl: String? = null
 
-    private var selectedImageBitmap: Bitmap? = null
-    private lateinit var selectedImageUri: Uri
 
     private var task: Task? = null
     private lateinit var btnDone: Button
@@ -55,83 +48,38 @@ class ExerciseDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_exercise_detail)
         setSupportActionBar(findViewById(R.id.toolbar))
 
+        youtubePlayerView = findViewById(R.id.youtube_player_view)
+        editTextVideoId = findViewById(R.id.edt_task_video_id)
+
         // Recuperar task
         task = intent.getSerializableExtra(TASK_DETAIL_EXTRA) as Task?
 
         val edtTitle = findViewById<EditText>(R.id.edt_task_title)
         val edtDescription = findViewById<EditText>(R.id.edt_task_description)
-        val imgTaskSelector = findViewById<ImageButton>(R.id.img_task_selector)
-        val btnRemoveImage = findViewById<ImageButton>(R.id.btn_remove_image)
+        val edtVideoId = findViewById<EditText>(R.id.edt_task_video_id)
 
         btnDone = findViewById<Button>(R.id.btn_done)
 
         if(task != null) {
             edtTitle.setText(task!!.title)
             edtDescription.setText(task!!.description)
-        }
-
-//        // Verifica se a tarefa tem uma imagem armazenada e a exibe no ImageButton
-        if (task != null && task?.image != null) {
-            val bitmap = BitmapFactory.decodeByteArray(task?.image, 0, task?.image!!.size)
-            imgTaskSelector.setImageBitmap(bitmap)
-            selectedImageBitmap = bitmap
-
-            btnRemoveImage.setOnClickListener {
-                // Remove a imagem selecionada e defina o ImageView para o placeholder
-                imgTaskSelector.setImageResource(R.drawable.no_img_placeholder)
-                selectedImageBitmap = null
-                selectedImageUri = Uri.EMPTY
-            }
+            edtVideoId.setText(task!!.youtubeVideoId)
         }
 
         btnDone.setOnClickListener{
             val title = edtTitle.text.toString()
             val desc = edtDescription.text.toString()
+            val videoId = edtVideoId.text.toString()
 
-            if(title.isNotEmpty() && desc.isNotEmpty()){
+            if(title.isNotEmpty() && desc.isNotEmpty() && videoId.isNotEmpty()){
+                youtubeVideoUrl = "https://www.youtube.com/watch?v=$videoId"
                 if(task == null) {
-                    addOrUpdateTask(0, title, desc, ActionType.CREATE)
+                    addOrUpdateTask(0, title, desc, videoId, ActionType.CREATE)
                 }else{
-                    addOrUpdateTask(task!!.id, title, desc, ActionType.UPDATE)
+                    addOrUpdateTask(task!!.id, title, desc, videoId, ActionType.UPDATE)
                 }
             }else{
                 showMessage(it, "É necessário adicionar Exercício e Quantidade")
-            }
-        }
-
-        imgTaskSelector.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(intent, PICK_IMAGE_REQUEST_CODE)
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == PICK_IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
-            selectedImageUri = data.data ?: return
-
-            // Inicie a atividade de recorte
-            val cropIntent = Intent("com.android.camera.action.CROP")
-            cropIntent.setDataAndType(selectedImageUri, "image/*")
-
-            // Configurar proporção de aspecto e outras configurações de corte, se necessário.
-            cropIntent.putExtra("aspectX", 1)
-            cropIntent.putExtra("aspectY", 1)
-            cropIntent.putExtra("outputX", 256)
-            cropIntent.putExtra("outputY", 256)
-            cropIntent.putExtra("scale", true)
-            cropIntent.putExtra("return-data", true)
-
-            startActivityForResult(cropIntent, CROP_IMAGE_REQUEST_CODE)
-        } else if (requestCode == CROP_IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
-            val extras = data.extras
-            if (extras != null) {
-                val croppedBitmap = extras.getParcelable<Bitmap>("data")
-
-                val imgTaskSelector = findViewById<ImageButton>(R.id.img_task_selector)
-                imgTaskSelector.setImageBitmap(croppedBitmap)
-                selectedImageBitmap = croppedBitmap // Armazena a imagem selecionada
             }
         }
     }
@@ -140,17 +88,11 @@ class ExerciseDetailActivity : AppCompatActivity() {
         id: Int,
         title:String,
         description:String,
+        videoId:String,
         actionType: ActionType
     ){
-        val imageByteArray = selectedImageBitmap?.let { bitmap ->
-            val stream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-            stream.toByteArray()
-        }
-
         val userId = getCurrentUserId()
-
-        val task = Task(id, userId, title, description, image = imageByteArray, isSelected = false)
+        val task = Task(id, userId, title, description, videoId, isSelected = false)
         performAction(task, actionType)
     }
 
@@ -187,7 +129,4 @@ class ExerciseDetailActivity : AppCompatActivity() {
             .setAction("Action", null)
             .show()
     }
-
-    val TASK_ACTION_RESULT = "TASK_ACTION_RESULT"
-
 }

@@ -11,6 +11,6 @@ data class Task(
     val userId: Long,
     val title: String,
     val description: String,
-    var image: ByteArray?,
+    var youtubeVideoId: String?,
     var isSelected: Boolean,
 ): Serializable

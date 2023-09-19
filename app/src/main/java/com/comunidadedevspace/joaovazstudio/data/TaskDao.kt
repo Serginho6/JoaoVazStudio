@@ -22,8 +22,8 @@ interface TaskDao {
     suspend fun deleteAll()
 
     //Deletando pelo id
-    @Query("DELETE from task WHERE id =:id")
-    suspend fun deleteById(id: Int)
+    @Query("DELETE from task WHERE id =:id AND userId = :userId")
+    suspend fun deleteById(id: Int, userId: Long)
 
     @Query("SELECT * FROM task WHERE userId = :userId")
     fun getTasksByUserId(userId: Long): LiveData<List<Task>>
