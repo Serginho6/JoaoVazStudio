@@ -15,14 +15,11 @@ import com.comunidadedevspace.joaovazstudio.R
 import com.comunidadedevspace.joaovazstudio.authentication.AuthenticationManager.getCurrentUserId
 import com.comunidadedevspace.joaovazstudio.data.Task
 import com.google.android.material.snackbar.Snackbar
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
 class ExerciseDetailActivity : AppCompatActivity() {
 
-    private lateinit var youtubePlayerView: YouTubePlayerView
-    private lateinit var editTextVideoId: EditText
+    private lateinit var editTextVideoUrl: EditText
     private var youtubeVideoUrl: String? = null
-
 
     private var task: Task? = null
     private lateinit var btnDone: Button
@@ -48,15 +45,14 @@ class ExerciseDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_exercise_detail)
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        youtubePlayerView = findViewById(R.id.youtube_player_view)
-        editTextVideoId = findViewById(R.id.edt_task_video_id)
+        editTextVideoUrl = findViewById(R.id.edt_task_video_url)
 
         // Recuperar task
         task = intent.getSerializableExtra(TASK_DETAIL_EXTRA) as Task?
 
         val edtTitle = findViewById<EditText>(R.id.edt_task_title)
         val edtDescription = findViewById<EditText>(R.id.edt_task_description)
-        val edtVideoId = findViewById<EditText>(R.id.edt_task_video_id)
+        val edtVideoId = findViewById<EditText>(R.id.edt_task_video_url)
 
         btnDone = findViewById<Button>(R.id.btn_done)
 
@@ -79,7 +75,7 @@ class ExerciseDetailActivity : AppCompatActivity() {
                     addOrUpdateTask(task!!.id, title, desc, videoId, ActionType.UPDATE)
                 }
             }else{
-                showMessage(it, "É necessário adicionar Exercício e Quantidade")
+                showMessage(it, "É necessário adicionar Exercício, Quantidade e ID do vídeo no Youtube")
             }
         }
     }

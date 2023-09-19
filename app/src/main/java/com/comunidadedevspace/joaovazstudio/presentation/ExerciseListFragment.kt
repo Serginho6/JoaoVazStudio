@@ -43,7 +43,7 @@ class ExerciseListFragment : Fragment() {
         adapter.setOnItemClickListener { task ->
             val videoId = task.youtubeVideoId
             if (!videoId.isNullOrEmpty()) {
-                val editTextVideoId = requireActivity().findViewById<EditText>(R.id.edt_task_video_id)
+                val editTextVideoId = requireActivity().findViewById<EditText>(R.id.edt_task_video_url)
                 editTextVideoId?.setText(videoId)
             }
         }

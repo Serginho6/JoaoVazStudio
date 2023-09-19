@@ -49,26 +49,18 @@
 
         <TextView
             style="@style/Title3"
-            android:id="@+id/tv_image"
+            android:id="@+id/tv_video"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="Video:"/>
 
-        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-            style="@style/Body1"
-            android:id="@+id/youtube_player_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_centerInParent="true"/>
-
         <EditText
             style="@style/Body1"
-            android:id="@+id/edt_task_video_id"
+            android:id="@+id/edt_task_video_url"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/youtube_player_view"
+            android:layout_below="@id/tv_video"
             android:hint="https://www.youtube.com/watch?v=?"
             android:inputType="text"
             android:layout_marginHorizontal="20dp"/>
