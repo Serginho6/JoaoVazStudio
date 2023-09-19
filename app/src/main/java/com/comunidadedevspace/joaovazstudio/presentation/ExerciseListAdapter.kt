@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.VideoView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -117,11 +116,5 @@ class ExerciseListViewHolder(private val view: View) : RecyclerView.ViewHolder(v
                 view.context.startActivity(intent)
             }
         }
-    }
-
-    private fun playVideoInVideoView(videoView: VideoView, videoUrl: String) {
-        val videoUri = Uri.parse(videoUrl)
-        videoView.setVideoURI(videoUri)
-        videoView.start()
     }
 }

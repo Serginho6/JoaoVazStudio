@@ -2,6 +2,7 @@ package com.comunidadedevspace.joaovazstudio.presentation
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -52,32 +53,45 @@ class ExerciseDetailActivity : AppCompatActivity() {
 
         val edtTitle = findViewById<EditText>(R.id.edt_task_title)
         val edtDescription = findViewById<EditText>(R.id.edt_task_description)
-        val edtVideoId = findViewById<EditText>(R.id.edt_task_video_url)
+        val edtVideoUrl = findViewById<EditText>(R.id.edt_task_video_url)
 
         btnDone = findViewById<Button>(R.id.btn_done)
 
         if(task != null) {
             edtTitle.setText(task!!.title)
             edtDescription.setText(task!!.description)
-            edtVideoId.setText(task!!.youtubeVideoId)
+            edtVideoUrl.setText(task!!.youtubeVideoId)
         }
 
         btnDone.setOnClickListener{
             val title = edtTitle.text.toString()
             val desc = edtDescription.text.toString()
-            val videoId = edtVideoId.text.toString()
+            val videoUrl = edtVideoUrl.text.toString()
 
-            if(title.isNotEmpty() && desc.isNotEmpty() && videoId.isNotEmpty()){
-                youtubeVideoUrl = "https://www.youtube.com/watch?v=$videoId"
-                if(task == null) {
-                    addOrUpdateTask(0, title, desc, videoId, ActionType.CREATE)
-                }else{
-                    addOrUpdateTask(task!!.id, title, desc, videoId, ActionType.UPDATE)
+            if(title.isNotEmpty() && desc.isNotEmpty() && videoUrl.isNotEmpty()){
+                val videoId = extractVideoIdFromUrl(videoUrl)
+                if (videoId.isNotEmpty()) {
+                    if (task == null) {
+                        addOrUpdateTask(0, title, desc, videoId, ActionType.CREATE)
+                    } else {
+                        addOrUpdateTask(task!!.id, title, desc, videoId, ActionType.UPDATE)
+                    }
+                } else {
+                    showMessage(it, "URL do vídeo inválida")
                 }
-            }else{
-                showMessage(it, "É necessário adicionar Exercício, Quantidade e ID do vídeo no Youtube")
+            } else {
+                showMessage(it, "É necessário adicionar Exercício, Quantidade e URL do vídeo")
             }
         }
+    }
+
+    private fun extractVideoIdFromUrl(videoUrl: String): String {
+        // Tenta extrair o ID do vídeo a partir da URL no formato "https://www.youtube.com/watch?v=..."
+        val uri = Uri.parse(videoUrl)
+        val videoId = uri.getQueryParameter("v")
+
+        // Se não foi possível extrair o ID a partir do formato acima, tenta extrair do formato "https://youtu.be/..."
+        return videoId ?: uri.lastPathSegment ?: ""
     }
 
     private fun addOrUpdateTask(
