@@ -8,9 +8,9 @@
     <color name="red">#BF0000</color>
 
     <color name="selectedTextColor">#62C49F</color>
-    <color name="defaultTextColor">#281F28</color>
+    <color name="defaultTextColor">#FFFFFF</color>
 
     <color name="selectedBorderColor">#62C49F</color>
-    <color name="defaultBorderColor">#281F28</color>
+    <color name="defaultBorderColor">#FFFFFF</color>
 
 </resources>

@@ -26,7 +26,7 @@
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toStartOf="@+id/iv_task_image"/>
+        android:layout_toStartOf="@+id/iv_video_thumbnail"/>
 
     <TextView
         android:id="@+id/tv_task_description"
@@ -36,14 +36,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_task_title"
-        android:layout_toStartOf="@+id/iv_task_image" />
+        android:layout_toStartOf="@+id/iv_video_thumbnail" />
 
     <ImageView
-        android:id="@+id/iv_task_image"
+        android:id="@+id/iv_video_thumbnail"
         android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_margin="5dp"
-        android:src="@drawable/no_img_placeholder"
-        android:layout_alignParentEnd="true" />
+        android:layout_height="140dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_alignParentEnd="true"
+        android:clickable="true"
+        android:src="@drawable/no_img_placeholder" />
 
 </RelativeLayout>

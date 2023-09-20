@@ -1,81 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".presentation.ExerciseDetailActivity">
 
-    <include layout="@layout/toolbar"/>
-
-    <TextView
-        style="@style/Title3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="8dp"
-        android:text="Exercício:"/>
-
-    <EditText
-        style="@style/Body1"
-        android:id="@+id/edt_task_title"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:hint="Adicione uma atividade"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        style="@style/Title3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="Quantidade:"/>
+        <include layout="@layout/toolbar"/>
 
-    <EditText
-        style="@style/Body1"
-        android:id="@+id/edt_task_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:hint="Adicione o tempo ou número de séries"/>
+        <TextView
+            style="@style/Title3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="8dp"
+            android:text="Exercício:"/>
 
-    <TextView
-        style="@style/Title3"
-        android:id="@+id/tv_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="Imagem:"/>
+        <EditText
+            style="@style/Body1"
+            android:id="@+id/edt_task_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:hint="Adicione uma atividade"/>
 
-    <ImageButton
-        style="@style/Body1"
-        android:id="@+id/img_task_selector"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:scaleType="fitCenter"
-        android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="20dp"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/no_img_placeholder"/>
+        <TextView
+            style="@style/Title3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Quantidade:"/>
 
-    <ImageButton
-        android:id="@+id/btn_remove_image"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:scaleType="fitCenter"
-        android:layout_marginLeft="20dp"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/x_icon"/>
+        <EditText
+            style="@style/Body1"
+            android:id="@+id/edt_task_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:hint="Adicione o tempo ou número de séries"/>
 
-    <Button
-        style="@style/ButtonPrimary"
-        android:id="@+id/btn_done"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:text="SALVAR"/>
+        <TextView
+            style="@style/Title3"
+            android:id="@+id/tv_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Video:"/>
 
-</LinearLayout>
+        <EditText
+            style="@style/Body1"
+            android:id="@+id/edt_task_video_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_video"
+            android:hint="Cole aqui o link do Youtube"
+            android:inputType="text"
+            android:layout_marginHorizontal="10dp"/>
+
+        <Button
+            style="@style/ButtonPrimary"
+            android:id="@+id/btn_done"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:text="SALVAR"/>
+
+    </LinearLayout>
+
+</ScrollView>
