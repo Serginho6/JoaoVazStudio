@@ -40,7 +40,8 @@ class SignUp : AppCompatActivity() {
         val maleRadioButton = findViewById<RadioButton>(R.id.male_radio)
         val femaleRadioButton = findViewById<RadioButton>(R.id.female_radio)
 
-        maleRadioButton.isChecked = true
+        maleRadioButton.isChecked = false
+        femaleRadioButton.isChecked = false
 
         maleRadioButton.setOnClickListener {
             maleRadioButton.isChecked = true
