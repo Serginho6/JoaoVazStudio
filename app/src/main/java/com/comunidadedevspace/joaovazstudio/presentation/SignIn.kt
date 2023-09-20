@@ -1,6 +1,8 @@
 package com.comunidadedevspace.joaovazstudio.presentation
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
 import android.text.Spannable
@@ -12,6 +14,7 @@ import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -36,6 +39,9 @@ class SignIn : AppCompatActivity() {
     private lateinit var passwordEditText: EditText
 
     private lateinit var errorTextView: TextView
+
+    private lateinit var keepConnectedCheckBox: CheckBox
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +72,17 @@ class SignIn : AppCompatActivity() {
 
             // Mova o cursor para o final do texto
             passwordEditText.setSelection(passwordEditText.text.length)
+        }
+
+        keepConnectedCheckBox = findViewById(R.id.checkbox_keep_connected)
+        sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+
+        val isUserLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
+        if (isUserLoggedIn) {
+            // Se o usuário já estiver conectado, vá diretamente para a MainActivity
+            val intent = Intent(this@SignIn, MainActivity::class.java)
+            startActivity(intent)
+            finish() // Feche a tela de login
         }
 
         // Troca imagem da tela de acordo com o tema.
@@ -128,6 +145,10 @@ class SignIn : AppCompatActivity() {
                     startActivity(intent)
                     runOnUiThread {
                         errorTextView.visibility = View.GONE
+
+                        if (keepConnectedCheckBox.isChecked) {
+                            sharedPreferences.edit().putBoolean("isLoggedIn", true).apply()
+                        }
                     }
                 }
                 is LoginResult.Error -> {

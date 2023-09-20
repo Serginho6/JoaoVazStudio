@@ -1,5 +1,7 @@
 package com.comunidadedevspace.joaovazstudio.presentation
 
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,6 +24,7 @@ class MoreFragment : Fragment() {
         val cardViewTrain = view.findViewById<CardView>(R.id.card_view_train)
         val cardViewProfile = view.findViewById<CardView>(R.id.card_view_item_profile)
         val cardViewAbout = view.findViewById<CardView>(R.id.card_view_about)
+        val cardViewLogout = view.findViewById<CardView>(R.id.card_view_logout)
 
         cardViewImc.setOnClickListener {
             val intent = Intent(activity, ImcActivity::class.java)
@@ -48,7 +51,32 @@ class MoreFragment : Fragment() {
             startActivity(intent)
         }
 
+        cardViewLogout.setOnClickListener {
+            showLogoutConfirmationDialog()
+        }
+
         return view
+    }
+
+    private fun showLogoutConfirmationDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Confirmação de Logout")
+        builder.setMessage("Tem certeza que deseja sair?")
+
+        builder.setPositiveButton("Sim") { _, _ ->
+            val sharedPreferences = requireActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+            sharedPreferences.edit().putBoolean("isLoggedIn", false).apply()
+            val intent = Intent(requireActivity(), SignIn::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
+
+        builder.setNegativeButton("Não") { _, _ ->
+            // Não faz nada, apenas fecha o diálogo
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 
     companion object {
