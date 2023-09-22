@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.comunidadedevspace.joaovazstudio.R
@@ -20,9 +21,9 @@ class MoreFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_more, container, false)
 
         val cardViewImc = view.findViewById<CardView>(R.id.card_view_imc)
-//        val cardViewPhysical = view.findViewById<CardView>(R.id.card_view_physical_assessment)
+        val cardViewPhysical = view.findViewById<CardView>(R.id.card_view_physical_assessment)
         val cardViewTrain = view.findViewById<CardView>(R.id.card_view_train)
-//        val cardViewProfile = view.findViewById<CardView>(R.id.card_view_item_profile)
+        val cardViewProfile = view.findViewById<CardView>(R.id.card_view_item_profile)
         val cardViewAbout = view.findViewById<CardView>(R.id.card_view_about)
         val cardViewLogout = view.findViewById<CardView>(R.id.card_view_logout)
 
@@ -31,20 +32,22 @@ class MoreFragment : Fragment() {
             startActivity(intent)
         }
 
-//        cardViewPhysical.setOnClickListener {
+        cardViewPhysical.setOnClickListener {
 //            val intent = Intent(activity, PhysicalActivity::class.java)
 //            startActivity(intent)
-//        }
+            Toast.makeText(context, "Em breve", Toast.LENGTH_LONG).show()
+        }
 
         cardViewTrain.setOnClickListener {
-            val intent = Intent(activity, TrainActivity::class.java)
+            val intent = Intent(activity, TrainsListActivity::class.java)
             startActivity(intent)
         }
 
-//        cardViewProfile.setOnClickListener {
+        cardViewProfile.setOnClickListener {
 //            val intent = Intent(activity, SignUp::class.java)
 //            startActivity(intent)
-//        }
+            Toast.makeText(context, "Em breve", Toast.LENGTH_LONG).show()
+        }
 
         cardViewAbout.setOnClickListener {
             val intent = Intent(activity, AboutActivity::class.java)
