@@ -119,7 +119,7 @@ class ExerciseDetailActivity : AppCompatActivity() {
                 if(task != null){
                     performAction(task!!, ActionType.DELETE)
                 }else{
-                    showMessage(btnDone, "Item not found")
+                    showMessage(btnDone, "Impossível excluir item não criado.")
                 }
 
                 true
