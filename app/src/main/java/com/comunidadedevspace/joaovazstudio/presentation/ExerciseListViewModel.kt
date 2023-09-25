@@ -1,7 +1,6 @@
 package com.comunidadedevspace.joaovazstudio.presentation
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.comunidadedevspace.joaovazstudio.JoaoVazStudio
@@ -16,8 +15,8 @@ class ExerciseListViewModel(private val taskDao: TaskDao, private val currentUse
 
             fun create(application: Application, currentUserId: Long): ExerciseListViewModel {
             val dataBaseInstance = (application as JoaoVazStudio).getAppDataBase()
-            val dao = dataBaseInstance.taskDao()
-            return ExerciseListViewModel(dao, currentUserId)
+            val taskDao = dataBaseInstance.taskDao()
+            return ExerciseListViewModel(taskDao, currentUserId)
         }
     }
 }

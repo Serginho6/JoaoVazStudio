@@ -55,18 +55,18 @@ class ExerciseListAdapter(
     private fun updateTaskAppearance(holder: ExerciseListViewHolder, isSelected: Boolean) {
         if (isSelected) {
             // Altere a aparência quando o CheckBox estiver selecionado
-            holder.tvTitle.setTextColor(ContextCompat.getColor(context, R.color.selectedTextColor))
-            holder.tvDesc.setTextColor(ContextCompat.getColor(context, R.color.selectedTextColor))
+            holder.tvTaskTitle.setTextColor(ContextCompat.getColor(context, R.color.selectedTextColor))
+            holder.tvTaskDesc.setTextColor(ContextCompat.getColor(context, R.color.selectedTextColor))
             holder.checkbox.setTextColor(ContextCompat.getColor(context, R.color.selectedTextColor))
             holder.checkbox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.selectedTextColor))
-            holder.ivVideoThumbnail.alpha = 0.5f
+            holder.ivTaskVideoThumbnail.alpha = 0.5f
         } else {
             // Restaure a aparência padrão quando o CheckBox NÃO estiver selecionado
-            holder.tvTitle.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
-            holder.tvDesc.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
+            holder.tvTaskTitle.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
+            holder.tvTaskDesc.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
             holder.checkbox.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
             holder.checkbox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.defaultTextColor))
-            holder.ivVideoThumbnail.alpha = 1f
+            holder.ivTaskVideoThumbnail.alpha = 1f
         }
     }
 
@@ -84,17 +84,17 @@ class ExerciseListAdapter(
 }
 
 class ExerciseListViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-    val tvTitle: TextView = view.findViewById(R.id.tv_task_title)
-    val tvDesc: TextView = view.findViewById(R.id.tv_task_description)
-    val ivVideoThumbnail: ImageView = view.findViewById(R.id.iv_video_thumbnail)
+    val tvTaskTitle: TextView = view.findViewById(R.id.tv_task_title)
+    val tvTaskDesc: TextView = view.findViewById(R.id.tv_task_description)
+    val ivTaskVideoThumbnail: ImageView = view.findViewById(R.id.iv_video_thumbnail)
     val checkbox: CheckBox = view.findViewById(R.id.checkbox_task)
 
     fun bind(
         task: Task,
         openTaskDetailView:(task: Task) -> Unit
     ) {
-        tvTitle.text = task.title
-        tvDesc.text = task.description
+        tvTaskTitle.text = task.title
+        tvTaskDesc.text = task.description
         checkbox.isChecked = task.isSelected
 
         view.setOnClickListener {
@@ -107,9 +107,9 @@ class ExerciseListViewHolder(private val view: View) : RecyclerView.ViewHolder(v
             val videoThumbnailUrl = "https://img.youtube.com/vi/$youtubeVideoId/0.jpg"
             Glide.with(view)
                 .load(videoThumbnailUrl)
-                .into(ivVideoThumbnail)
+                .into(ivTaskVideoThumbnail)
 
-            ivVideoThumbnail.setOnClickListener {
+            ivTaskVideoThumbnail.setOnClickListener {
                 // Redirecione o usuário para o vídeo no YouTube
                 val youtubeVideoUrl = "https://www.youtube.com/watch?v=$youtubeVideoId"
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(youtubeVideoUrl))

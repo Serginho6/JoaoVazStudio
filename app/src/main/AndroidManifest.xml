@@ -36,7 +36,10 @@
             android:name=".presentation.PhysicalActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.TrainsListActivity"
+            android:name=".presentation.TrainListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.TrainDetailActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.AboutActivity"

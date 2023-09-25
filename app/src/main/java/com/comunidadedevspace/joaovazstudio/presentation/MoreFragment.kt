@@ -35,18 +35,18 @@ class MoreFragment : Fragment() {
         cardViewPhysical.setOnClickListener {
 //            val intent = Intent(activity, PhysicalActivity::class.java)
 //            startActivity(intent)
-            Toast.makeText(context, "Em breve", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Em breve", Toast.LENGTH_SHORT).show()
         }
 
         cardViewTrain.setOnClickListener {
-            val intent = Intent(activity, TrainsListActivity::class.java)
+            val intent = Intent(activity, TrainListActivity::class.java)
             startActivity(intent)
         }
 
         cardViewProfile.setOnClickListener {
 //            val intent = Intent(activity, SignUp::class.java)
 //            startActivity(intent)
-            Toast.makeText(context, "Em breve", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Em breve", Toast.LENGTH_SHORT).show()
         }
 
         cardViewAbout.setOnClickListener {

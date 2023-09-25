@@ -9,12 +9,12 @@
 
     <TextView
         android:id="@+id/dev_tv"
-        style="@style/Title3"
+        style="@style/Body1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_above="@+id/dev_link_image"
-        android:text="App criado por um único dev."
+        android:text="App criado por @sergiomarchewsky"
         android:textAlignment="center"
         android:textSize="20sp"
         android:layout_margin="20dp"/>

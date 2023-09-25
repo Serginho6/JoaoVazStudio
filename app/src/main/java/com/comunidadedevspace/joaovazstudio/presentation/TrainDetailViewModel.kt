@@ -6,42 +6,42 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.comunidadedevspace.joaovazstudio.JoaoVazStudio
 import com.comunidadedevspace.joaovazstudio.authentication.AuthenticationManager
-import com.comunidadedevspace.joaovazstudio.data.Task
-import com.comunidadedevspace.joaovazstudio.data.TaskDao
+import com.comunidadedevspace.joaovazstudio.data.Train
+import com.comunidadedevspace.joaovazstudio.data.TrainDao
 import kotlinx.coroutines.launch
 
-class ExerciseDetailViewModel(
-    private val taskDao: TaskDao,
+class TrainDetailViewModel(
+    private val trainDao: TrainDao,
 ): ViewModel() {
 
     private val userId = AuthenticationManager.getCurrentUserId()
 
-    fun execute(taskAction: TaskAction){
-        when (taskAction.taskActionType) {
-            ActionType.DELETE.name -> deleteById(taskAction.task!!.id, userId)
-            ActionType.CREATE.name -> insertIntoDataBase(taskAction.task!!)
-            ActionType.UPDATE.name -> updateIntoDataBase(taskAction.task!!)
+    fun execute(trainAction: TrainAction){
+        when (trainAction.trainActionType) {
+            ActionType.DELETE.name -> deleteById(trainAction.train!!.id, userId)
+            ActionType.CREATE.name -> insertIntoDataBase(trainAction.train!!)
+            ActionType.UPDATE.name -> updateIntoDataBase(trainAction.train!!)
         }
     }
 
     //CREATE
-    private fun insertIntoDataBase(task: Task) {
+    private fun insertIntoDataBase(train: Train) {
         viewModelScope.launch {
-            taskDao.insert(task)
+            trainDao.insert(train)
         }
     }
 
     //DELETE BY ID
     private fun deleteById(id: Int, userId: Long) {
         viewModelScope.launch {
-            taskDao.deleteById(id, userId)
+            trainDao.deleteById(id, userId)
         }
     }
 
     //UPDATE
-    private fun updateIntoDataBase(task: Task) {
+    private fun updateIntoDataBase(train: Train) {
         viewModelScope.launch {
-            taskDao.update(task)
+            trainDao.update(train)
         }
     }
 
@@ -49,10 +49,10 @@ class ExerciseDetailViewModel(
 
         fun getVMFactory(application: Application): ViewModelProvider.Factory {
             val dataBaseInstance = (application as JoaoVazStudio).getAppDataBase()
-            val dao = dataBaseInstance.taskDao()
+            val trainDao = dataBaseInstance.trainDao()
             val factory = object : ViewModelProvider.Factory {
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return ExerciseDetailViewModel(dao) as T
+                    return TrainDetailViewModel(trainDao) as T
                 }
             }
             return factory

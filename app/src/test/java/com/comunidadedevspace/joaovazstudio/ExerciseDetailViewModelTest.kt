@@ -40,7 +40,7 @@ class ExerciseDetailViewModelTest {
 
         val taskAction = TaskAction(
             task = task,
-            actionType = ActionType.CREATE.name
+            taskActionType = ActionType.CREATE.name
         )
 
         //When
@@ -64,7 +64,7 @@ class ExerciseDetailViewModelTest {
 
         val taskAction = TaskAction(
             task = task,
-            actionType = ActionType.UPDATE.name
+            taskActionType = ActionType.UPDATE.name
         )
 
         //When
@@ -88,7 +88,7 @@ class ExerciseDetailViewModelTest {
 
         val taskAction = TaskAction(
             task = task,
-            actionType = ActionType.DELETE.name
+            taskActionType = ActionType.DELETE.name
         )
 
         //When

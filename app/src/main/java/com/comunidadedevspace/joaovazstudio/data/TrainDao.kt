@@ -1,18 +1,23 @@
 package com.comunidadedevspace.joaovazstudio.data
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface TrainDao {
-//    @Insert
-//    suspend fun insert(train: Train)
-//
-//    @Update
-//    suspend fun update(train: Train)
-//
-//    @Delete
-//    suspend fun delete(train: Train)
-//
-//    @Query("SELECT * FROM Train WHERE id = :trainId")
-//    fun getTrainById(trainId: Int): LiveData<Train>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(train: Train)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun update(train: Train)
+
+    @Query("DELETE from train WHERE id =:id AND userId = :userId")
+    suspend fun deleteById(id: Int, userId: Long)
+
+    @Query("SELECT * FROM Train WHERE id = userId = :userId")
+    fun getTrainByUserId(userId: Long): LiveData<List<Train>>
 }

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.ExerciseDetailActivity">
+    tools:context=".presentation.TrainDetailActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,58 +20,33 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginStart="8dp"
-            android:text="Exercício:"/>
+            android:text="Nome do treino:"/>
 
         <EditText
             style="@style/Body1"
-            android:id="@+id/edt_task_title"
+            android:id="@+id/edt_train_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:hint="Adicione uma atividade"/>
-
-        <TextView
-            style="@style/Title3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="Quantidade:"/>
+            android:hint="Ex.: Treino de superiores"/>
 
         <EditText
+            android:id="@+id/edt_train_description"
             style="@style/Body1"
-            android:id="@+id/edt_task_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:hint="Adicione o tempo ou número de séries"/>
-
-        <TextView
-            style="@style/Title3"
-            android:id="@+id/tv_video"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="Video:"/>
-
-        <EditText
-            style="@style/Body1"
-            android:id="@+id/edt_task_video_url"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_video"
-            android:hint="Cole aqui o link do Youtube"
-            android:inputType="text"
-            android:layout_marginHorizontal="10dp"/>
+            android:hint="Resumo do conteúdo do treino."/>
 
         <Button
+            android:id="@+id/btn_add_task"
             style="@style/ButtonPrimary"
-            android:id="@+id/btn_save_task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:text="SALVAR"/>
+            android:text="Salvar ficha"/>
 
     </LinearLayout>
 

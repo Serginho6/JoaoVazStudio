@@ -14,25 +14,4 @@ object AuthenticationManager {
             -1
         }
     }
-
-    // Implemente aqui a função de login com email e senha, se ainda não estiver implementada.
-    fun signInWithEmailAndPassword(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    // Autenticação bem-sucedida, o usuário está logado
-                    val user = auth.currentUser
-                    // Você pode executar ações adicionais aqui, se necessário
-                } else {
-                    // A autenticação falhou, trate o erro conforme necessário
-                    val exception = task.exception
-                    // Exiba uma mensagem de erro para o usuário, registre o erro, etc.
-                }
-            }
-    }
-
-    // Implemente aqui a função de logout, se ainda não estiver implementada.
-    fun signOut() {
-        auth.signOut()
-    }
 }

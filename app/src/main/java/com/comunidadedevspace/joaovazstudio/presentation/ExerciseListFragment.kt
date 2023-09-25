@@ -35,7 +35,7 @@ class ExerciseListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ctnContent = view.findViewById(R.id.ctn_content)
+        ctnContent = view.findViewById(R.id.selected_train_content)
 
         val rvTasks: RecyclerView = view.findViewById(R.id.rv_task_list)
         rvTasks.adapter = adapter

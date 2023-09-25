@@ -9,7 +9,6 @@ data class Task(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val userId: Long,
-//    val trainId: Int,
     val title: String,
     val description: String,
     var youtubeVideoId: String?,

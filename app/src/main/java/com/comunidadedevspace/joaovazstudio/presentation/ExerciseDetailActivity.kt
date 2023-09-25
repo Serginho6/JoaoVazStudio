@@ -23,7 +23,7 @@ class ExerciseDetailActivity : AppCompatActivity() {
     private var youtubeVideoUrl: String? = null
 
     private var task: Task? = null
-    private lateinit var btnDone: Button
+    private lateinit var btnSaveTask: Button
 
     private val viewModel: ExerciseDetailViewModel by viewModels{
         ExerciseDetailViewModel.getVMFactory(application)
@@ -55,7 +55,7 @@ class ExerciseDetailActivity : AppCompatActivity() {
         val edtDescription = findViewById<EditText>(R.id.edt_task_description)
         val edtVideoUrl = findViewById<EditText>(R.id.edt_task_video_url)
 
-        btnDone = findViewById<Button>(R.id.btn_done)
+        btnSaveTask = findViewById<Button>(R.id.btn_save_task)
 
         if(task != null) {
             edtTitle.setText(task!!.title)
@@ -63,7 +63,7 @@ class ExerciseDetailActivity : AppCompatActivity() {
             edtVideoUrl.setText(task!!.youtubeVideoId)
         }
 
-        btnDone.setOnClickListener{
+        btnSaveTask.setOnClickListener{
             val title = edtTitle.text.toString()
             val desc = edtDescription.text.toString()
             val videoUrl = edtVideoUrl.text.toString()
@@ -119,7 +119,7 @@ class ExerciseDetailActivity : AppCompatActivity() {
                 if(task != null){
                     performAction(task!!, ActionType.DELETE)
                 }else{
-                    showMessage(btnDone, "Impossível excluir item não criado.")
+                    showMessage(btnSaveTask, "Impossível excluir item não criado.")
                 }
 
                 true
