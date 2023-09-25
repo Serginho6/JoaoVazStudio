@@ -24,8 +24,6 @@ class ExerciseDetailViewModelTest {
         )
     }
 
-    private val imageByteArray = "Dados da imagem".toByteArray()
-
     @Test
     fun create_task() = runTest {
         //Given
@@ -34,7 +32,7 @@ class ExerciseDetailViewModelTest {
             userId = 0,
             title = "title",
             description = "description",
-            image = imageByteArray,
+            youtubeVideoId = String,
             isSelected = false
         )
 
@@ -58,7 +56,7 @@ class ExerciseDetailViewModelTest {
             userId = 0,
             title = "title",
             description = "description",
-            image = imageByteArray,
+            youtubeVideoId = String,
             isSelected = false
         )
 
@@ -82,7 +80,7 @@ class ExerciseDetailViewModelTest {
             userId = 0,
             title = "title",
             description = "description",
-            image = imageByteArray,
+            youtubeVideoId = String,
             isSelected = false
         )
 

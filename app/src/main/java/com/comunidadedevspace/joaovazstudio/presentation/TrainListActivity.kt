@@ -17,11 +17,11 @@ class TrainListActivity : AppCompatActivity() {
     private lateinit var trainContent: LinearLayout
 
     // Adapter
-    private val adapter: TrainListAdapter by lazy {
+    private val trainAdapter: TrainListAdapter by lazy {
         TrainListAdapter(::openTrainListDetail)
     }
 
-    private val viewModel: TrainListViewModel by lazy {
+    private val trainViewModel: TrainListViewModel by lazy {
         TrainListViewModel.create(application, getCurrentUserId())
     }
 
@@ -32,7 +32,7 @@ class TrainListActivity : AppCompatActivity() {
         trainContent = findViewById(R.id.train_list_content)
 
         val rvTrains: RecyclerView = findViewById(R.id.rv_train_list)
-        rvTrains.adapter = adapter
+        rvTrains.adapter = trainAdapter
 
         val btnAddTrain: Button = findViewById(R.id.btn_add_train)
 
@@ -56,11 +56,12 @@ class TrainListActivity : AppCompatActivity() {
             } else {
                 trainContent.visibility = View.GONE
             }
-            adapter.submitList(listTrains)
+            trainAdapter.submitTrainList(listTrains)
+            trainAdapter.notifyDataSetChanged()
         }
 
         // LiveData
-        viewModel.trainListLiveData.observe(this, listObserver)
+        trainViewModel.trainListLiveData.observe(this, listObserver)
     }
 
     private fun openTrainListDetail(train: Train) {

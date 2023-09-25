@@ -25,9 +25,7 @@ class TrainListAdapter(
     override fun onBindViewHolder(holder: TrainListViewHolder, position: Int) {
         val train = getItem(position)
         holder.bind(train, openTrainDetailView)
-
         holder.itemView
-
     }
 
     companion object : DiffUtil.ItemCallback<Train>(){
@@ -40,6 +38,10 @@ class TrainListAdapter(
             return oldItem.trainTitle == newItem.trainTitle &&
                     oldItem.trainDescription == newItem.trainDescription
         }
+    }
+
+    fun submitTrainList(trainList: List<Train>) {
+        submitList(trainList)
     }
 }
 class TrainListViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
