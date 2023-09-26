@@ -15,14 +15,14 @@ import com.comunidadedevspace.joaovazstudio.data.Task
 
 class ExerciseListFragment : Fragment() {
 
-    private lateinit var ctnContent: LinearLayout
+    private lateinit var selectedTrainContent: LinearLayout
 
     //Adapter
-    private val adapter: ExerciseListAdapter by lazy {
+    private val exerciseAdapter: ExerciseListAdapter by lazy {
         ExerciseListAdapter(requireContext(), ::openTaskListDetail)
     }
 
-    private val viewModel: ExerciseListViewModel by lazy {
+    private val exerciseViewModel: ExerciseListViewModel by lazy {
         ExerciseListViewModel.create(requireActivity().application, getCurrentUserId())
     }
 
@@ -35,12 +35,12 @@ class ExerciseListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ctnContent = view.findViewById(R.id.selected_train_content)
+        selectedTrainContent = view.findViewById(R.id.selected_train_content)
 
         val rvTasks: RecyclerView = view.findViewById(R.id.rv_task_list)
-        rvTasks.adapter = adapter
+        rvTasks.adapter = exerciseAdapter
 
-        adapter.setOnItemClickListener { task ->
+        exerciseAdapter.setOnItemClickListener { task ->
             val videoId = task.youtubeVideoId
             if (!videoId.isNullOrEmpty()) {
                 val editTextVideoId = requireActivity().findViewById<EditText>(R.id.edt_task_video_url)
@@ -58,15 +58,15 @@ class ExerciseListFragment : Fragment() {
         //Observer
         val listObserver = Observer<List<Task>>{ listTasks ->
             if(listTasks.isEmpty()){
-                ctnContent.visibility = View.VISIBLE
+                selectedTrainContent.visibility = View.VISIBLE
             } else {
-                ctnContent.visibility = View.GONE
+                selectedTrainContent.visibility = View.GONE
             }
-            adapter.submitList(listTasks)
+            exerciseAdapter.submitList(listTasks)
         }
 
         //Live data
-        viewModel.taskListLiveData.observe(this, listObserver)
+        exerciseViewModel.taskListLiveData.observe(this, listObserver)
     }
 
     private fun openTaskListDetail(task: Task) {

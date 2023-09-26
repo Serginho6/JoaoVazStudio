@@ -7,16 +7,16 @@ import com.comunidadedevspace.joaovazstudio.JoaoVazStudio
 import com.comunidadedevspace.joaovazstudio.data.Train
 import com.comunidadedevspace.joaovazstudio.data.TrainDao
 
-class TrainListViewModel(private val trainDao: TrainDao, private val currentTrainId: Long) : ViewModel() {
+class TrainListViewModel(private val trainDao: TrainDao, private val currentUserId: Long) : ViewModel() {
 
-    val trainListLiveData: LiveData<List<Train>> = trainDao.getTrainByUserId(currentTrainId)
+    val trainListLiveData: LiveData<List<Train>> = trainDao.getTrainByUserId(currentUserId)
 
         companion object {
 
-            fun create(application: Application, currentTrainId: Long): TrainListViewModel {
+            fun create(application: Application, currentUserId: Long): TrainListViewModel {
             val dataBaseInstance = (application as JoaoVazStudio).getAppDataBase()
             val trainDao = dataBaseInstance.trainDao()
-            return TrainListViewModel(trainDao, currentTrainId)
+            return TrainListViewModel(trainDao, currentUserId)
         }
     }
 }

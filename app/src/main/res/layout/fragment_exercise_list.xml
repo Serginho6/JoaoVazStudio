@@ -20,8 +20,8 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/tv_add_exercise"
             style="@style/Title3"
+            android:id="@+id/tv_add_exercise"
             android:text="Vamos começar?\n\nSelecione um treino"
             android:layout_gravity="center"
             android:layout_margin="20dp"

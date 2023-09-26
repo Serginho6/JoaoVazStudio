@@ -48,11 +48,11 @@ class TrainDetailActivity: AppCompatActivity() {
         val edtTrainTitle = findViewById<EditText>(R.id.edt_train_title)
         val edtTrainDescription = findViewById<EditText>(R.id.edt_train_description)
 
-        btnAddTask = findViewById<Button>(R.id.btn_add_task)
+        btnAddTask = findViewById<Button>(R.id.btn_save_train)
 
         if(train != null) {
             edtTrainTitle.setText(train!!.trainTitle)
-            edtTrainDescription.setText(train!!.trainTitle)
+            edtTrainDescription.setText(train!!.trainDescription)
         }
 
         btnAddTask.setOnClickListener{

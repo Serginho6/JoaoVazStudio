@@ -7,17 +7,21 @@
     android:layout_height="match_parent"
     tools:context=".presentation.TrainDetailActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <include layout="@layout/toolbar"/>
+        <!-- Inclua o layout da toolbar -->
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"/>
 
         <TextView
+            android:id="@+id/tv_train_name"
             style="@style/Title3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar"
             android:layout_marginTop="16dp"
             android:layout_marginStart="8dp"
             android:text="Nome do treino:"/>
@@ -27,8 +31,10 @@
             android:id="@+id/edt_train_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tv_train_name"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
             android:hint="Ex.: Treino de superiores"/>
 
         <EditText
@@ -36,18 +42,23 @@
             style="@style/Body1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/edt_train_title"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
             android:hint="Resumo do conteúdo do treino."/>
 
         <Button
-            android:id="@+id/btn_add_task"
+            android:id="@+id/btn_save_train"
             style="@style/ButtonPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/edt_train_description"
             android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_alignParentBottom="true"
             android:text="Salvar ficha"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </ScrollView>

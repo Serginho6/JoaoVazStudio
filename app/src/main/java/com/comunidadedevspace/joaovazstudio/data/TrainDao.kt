@@ -18,6 +18,6 @@ interface TrainDao {
     @Query("DELETE from train WHERE id =:id AND userId = :userId")
     suspend fun deleteById(id: Int, userId: Long)
 
-    @Query("SELECT * FROM Train WHERE id = userId = :userId")
+    @Query("SELECT * FROM train WHERE userId = :userId")
     fun getTrainByUserId(userId: Long): LiveData<List<Train>>
 }

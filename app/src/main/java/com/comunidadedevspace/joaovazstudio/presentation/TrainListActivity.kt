@@ -1,6 +1,5 @@
 package com.comunidadedevspace.joaovazstudio.presentation
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -15,6 +14,7 @@ import com.comunidadedevspace.joaovazstudio.data.Train
 class TrainListActivity : AppCompatActivity() {
 
     private lateinit var trainContent: LinearLayout
+    private lateinit var btnAddTrain: Button
 
     // Adapter
     private val trainAdapter: TrainListAdapter by lazy {
@@ -30,22 +30,17 @@ class TrainListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_train_list)
 
         trainContent = findViewById(R.id.train_list_content)
+        val rvTasks: RecyclerView = findViewById(R.id.rv_train_list)
+        rvTasks.adapter = trainAdapter
 
-        val rvTrains: RecyclerView = findViewById(R.id.rv_train_list)
-        rvTrains.adapter = trainAdapter
+        listFromDataBase()
 
-        val btnAddTrain: Button = findViewById(R.id.btn_add_train)
+        btnAddTrain = findViewById(R.id.btn_add_train)
 
-        btnAddTrain.setOnClickListener{
-            val intent = Intent(this, TrainDetailActivity::class.java)
+        btnAddTrain.setOnClickListener {
+            val intent = TrainDetailActivity.start(this,null)
             startActivity(intent)
         }
-
-    }
-
-    override fun onStart() {
-        super.onStart()
-        listFromDataBase()
     }
 
     private fun listFromDataBase() {
@@ -56,11 +51,10 @@ class TrainListActivity : AppCompatActivity() {
             } else {
                 trainContent.visibility = View.GONE
             }
-            trainAdapter.submitTrainList(listTrains)
-            trainAdapter.notifyDataSetChanged()
+            trainAdapter.submitList(listTrains)
         }
 
-        // LiveData
+        // Live data
         trainViewModel.trainListLiveData.observe(this, listObserver)
     }
 
