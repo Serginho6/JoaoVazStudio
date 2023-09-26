@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.comunidadedevspace.joaovazstudio.R
 import com.comunidadedevspace.joaovazstudio.authentication.AuthenticationManager
@@ -42,7 +43,13 @@ class TrainDetailActivity: AppCompatActivity() {
         setContentView(R.layout.activity_train_detail)
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        // Recuperar task
+        val btnAddExercise = findViewById<Button>(R.id.add_exercise)
+
+        btnAddExercise.setOnClickListener {
+            openTaskListDetail()
+        }
+
+        // Recuperar trei   no
         train = intent.getSerializableExtra(TRAIN_DETAIL_EXTRA) as Train?
 
         val edtTrainTitle = findViewById<EditText>(R.id.edt_train_title)
@@ -84,7 +91,7 @@ class TrainDetailActivity: AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater : MenuInflater = menuInflater
-        inflater.inflate(R.menu.menu_exercise_detail, menu)
+        inflater.inflate(R.menu.menu_train_or_exercise_detail, menu)
         return true
     }
 
@@ -93,7 +100,7 @@ class TrainDetailActivity: AppCompatActivity() {
             R.id.delete_task -> {
 
                 if(train != null){
-                    performAction(train!!, ActionType.DELETE)
+                    showConfirmationDialog()
                 }else{
                     showMessage(btnAddTask, "Impossível excluir item não criado.")
                 }
@@ -102,6 +109,21 @@ class TrainDetailActivity: AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun showConfirmationDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Confirmação")
+        builder.setMessage("Tem certeza que deseja excluir TODO o treino?")
+        builder.setPositiveButton("Sim") { dialog, which ->
+            // O usuário escolheu "Sim", agora você pode realizar a ação de exclusão.
+            performAction(train!!, ActionType.DELETE)
+        }
+        builder.setNegativeButton("Não") { dialog, which ->
+            // O usuário escolheu "Não", nada acontece.
+            dialog.dismiss() // Fechar o diálogo
+        }
+        builder.show()
     }
 
     private fun performAction(train: Train, actionType: ActionType){
@@ -114,5 +136,10 @@ class TrainDetailActivity: AppCompatActivity() {
         Snackbar.make(view, message, Snackbar.LENGTH_LONG)
             .setAction("Action", null)
             .show()
+    }
+
+    private fun openTaskListDetail() {
+        val intent = ExerciseDetailActivity.start(this, null)
+        startActivity(intent)
     }
 }

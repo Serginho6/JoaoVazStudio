@@ -46,16 +46,39 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
-            android:hint="Resumo do conteúdo do treino."/>
+            android:hint="Resumo do conteúdo do treino"/>
+
+        <TextView
+            android:id="@+id/tv_exercises"
+            style="@style/Title3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edt_train_description"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="20dp"
+            android:text="Exercícios:"/>
+
+        <Button
+            android:id="@+id/add_exercise"
+            style="@style/ButtonPrimary"
+            android:textSize="26sp"
+            android:textAlignment="center"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/tv_exercises"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:text="+"/>
 
         <Button
             android:id="@+id/btn_save_train"
             style="@style/ButtonPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/edt_train_description"
+            android:layout_below="@id/add_exercise"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:layout_alignParentBottom="true"
             android:text="Salvar ficha"/>
 

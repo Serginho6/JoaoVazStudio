@@ -48,7 +48,7 @@ class ExerciseDetailActivity : AppCompatActivity() {
 
         editTextVideoUrl = findViewById(R.id.edt_task_video_url)
 
-        // Recuperar task
+        // Recuperar exercício
         task = intent.getSerializableExtra(TASK_DETAIL_EXTRA) as Task?
 
         val edtTitle = findViewById<EditText>(R.id.edt_task_title)
@@ -108,7 +108,7 @@ class ExerciseDetailActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater : MenuInflater = menuInflater
-        inflater.inflate(R.menu.menu_exercise_detail, menu)
+        inflater.inflate(R.menu.menu_train_or_exercise_detail, menu)
         return true
     }
 
