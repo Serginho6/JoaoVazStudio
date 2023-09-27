@@ -23,7 +23,7 @@ class MoreFragment : Fragment() {
         val cardViewImc = view.findViewById<CardView>(R.id.card_view_imc)
         val cardViewPhysical = view.findViewById<CardView>(R.id.card_view_physical_assessment)
         val cardViewTrain = view.findViewById<CardView>(R.id.card_view_train)
-        val cardViewProfile = view.findViewById<CardView>(R.id.card_view_item_profile)
+//        val cardViewProfile = view.findViewById<CardView>(R.id.card_view_profile)
         val cardViewAbout = view.findViewById<CardView>(R.id.card_view_about)
         val cardViewLogout = view.findViewById<CardView>(R.id.card_view_logout)
 
@@ -43,11 +43,11 @@ class MoreFragment : Fragment() {
             startActivity(intent)
         }
 
-        cardViewProfile.setOnClickListener {
-//            val intent = Intent(activity, SignUp::class.java)
-//            startActivity(intent)
-            Toast.makeText(context, "Em breve", Toast.LENGTH_SHORT).show()
-        }
+//        cardViewProfile.setOnClickListener {
+////            val intent = Intent(activity, SignUp::class.java)
+////            startActivity(intent)
+//            Toast.makeText(context, "Em breve", Toast.LENGTH_SHORT).show()
+//        }
 
         cardViewAbout.setOnClickListener {
             val intent = Intent(activity, AboutActivity::class.java)
