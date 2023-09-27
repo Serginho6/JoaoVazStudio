@@ -141,49 +141,49 @@
 
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_view_item_profile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginHorizontal="10dp"
-                app:cardCornerRadius="16dp"
-                android:layout_below="@id/card_view_train">
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:id="@+id/card_view_item_profile"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_marginHorizontal="10dp"-->
+<!--                app:cardCornerRadius="16dp"-->
+<!--                android:layout_below="@id/card_view_train">-->
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="24dp"
-                    android:background="@drawable/item_exercise_background">
+<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:padding="24dp"-->
+<!--                    android:background="@drawable/item_exercise_background">-->
 
-                    <ImageView
-                        android:id="@+id/image_view_profile"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/profile_icon"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+<!--                    <ImageView-->
+<!--                        android:id="@+id/image_view_profile"-->
+<!--                        android:layout_width="60dp"-->
+<!--                        android:layout_height="60dp"-->
+<!--                        android:src="@drawable/profile_icon"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
 
-                    <TextView
-                        style="@style/Body1"
-                        android:id="@+id/text_view_profile"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:fontFamily="@font/bebasneue_regular"
-                        android:text="Editar perfil"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:letterSpacing="0.1"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/image_view_profile"
-                        app:layout_constraintTop_toTopOf="parent" />
+<!--                    <TextView-->
+<!--                        style="@style/Body1"-->
+<!--                        android:id="@+id/text_view_profile"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="16dp"-->
+<!--                        android:fontFamily="@font/bebasneue_regular"-->
+<!--                        android:text="Editar perfil"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:letterSpacing="0.1"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintStart_toEndOf="@id/image_view_profile"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
 
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
 
-            </androidx.cardview.widget.CardView>
+<!--            </androidx.cardview.widget.CardView>-->
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_view_about"
@@ -192,7 +192,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginHorizontal="10dp"
                 app:cardCornerRadius="16dp"
-                android:layout_below="@id/card_view_item_profile">
+                android:layout_below="@id/card_view_train">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
