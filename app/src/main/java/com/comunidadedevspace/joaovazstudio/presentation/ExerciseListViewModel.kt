@@ -15,8 +15,8 @@ class ExerciseListViewModel(private val exerciseDao: ExerciseDao, private val cu
 
             fun create(application: Application, currentUserId: Long): ExerciseListViewModel {
             val dataBaseInstance = (application as JoaoVazStudio).getAppDataBase()
-            val taskDao = dataBaseInstance.taskDao()
-            return ExerciseListViewModel(taskDao, currentUserId)
+            val exerciseDao = dataBaseInstance.exerciseDao()
+            return ExerciseListViewModel(exerciseDao, currentUserId)
         }
     }
 }
