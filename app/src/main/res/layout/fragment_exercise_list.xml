@@ -7,43 +7,8 @@
     android:orientation="vertical"
     tools:context=".presentation.MainActivity">
 
-    <LinearLayout
-        android:id="@+id/selected_train_content"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_margin="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            style="@style/Title3"
-            android:id="@+id/tv_add_exercise"
-            android:text="Vamos começar?\n\nSelecione um treino"
-            android:layout_gravity="center"
-            android:layout_margin="20dp"
-            android:textStyle="bold"
-            android:textSize="32sp"
-            android:textAlignment="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <ImageView
-            android:id="@+id/iv_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="60dp"
-            android:src="@drawable/empty_state" />
-
-    </LinearLayout>
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_task_list"
-        android:layout_marginBottom="70dp"
+        android:id="@+id/rv_exercise_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

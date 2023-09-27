@@ -20,9 +20,9 @@ import com.google.android.material.snackbar.Snackbar
 class TrainDetailActivity: AppCompatActivity() {
 
     private var train: Train? = null
-    private lateinit var btnAddTask: Button
+    private lateinit var btnSaveTrain: Button
 
-    private val viewModel: TrainDetailViewModel by viewModels{
+    private val trainDetailViewModel: TrainDetailViewModel by viewModels{
         TrainDetailViewModel.getVMFactory(application)
     }
 
@@ -46,23 +46,28 @@ class TrainDetailActivity: AppCompatActivity() {
         val btnAddExercise = findViewById<Button>(R.id.add_exercise)
 
         btnAddExercise.setOnClickListener {
-            openTaskListDetail()
+            openExerciseDetail()
         }
 
-        // Recuperar trei   no
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        val exerciseListFragment = ExerciseListFragment.newInstance()
+        fragmentTransaction.replace(R.id.fragment_exercises_container, exerciseListFragment)
+        fragmentTransaction.commit()
+
+        // Recuperar treino
         train = intent.getSerializableExtra(TRAIN_DETAIL_EXTRA) as Train?
 
         val edtTrainTitle = findViewById<EditText>(R.id.edt_train_title)
         val edtTrainDescription = findViewById<EditText>(R.id.edt_train_description)
 
-        btnAddTask = findViewById<Button>(R.id.btn_save_train)
+        btnSaveTrain = findViewById<Button>(R.id.btn_save_train)
 
         if(train != null) {
             edtTrainTitle.setText(train!!.trainTitle)
             edtTrainDescription.setText(train!!.trainDescription)
         }
 
-        btnAddTask.setOnClickListener{
+        btnSaveTrain.setOnClickListener{
             val title = edtTrainTitle.text.toString()
             val desc = edtTrainDescription.text.toString()
 
@@ -102,7 +107,7 @@ class TrainDetailActivity: AppCompatActivity() {
                 if(train != null){
                     showConfirmationDialog()
                 }else{
-                    showMessage(btnAddTask, "Impossível excluir item não criado.")
+                    showMessage(btnSaveTrain, "Impossível excluir item não criado.")
                 }
 
                 true
@@ -128,7 +133,7 @@ class TrainDetailActivity: AppCompatActivity() {
 
     private fun performAction(train: Train, actionType: ActionType){
         val trainAction = TrainAction(train, actionType.name)
-        viewModel.execute(trainAction)
+        trainDetailViewModel.execute(trainAction)
         finish()
     }
 
@@ -138,8 +143,8 @@ class TrainDetailActivity: AppCompatActivity() {
             .show()
     }
 
-    private fun openTaskListDetail() {
-        val intent = ExerciseDetailActivity.start(this, null)
+    private fun openExerciseDetail() {
+        val intent = ExerciseDetailActivity.start(this, null, train?.id ?: 0)
         startActivity(intent)
     }
 }

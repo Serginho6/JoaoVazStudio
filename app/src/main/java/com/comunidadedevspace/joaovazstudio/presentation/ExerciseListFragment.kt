@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.comunidadedevspace.joaovazstudio.R
 import com.comunidadedevspace.joaovazstudio.authentication.AuthenticationManager.getCurrentUserId
-import com.comunidadedevspace.joaovazstudio.data.Task
+import com.comunidadedevspace.joaovazstudio.data.Exercise
 
 class ExerciseListFragment : Fragment() {
 
@@ -19,7 +19,7 @@ class ExerciseListFragment : Fragment() {
 
     //Adapter
     private val exerciseAdapter: ExerciseListAdapter by lazy {
-        ExerciseListAdapter(requireContext(), ::openTaskListDetail)
+        ExerciseListAdapter(requireContext(), ::openExerciseListDetail)
     }
 
     private val exerciseViewModel: ExerciseListViewModel by lazy {
@@ -35,9 +35,8 @@ class ExerciseListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        selectedTrainContent = view.findViewById(R.id.selected_train_content)
 
-        val rvTasks: RecyclerView = view.findViewById(R.id.rv_task_list)
+        val rvTasks: RecyclerView = view.findViewById(R.id.rv_exercise_list)
         rvTasks.adapter = exerciseAdapter
 
         exerciseAdapter.setOnItemClickListener { task ->
@@ -56,21 +55,16 @@ class ExerciseListFragment : Fragment() {
 
     private fun listFromDataBase() {
         //Observer
-        val listObserver = Observer<List<Task>>{ listTasks ->
-            if(listTasks.isEmpty()){
-                selectedTrainContent.visibility = View.VISIBLE
-            } else {
-                selectedTrainContent.visibility = View.GONE
-            }
+        val listObserver = Observer<List<Exercise>>{ listTasks ->
             exerciseAdapter.submitList(listTasks)
         }
 
         //Live data
-        exerciseViewModel.taskListLiveData.observe(this, listObserver)
+        exerciseViewModel.exerciseListLiveData.observe(this, listObserver)
     }
 
-    private fun openTaskListDetail(task: Task) {
-        val intent = ExerciseDetailActivity.start(requireContext(), task)
+    private fun openExerciseListDetail(exercise: Exercise) {
+        val intent = ExerciseDetailActivity.start(requireContext(), exercise, 0)
         requireActivity().startActivity(intent)
     }
 

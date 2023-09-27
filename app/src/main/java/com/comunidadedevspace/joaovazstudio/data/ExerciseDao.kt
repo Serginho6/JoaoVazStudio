@@ -9,22 +9,22 @@ import androidx.room.Update
 
 //Data Acess Object - DAO
 @Dao
-interface TaskDao {
+interface ExerciseDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(task: Task)
+    suspend fun insert(exercise: Exercise)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun update(task: Task)
+    suspend fun update(exercise: Exercise)
 
     //Deletando todos
-    @Query("DELETE from task")
+    @Query("DELETE from exercise")
     suspend fun deleteAll()
 
     //Deletando pelo id
-    @Query("DELETE from task WHERE id =:id AND userId = :userId")
+    @Query("DELETE from exercise WHERE id =:id AND userId = :userId")
     suspend fun deleteById(id: Int, userId: Long)
 
-    @Query("SELECT * FROM task WHERE userId = :userId")
-    fun getTasksByUserId(userId: Long): LiveData<List<Task>>
+    @Query("SELECT * FROM exercise WHERE userId = :userId")
+    fun getTasksByUserId(userId: Long): LiveData<List<Exercise>>
 }

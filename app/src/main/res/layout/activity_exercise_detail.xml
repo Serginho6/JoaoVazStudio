@@ -67,7 +67,7 @@
 
         <Button
             style="@style/ButtonPrimary"
-            android:id="@+id/btn_save_task"
+            android:id="@+id/btn_save_exercise"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"

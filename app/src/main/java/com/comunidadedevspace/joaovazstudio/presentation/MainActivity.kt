@@ -13,19 +13,19 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNavView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
 
-        val exerciseListFragment = ExerciseListFragment.newInstance()
+        val trainSelectedFragment = TrainSelectedFragment.newInstance()
         val moreFragment = MoreFragment.newInstance()
 
         supportFragmentManager.commit {
-            replace(R.id.fragment_container_view, exerciseListFragment)
+            replace(R.id.fragment_container_view, trainSelectedFragment)
             setReorderingAllowed(true)
         }
 
         bottomNavView.setOnItemSelectedListener { menuItem ->
             val fragment = when(menuItem.itemId){
-                R.id.train -> exerciseListFragment
+                R.id.train -> trainSelectedFragment
                 R.id.more -> moreFragment
-                else -> exerciseListFragment
+                else -> trainSelectedFragment
             }
 
             supportFragmentManager.commit {

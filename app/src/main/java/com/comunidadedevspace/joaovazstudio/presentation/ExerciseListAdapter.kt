@@ -16,12 +16,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.comunidadedevspace.joaovazstudio.R
-import com.comunidadedevspace.joaovazstudio.data.Task
+import com.comunidadedevspace.joaovazstudio.data.Exercise
 
 class ExerciseListAdapter(
     private val context: Context,
-    private val openExerciseDetailView: (task: Task) -> Unit
-) : ListAdapter<Task, ExerciseListViewHolder>(ExerciseListAdapter) {
+    private val openExerciseDetailView: (exercise: Exercise) -> Unit
+) : ListAdapter<Exercise, ExerciseListViewHolder>(ExerciseListAdapter) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseListViewHolder {
         val view: View = LayoutInflater
@@ -46,9 +46,9 @@ class ExerciseListAdapter(
         updateTaskAppearance(holder, task.isSelected)
     }
 
-    private var onItemClickListener: ((Task) -> Unit)? = null
+    private var onItemClickListener: ((Exercise) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: (Task) -> Unit) {
+    fun setOnItemClickListener(listener: (Exercise) -> Unit) {
         onItemClickListener = listener
     }
 
@@ -70,13 +70,13 @@ class ExerciseListAdapter(
         }
     }
 
-    companion object : DiffUtil.ItemCallback<Task>(){
+    companion object : DiffUtil.ItemCallback<Exercise>(){
 
-        override fun areItemsTheSame(oldItem: Task, newItem: Task): Boolean {
+        override fun areItemsTheSame(oldItem: Exercise, newItem: Exercise): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: Task, newItem: Task): Boolean {
+        override fun areContentsTheSame(oldItem: Exercise, newItem: Exercise): Boolean {
             return oldItem.title == newItem.title &&
                     oldItem.description == newItem.description
         }
@@ -90,18 +90,18 @@ class ExerciseListViewHolder(private val view: View) : RecyclerView.ViewHolder(v
     val checkbox: CheckBox = view.findViewById(R.id.checkbox_task)
 
     fun bind(
-        task: Task,
-        openTaskDetailView:(task: Task) -> Unit
+        exercise: Exercise,
+        openTaskDetailView:(exercise: Exercise) -> Unit
     ) {
-        tvTaskTitle.text = task.title
-        tvTaskDesc.text = task.description
-        checkbox.isChecked = task.isSelected
+        tvTaskTitle.text = exercise.title
+        tvTaskDesc.text = exercise.description
+        checkbox.isChecked = exercise.isSelected
 
         view.setOnClickListener {
-            openTaskDetailView.invoke(task)
+            openTaskDetailView.invoke(exercise)
         }
 
-        val youtubeVideoId = task.youtubeVideoId
+        val youtubeVideoId = exercise.youtubeVideoId
         if (!youtubeVideoId.isNullOrEmpty()) {
             // Carregue a miniatura do vídeo usando Glide
             val videoThumbnailUrl = "https://img.youtube.com/vi/$youtubeVideoId/0.jpg"

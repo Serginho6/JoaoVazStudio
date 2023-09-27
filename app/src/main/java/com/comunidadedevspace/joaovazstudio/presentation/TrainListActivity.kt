@@ -21,7 +21,7 @@ class TrainListActivity : AppCompatActivity() {
         TrainListAdapter(::openTrainListDetail)
     }
 
-    private val trainViewModel: TrainListViewModel by lazy {
+    private val trainListViewModel: TrainListViewModel by lazy {
         TrainListViewModel.create(application, getCurrentUserId())
     }
 
@@ -55,7 +55,7 @@ class TrainListActivity : AppCompatActivity() {
         }
 
         // Live data
-        trainViewModel.trainListLiveData.observe(this, listObserver)
+        trainListViewModel.trainListLiveData.observe(this, listObserver)
     }
 
     private fun openTrainListDetail(train: Train) {

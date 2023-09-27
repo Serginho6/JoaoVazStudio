@@ -1,6 +1,6 @@
 package com.comunidadedevspace.joaovazstudio.presentation
 
-import com.comunidadedevspace.joaovazstudio.data.Task
+import com.comunidadedevspace.joaovazstudio.data.Exercise
 import com.comunidadedevspace.joaovazstudio.data.Train
 import java.io.Serializable
 
@@ -11,7 +11,7 @@ enum class ActionType {
 }
 
 data class TaskAction(
-    val task: Task?,
+    val exercise: Exercise?,
     val taskActionType: String
 ) : Serializable
 

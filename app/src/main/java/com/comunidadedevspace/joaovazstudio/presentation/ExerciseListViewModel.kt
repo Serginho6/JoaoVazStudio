@@ -4,12 +4,12 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.comunidadedevspace.joaovazstudio.JoaoVazStudio
-import com.comunidadedevspace.joaovazstudio.data.Task
-import com.comunidadedevspace.joaovazstudio.data.TaskDao
+import com.comunidadedevspace.joaovazstudio.data.Exercise
+import com.comunidadedevspace.joaovazstudio.data.ExerciseDao
 
-class ExerciseListViewModel(private val taskDao: TaskDao, private val currentUserId: Long) : ViewModel() {
+class ExerciseListViewModel(private val exerciseDao: ExerciseDao, private val currentUserId: Long) : ViewModel() {
 
-    val taskListLiveData: LiveData<List<Task>> = taskDao.getTasksByUserId(currentUserId)
+    val exerciseListLiveData: LiveData<List<Exercise>> = exerciseDao.getTasksByUserId(currentUserId)
 
         companion object {
 

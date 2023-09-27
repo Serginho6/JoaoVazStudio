@@ -6,42 +6,42 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.comunidadedevspace.joaovazstudio.JoaoVazStudio
 import com.comunidadedevspace.joaovazstudio.authentication.AuthenticationManager
-import com.comunidadedevspace.joaovazstudio.data.Task
-import com.comunidadedevspace.joaovazstudio.data.TaskDao
+import com.comunidadedevspace.joaovazstudio.data.Exercise
+import com.comunidadedevspace.joaovazstudio.data.ExerciseDao
 import kotlinx.coroutines.launch
 
 class ExerciseDetailViewModel(
-    private val taskDao: TaskDao,
+    private val exerciseDao: ExerciseDao,
 ): ViewModel() {
 
     private val userId = AuthenticationManager.getCurrentUserId()
 
     fun execute(taskAction: TaskAction){
         when (taskAction.taskActionType) {
-            ActionType.DELETE.name -> deleteById(taskAction.task!!.id, userId)
-            ActionType.CREATE.name -> insertIntoDataBase(taskAction.task!!)
-            ActionType.UPDATE.name -> updateIntoDataBase(taskAction.task!!)
+            ActionType.DELETE.name -> deleteById(taskAction.exercise!!.id, userId)
+            ActionType.CREATE.name -> insertIntoDataBase(taskAction.exercise!!)
+            ActionType.UPDATE.name -> updateIntoDataBase(taskAction.exercise!!)
         }
     }
 
     //CREATE
-    private fun insertIntoDataBase(task: Task) {
+    private fun insertIntoDataBase(exercise: Exercise) {
         viewModelScope.launch {
-            taskDao.insert(task)
+            exerciseDao.insert(exercise)
         }
     }
 
     //DELETE BY ID
     private fun deleteById(id: Int, userId: Long) {
         viewModelScope.launch {
-            taskDao.deleteById(id, userId)
+            exerciseDao.deleteById(id, userId)
         }
     }
 
     //UPDATE
-    private fun updateIntoDataBase(task: Task) {
+    private fun updateIntoDataBase(exercise: Exercise) {
         viewModelScope.launch {
-            taskDao.update(task)
+            exerciseDao.update(exercise)
         }
     }
 
