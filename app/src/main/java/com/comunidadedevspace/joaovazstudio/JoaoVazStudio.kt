@@ -3,7 +3,7 @@ package com.comunidadedevspace.joaovazstudio
 import android.app.Application
 import androidx.room.Room
 import com.comunidadedevspace.joaovazstudio.data.AppDataBase
-import com.comunidadedevspace.joaovazstudio.data.MIGRATION_8_9
+import com.comunidadedevspace.joaovazstudio.data.MIGRATION_9_10
 import com.google.firebase.FirebaseApp
 
 class JoaoVazStudio: Application() {
@@ -16,7 +16,7 @@ class JoaoVazStudio: Application() {
         FirebaseApp.initializeApp(this)
 
         dataBase = Room.databaseBuilder(applicationContext, AppDataBase::class.java, "joao-vaz-studio-database")
-            .addMigrations(MIGRATION_8_9)
+            .addMigrations(MIGRATION_9_10)
             .build()
     }
 

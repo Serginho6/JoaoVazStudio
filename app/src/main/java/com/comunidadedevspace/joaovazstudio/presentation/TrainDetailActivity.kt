@@ -2,6 +2,7 @@ package com.comunidadedevspace.joaovazstudio.presentation
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -13,11 +14,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.comunidadedevspace.joaovazstudio.R
-import com.comunidadedevspace.joaovazstudio.authentication.AuthenticationManager
 import com.comunidadedevspace.joaovazstudio.data.Train
 import com.google.android.material.snackbar.Snackbar
 
 class TrainDetailActivity: AppCompatActivity() {
+
+    private lateinit var sharedPreferences: SharedPreferences
 
     private var train: Train? = null
     private lateinit var btnSaveTrain: Button
@@ -67,29 +69,36 @@ class TrainDetailActivity: AppCompatActivity() {
             edtTrainDescription.setText(train!!.trainDescription)
         }
 
-        btnSaveTrain.setOnClickListener{
+        sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+
+        btnSaveTrain.setOnClickListener {
             val title = edtTrainTitle.text.toString()
             val desc = edtTrainDescription.text.toString()
 
-            if(title.isNotEmpty() && desc.isNotEmpty()){
-                if (train == null) {
-                    addOrUpdateTrain(0, title, desc, ActionType.CREATE)
+            if (title.isNotEmpty() && desc.isNotEmpty()) {
+                val userId = sharedPreferences.getLong("userId", -1) // Obtenha o userId do SharedPreferences
+                if (userId != -1L) {
+                    if (train == null) {
+                        addOrUpdateTrain(0, userId, title, desc, ActionType.CREATE)
+                    } else {
+                        addOrUpdateTrain(train!!.id, userId, title, desc, ActionType.UPDATE)
+                    }
                 } else {
-                    addOrUpdateTrain(train!!.id, title, desc, ActionType.UPDATE)
+                    showMessage(btnSaveTrain, "Usuário não autenticado")
                 }
             } else {
-                showMessage(it, "Treino necessita Título e Descrição.")
+                showMessage(btnSaveTrain, "Treino necessita Título e Descrição.")
             }
         }
     }
 
     private fun addOrUpdateTrain(
         id: Int,
+        userId: Long,
         title:String,
         description:String,
         actionType: ActionType
     ){
-        val userId = AuthenticationManager.getCurrentUserId()
         val train = Train(id, userId, title, description)
         performAction(train, actionType)
     }

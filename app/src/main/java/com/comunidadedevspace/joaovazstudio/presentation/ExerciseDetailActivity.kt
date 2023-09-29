@@ -2,6 +2,7 @@ package com.comunidadedevspace.joaovazstudio.presentation
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
@@ -13,11 +14,12 @@ import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.comunidadedevspace.joaovazstudio.R
-import com.comunidadedevspace.joaovazstudio.authentication.AuthenticationManager.getCurrentUserId
 import com.comunidadedevspace.joaovazstudio.data.Exercise
 import com.google.android.material.snackbar.Snackbar
 
 class ExerciseDetailActivity : AppCompatActivity() {
+
+    private lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var editTextVideoUrl: EditText
     private var youtubeVideoUrl: String? = null
@@ -68,18 +70,25 @@ class ExerciseDetailActivity : AppCompatActivity() {
             edtVideoUrl.setText(exercise!!.youtubeVideoId)
         }
 
-        btnSaveExercise.setOnClickListener{
+        sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+
+        btnSaveExercise.setOnClickListener {
             val title = edtTitle.text.toString()
             val desc = edtDescription.text.toString()
             val videoUrl = edtVideoUrl.text.toString()
 
-            if(title.isNotEmpty() && desc.isNotEmpty() && videoUrl.isNotEmpty()){
+            if (title.isNotEmpty() && desc.isNotEmpty() && videoUrl.isNotEmpty()) {
                 val videoId = extractVideoIdFromUrl(videoUrl)
                 if (videoId.isNotEmpty()) {
-                    if (exercise == null) {
-                        addOrUpdateExercise(0, trainId, title, desc, videoId, ActionType.CREATE)
+                    val userId = sharedPreferences.getLong("userId", -1) // Obtenha o userId do SharedPreferences
+                    if (userId != -1L) {
+                        if (exercise == null) {
+                            addOrUpdateExercise(0, trainId, userId, title, desc, videoId, ActionType.CREATE)
+                        } else {
+                            addOrUpdateExercise(exercise!!.id, trainId, userId, title, desc, videoId, ActionType.UPDATE)
+                        }
                     } else {
-                        addOrUpdateExercise(exercise!!.id, trainId, title, desc, videoId, ActionType.UPDATE)
+                        showMessage(it, "Usuário não autenticado")
                     }
                 } else {
                     showMessage(it, "URL do vídeo inválida")
@@ -102,12 +111,12 @@ class ExerciseDetailActivity : AppCompatActivity() {
     private fun addOrUpdateExercise(
         id: Int,
         trainId: Int,
+        userId: Long,
         title: String,
         description: String,
         videoId: String,
         actionType: ActionType
     ){
-        val userId = getCurrentUserId()
         val exercise = Exercise(id, userId, trainId, title, description, videoId, isSelected = false)
         performAction(exercise, actionType)
     }

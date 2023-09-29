@@ -29,7 +29,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 sealed class LoginResult {
-    object Success : LoginResult()
+    data class Success(val userId: Long) : LoginResult()
     data class Error(val message: String) : LoginResult()
 }
 
@@ -141,6 +141,9 @@ class SignIn : AppCompatActivity() {
             // Verificando as credenciais no banco de dados
             when (val result = isValidCredentials(email, password)) {
                 is LoginResult.Success -> {
+                    val userId = result.userId // Obtenha o userId após o login bem-sucedido
+                    sharedPreferences.edit().putLong("userId", userId).apply()
+
                     val intent = Intent(this@SignIn, MainActivity::class.java)
                     startActivity(intent)
                     runOnUiThread {
@@ -169,7 +172,8 @@ class SignIn : AppCompatActivity() {
             val user = userDao.getUserByEmail(email)
 
             if (user != null && user.password == password) {
-                LoginResult.Success
+                val userId = user.id
+                LoginResult.Success(userId)
             } else {
                 LoginResult.Error("Email ou Senha incorreto(s)")
             }
