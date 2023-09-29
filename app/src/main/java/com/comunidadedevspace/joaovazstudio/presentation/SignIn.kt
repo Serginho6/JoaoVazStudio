@@ -79,10 +79,13 @@ class SignIn : AppCompatActivity() {
 
         val isUserLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
         if (isUserLoggedIn) {
-            // Se o usuário já estiver conectado, vá diretamente para a MainActivity
-            val intent = Intent(this@SignIn, MainActivity::class.java)
-            startActivity(intent)
-            finish() // Feche a tela de login
+            val userId = sharedPreferences.getLong("userId", -1)
+            if (userId != -1L) {
+                val intent = Intent(this@SignIn, MainActivity::class.java)
+                intent.putExtra("currentUserId", userId)
+                startActivity(intent)
+                finish() // Feche a tela de login
+            }
         }
 
         // Troca imagem da tela de acordo com o tema.
@@ -152,6 +155,8 @@ class SignIn : AppCompatActivity() {
 
                         if (keepConnectedCheckBox.isChecked) {
                             sharedPreferences.edit().putBoolean("isLoggedIn", true).apply()
+                        } else {
+                            sharedPreferences.edit().putBoolean("isLoggedIn", false).apply()
                         }
                     }
                 }
