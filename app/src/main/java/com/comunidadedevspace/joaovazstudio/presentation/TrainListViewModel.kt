@@ -9,7 +9,7 @@ import com.comunidadedevspace.joaovazstudio.data.TrainDao
 
 class TrainListViewModel(private val trainDao: TrainDao, private val currentUserId: Long) : ViewModel() {
 
-    val trainListLiveData: LiveData<List<Train>> = trainDao.getTrainByUserId(currentUserId)
+    val trainListLiveData: LiveData<List<Train>> = trainDao.getTrainsByUserId(currentUserId)
 
         companion object {
 

@@ -9,7 +9,7 @@ import com.comunidadedevspace.joaovazstudio.data.ExerciseDao
 
 class ExerciseListViewModel(private val exerciseDao: ExerciseDao, private val currentUserId: Long) : ViewModel() {
 
-    val exerciseListLiveData: LiveData<List<Exercise>> = exerciseDao.getTasksByUserId(currentUserId)
+    val exerciseListLiveData: LiveData<List<Exercise>> = exerciseDao.getExercisesByUserId(currentUserId)
 
         companion object {
 

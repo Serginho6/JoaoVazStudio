@@ -26,5 +26,5 @@ interface ExerciseDao {
     suspend fun deleteById(id: Int, userId: Long)
 
     @Query("SELECT * FROM exercise WHERE userId = :userId")
-    fun getTasksByUserId(userId: Long): LiveData<List<Exercise>>
+    fun getExercisesByUserId(userId: Long): LiveData<List<Exercise>>
 }
