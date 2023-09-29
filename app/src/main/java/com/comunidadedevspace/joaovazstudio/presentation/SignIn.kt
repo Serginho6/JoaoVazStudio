@@ -29,7 +29,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 sealed class LoginResult {
-    object Success : LoginResult()
+    data class Success(val userId: Long) : LoginResult()
     data class Error(val message: String) : LoginResult()
 }
 
@@ -79,10 +79,13 @@ class SignIn : AppCompatActivity() {
 
         val isUserLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
         if (isUserLoggedIn) {
-            // Se o usuário já estiver conectado, vá diretamente para a MainActivity
-            val intent = Intent(this@SignIn, MainActivity::class.java)
-            startActivity(intent)
-            finish() // Feche a tela de login
+            val userId = sharedPreferences.getLong("userId", -1)
+            if (userId != -1L) {
+                val intent = Intent(this@SignIn, MainActivity::class.java)
+                intent.putExtra("currentUserId", userId)
+                startActivity(intent)
+                finish() // Feche a tela de login
+            }
         }
 
         // Troca imagem da tela de acordo com o tema.
@@ -141,13 +144,19 @@ class SignIn : AppCompatActivity() {
             // Verificando as credenciais no banco de dados
             when (val result = isValidCredentials(email, password)) {
                 is LoginResult.Success -> {
+                    val userId = result.userId // Obtenha o userId após o login bem-sucedido
+                    sharedPreferences.edit().putLong("userId", userId).apply()
+
                     val intent = Intent(this@SignIn, MainActivity::class.java)
+                    intent.putExtra("currentUserId", userId)
                     startActivity(intent)
                     runOnUiThread {
                         errorTextView.visibility = View.GONE
 
                         if (keepConnectedCheckBox.isChecked) {
                             sharedPreferences.edit().putBoolean("isLoggedIn", true).apply()
+                        } else {
+                            sharedPreferences.edit().putBoolean("isLoggedIn", false).apply()
                         }
                     }
                 }
@@ -169,7 +178,8 @@ class SignIn : AppCompatActivity() {
             val user = userDao.getUserByEmail(email)
 
             if (user != null && user.password == password) {
-                LoginResult.Success
+                val userId = user.id
+                LoginResult.Success(userId)
             } else {
                 LoginResult.Error("Email ou Senha incorreto(s)")
             }

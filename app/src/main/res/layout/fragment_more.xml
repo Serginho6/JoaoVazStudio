@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,21 +7,17 @@
     android:layout_height="match_parent"
     tools:context=".presentation.MoreFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_view_imc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginHorizontal="10dp">
+                android:layout_marginHorizontal="10dp"
+                app:cardCornerRadius="16dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -64,7 +59,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginHorizontal="10dp">
+                android:layout_marginHorizontal="10dp"
+                app:cardCornerRadius="16dp"
+                android:layout_below="@id/card_view_imc">
+
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -73,10 +71,10 @@
                     android:background="@drawable/item_exercise_background">
 
                     <ImageView
-                        android:id="@+id/image_view_physical_assessment"
+                        android:id="@+id/image_view_physical"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/physical_assessment"
+                        android:src="@drawable/physical_icon"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -92,7 +90,7 @@
                         android:textSize="18sp"
                         android:letterSpacing="0.1"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/image_view_physical_assessment"
+                        app:layout_constraintStart_toEndOf="@id/image_view_physical"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -104,7 +102,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginHorizontal="10dp">
+                android:layout_marginHorizontal="10dp"
+                app:cardCornerRadius="16dp"
+                android:layout_below="@id/card_view_physical_assessment">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -116,14 +116,14 @@
                         android:id="@+id/image_view_train"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/edit_train"
+                        android:src="@drawable/train_icon"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         style="@style/Body1"
-                        android:id="@+id/text_view_item_language"
+                        android:id="@+id/text_view_train"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -141,54 +141,58 @@
 
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_view_item_profile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginHorizontal="10dp">
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:id="@+id/card_view_profile"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_marginHorizontal="10dp"-->
+<!--                app:cardCornerRadius="16dp"-->
+<!--                android:layout_below="@id/card_view_train">-->
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="24dp"
-                    android:background="@drawable/item_exercise_background">
+<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:padding="24dp"-->
+<!--                    android:background="@drawable/item_exercise_background">-->
 
-                    <ImageView
-                        android:id="@+id/image_view_profile"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/edit_profile"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+<!--                    <ImageView-->
+<!--                        android:id="@+id/image_view_profile"-->
+<!--                        android:layout_width="60dp"-->
+<!--                        android:layout_height="60dp"-->
+<!--                        android:src="@drawable/profile_icon"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
 
-                    <TextView
-                        style="@style/Body1"
-                        android:id="@+id/text_view_profile"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:fontFamily="@font/bebasneue_regular"
-                        android:text="Editar perfil"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:letterSpacing="0.1"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/image_view_profile"
-                        app:layout_constraintTop_toTopOf="parent" />
+<!--                    <TextView-->
+<!--                        style="@style/Body1"-->
+<!--                        android:id="@+id/text_view_profile"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="16dp"-->
+<!--                        android:fontFamily="@font/bebasneue_regular"-->
+<!--                        android:text="Editar perfil"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:letterSpacing="0.1"-->
+<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                        app:layout_constraintStart_toEndOf="@id/image_view_profile"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
 
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
 
-            </androidx.cardview.widget.CardView>
+<!--            </androidx.cardview.widget.CardView>-->
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_view_about"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginHorizontal="10dp">
+                android:layout_marginHorizontal="10dp"
+                app:cardCornerRadius="16dp"
+                android:layout_below="@id/card_view_train">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -231,7 +235,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="70dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginHorizontal="10dp">
+                android:layout_marginHorizontal="10dp"
+                app:cardCornerRadius="16dp"
+                android:layout_below="@id/card_view_about">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -267,8 +273,6 @@
 
             </androidx.cardview.widget.CardView>
 
-        </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
 
 </ScrollView>

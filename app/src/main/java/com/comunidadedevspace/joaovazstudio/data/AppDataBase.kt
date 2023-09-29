@@ -2,9 +2,12 @@ package com.comunidadedevspace.joaovazstudio.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 
-@Database(entities = [Task::class, User::class], version = 6, exportSchema = false)
+@Database(entities = [Exercise::class, User::class, Train::class], version = 6, exportSchema = false)
+@TypeConverters(ExerciseIdListConverter::class)
 abstract class AppDataBase: RoomDatabase() {
-    abstract fun taskDao(): TaskDao
+    abstract fun exerciseDao(): ExerciseDao
+    abstract fun trainDao(): TrainDao
     abstract fun userDao(): UserDao
 }

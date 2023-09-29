@@ -2,6 +2,7 @@ package com.comunidadedevspace.joaovazstudio.presentation
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
@@ -13,17 +14,20 @@ import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.comunidadedevspace.joaovazstudio.R
-import com.comunidadedevspace.joaovazstudio.authentication.AuthenticationManager.getCurrentUserId
-import com.comunidadedevspace.joaovazstudio.data.Task
+import com.comunidadedevspace.joaovazstudio.data.Exercise
 import com.google.android.material.snackbar.Snackbar
 
 class ExerciseDetailActivity : AppCompatActivity() {
 
+    private var currentUserId: Long = -1L
+
+    private lateinit var sharedPreferences: SharedPreferences
+
     private lateinit var editTextVideoUrl: EditText
     private var youtubeVideoUrl: String? = null
 
-    private var task: Task? = null
-    private lateinit var btnDone: Button
+    private var exercise: Exercise? = null
+    private lateinit var btnSaveExercise: Button
 
     private val viewModel: ExerciseDetailViewModel by viewModels{
         ExerciseDetailViewModel.getVMFactory(application)
@@ -31,11 +35,13 @@ class ExerciseDetailActivity : AppCompatActivity() {
 
     companion object{
         private const val TASK_DETAIL_EXTRA = "task.extra.detail"
+        private const val TRAIN_ID_EXTRA = "train.extra.id"
 
-        fun start(context: Context, task: Task?): Intent{
+        fun start(context: Context, exercise: Exercise?, trainId: Int): Intent{
             val intent = Intent(context, ExerciseDetailActivity::class.java)
                 .apply {
-                    putExtra(TASK_DETAIL_EXTRA, task)
+                    putExtra(TASK_DETAIL_EXTRA, exercise)
+                    putExtra(TRAIN_ID_EXTRA, trainId)
                 }
             return intent
         }
@@ -48,33 +54,45 @@ class ExerciseDetailActivity : AppCompatActivity() {
 
         editTextVideoUrl = findViewById(R.id.edt_task_video_url)
 
-        // Recuperar task
-        task = intent.getSerializableExtra(TASK_DETAIL_EXTRA) as Task?
+        currentUserId = intent.getLongExtra("currentUserId", -1L)
+
+        // Recuperar exercício
+        exercise = intent.getSerializableExtra(TASK_DETAIL_EXTRA) as Exercise?
+
+        // Recuperar ID do treino
+        val trainId = intent.getIntExtra(TRAIN_ID_EXTRA, 0)
 
         val edtTitle = findViewById<EditText>(R.id.edt_task_title)
         val edtDescription = findViewById<EditText>(R.id.edt_task_description)
         val edtVideoUrl = findViewById<EditText>(R.id.edt_task_video_url)
 
-        btnDone = findViewById<Button>(R.id.btn_done)
+        btnSaveExercise = findViewById<Button>(R.id.btn_save_exercise)
 
-        if(task != null) {
-            edtTitle.setText(task!!.title)
-            edtDescription.setText(task!!.description)
-            edtVideoUrl.setText(task!!.youtubeVideoId)
+        if(exercise != null) {
+            edtTitle.setText(exercise!!.title)
+            edtDescription.setText(exercise!!.description)
+            edtVideoUrl.setText(exercise!!.youtubeVideoId)
         }
 
-        btnDone.setOnClickListener{
+        sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+
+        btnSaveExercise.setOnClickListener {
             val title = edtTitle.text.toString()
             val desc = edtDescription.text.toString()
             val videoUrl = edtVideoUrl.text.toString()
 
-            if(title.isNotEmpty() && desc.isNotEmpty() && videoUrl.isNotEmpty()){
+            if (title.isNotEmpty() && desc.isNotEmpty() && videoUrl.isNotEmpty()) {
                 val videoId = extractVideoIdFromUrl(videoUrl)
                 if (videoId.isNotEmpty()) {
-                    if (task == null) {
-                        addOrUpdateTask(0, title, desc, videoId, ActionType.CREATE)
+                    val userId = sharedPreferences.getLong("userId", -1) // Obtenha o userId do SharedPreferences
+                    if (userId != -1L) {
+                        if (exercise == null) {
+                            addOrUpdateExercise(0, trainId, userId, title, desc, videoId, ActionType.CREATE)
+                        } else {
+                            addOrUpdateExercise(exercise!!.id, trainId, userId, title, desc, videoId, ActionType.UPDATE)
+                        }
                     } else {
-                        addOrUpdateTask(task!!.id, title, desc, videoId, ActionType.UPDATE)
+                        showMessage(it, "Usuário não autenticado")
                     }
                 } else {
                     showMessage(it, "URL do vídeo inválida")
@@ -94,21 +112,22 @@ class ExerciseDetailActivity : AppCompatActivity() {
         return videoId ?: uri.lastPathSegment ?: ""
     }
 
-    private fun addOrUpdateTask(
+    private fun addOrUpdateExercise(
         id: Int,
-        title:String,
-        description:String,
-        videoId:String,
+        trainId: Int,
+        userId: Long,
+        title: String,
+        description: String,
+        videoId: String,
         actionType: ActionType
     ){
-        val userId = getCurrentUserId()
-        val task = Task(id, userId, title, description, videoId, isSelected = false)
-        performAction(task, actionType)
+        val exercise = Exercise(id, userId, trainId, title, description, videoId, isSelected = false)
+        performAction(exercise, actionType)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater : MenuInflater = menuInflater
-        inflater.inflate(R.menu.menu_exercise_detail, menu)
+        inflater.inflate(R.menu.menu_train_or_exercise_detail, menu)
         return true
     }
 
@@ -116,10 +135,10 @@ class ExerciseDetailActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.delete_task -> {
 
-                if(task != null){
-                    performAction(task!!, ActionType.DELETE)
+                if(exercise != null){
+                    performAction(exercise!!, ActionType.DELETE)
                 }else{
-                    showMessage(btnDone, "Item not found")
+                    showMessage(btnSaveExercise, "Impossível excluir item não criado.")
                 }
 
                 true
@@ -128,8 +147,8 @@ class ExerciseDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun performAction(task: Task, actionType: ActionType){
-        val taskAction = TaskAction(task, actionType.name)
+    private fun performAction(exercise: Exercise, actionType: ActionType){
+        val taskAction = TaskAction(exercise, actionType.name)
         viewModel.execute(taskAction)
         finish()
     }

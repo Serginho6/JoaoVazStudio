@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="175dp"
+    android:layout_margin="10dp"
+    android:background="@drawable/train_cardview_background">
+
+    <TextView
+        android:id="@+id/tv_train_title"
+        style="@style/Title3"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        tools:text="Treino 'A' "
+        android:background="@color/offwhite"/>
+
+    <TextView
+        android:id="@+id/tv_train_description"
+        style="@style/Body1"
+        android:textColor="@color/white"
+        android:text="adaptativo para iniciantes, cardio 20 min - musculação 40 min."
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_train_title"
+        android:background="@color/offwhite"/>
+
+</RelativeLayout>

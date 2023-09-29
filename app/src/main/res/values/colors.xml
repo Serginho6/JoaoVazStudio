@@ -6,6 +6,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#BF0000</color>
+    <color name="offwhite">#33FFFFFF</color>
 
     <color name="selectedTextColor">#62C49F</color>
     <color name="defaultTextColor">#FFFFFF</color>
