@@ -11,13 +11,10 @@ import androidx.room.Update
 interface TrainDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(train: Train)
-
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(train: Train)
-
-    @Query("DELETE from train WHERE id =:id AND userId = :userId")
-    suspend fun deleteById(id: Int, userId: Long)
-
+    @Query("DELETE from train WHERE id =:id")
+    suspend fun deleteById(id: Int)
     @Query("SELECT * FROM train WHERE userId = :userId")
     fun getTrainsByUserId(userId: Long): LiveData<List<Train>>
 }

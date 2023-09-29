@@ -13,20 +13,28 @@ import com.comunidadedevspace.joaovazstudio.data.Exercise
 
 class ExerciseListFragment : Fragment() {
 
+    private var currentUserId: Long = -1L
+
     //Adapter
     private val exerciseAdapter: ExerciseListAdapter by lazy {
         ExerciseListAdapter(requireContext(), ::openExerciseListDetail)
     }
 
     private val exerciseViewModel: ExerciseListViewModel by lazy {
-        ExerciseListViewModel.create(requireActivity().application, currentUserId = -1L)
+        ExerciseListViewModel.create(requireActivity().application, currentUserId)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_exercise_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_exercise_list, container, false)
+
+        // Obter o valor de currentUserId do Bundle e atribuí-lo à variável currentUserId
+        arguments?.getLong("currentUserId", -1L)?.let {
+            currentUserId = it
+        }
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,12 +59,12 @@ class ExerciseListFragment : Fragment() {
 
     private fun listFromDataBase() {
         //Observer
-        val listObserver = Observer<List<Exercise>>{ listTasks ->
-            exerciseAdapter.submitList(listTasks)
+        val listObserver = Observer<List<Exercise>>{ listExercises ->
+            exerciseAdapter.submitList(listExercises)
         }
 
         //Live data
-        exerciseViewModel.exerciseListLiveData.observe(this, listObserver)
+        exerciseViewModel.exerciseListLiveData.observe(viewLifecycleOwner, listObserver)
     }
 
     private fun openExerciseListDetail(exercise: Exercise) {
@@ -66,6 +74,10 @@ class ExerciseListFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = ExerciseListFragment()
+        fun newInstance(currentUserId: Long) = ExerciseListFragment().apply {
+            arguments = Bundle().apply {
+                putLong("currentUserId", currentUserId)
+            }
+        }
     }
 }

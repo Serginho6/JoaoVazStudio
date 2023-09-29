@@ -32,18 +32,18 @@ class ExerciseListAdapter(
     }
 
     override fun onBindViewHolder(holder: ExerciseListViewHolder, position: Int) {
-        val task = getItem(position)
-        holder.bind(task, openExerciseDetailView)
+        val exercise = getItem(position)
+        holder.bind(exercise, openExerciseDetailView)
 
         holder.itemView.setOnClickListener {
-            openExerciseDetailView(task)
+            openExerciseDetailView(exercise)
         }
 
         holder.checkbox.setOnCheckedChangeListener { _, isChecked ->
-            task.isSelected = isChecked
+            exercise.isSelected = isChecked
             updateTaskAppearance(holder, isChecked)
         }
-        updateTaskAppearance(holder, task.isSelected)
+        updateTaskAppearance(holder, exercise.isSelected)
     }
 
     private var onItemClickListener: ((Exercise) -> Unit)? = null

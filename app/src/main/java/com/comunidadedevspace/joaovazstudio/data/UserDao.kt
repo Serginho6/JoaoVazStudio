@@ -14,6 +14,9 @@ interface UserDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(user: User)
 
+    @Query("DELETE from users WHERE id =:id")
+    suspend fun deleteById(id: Long)
+
     @Query("SELECT * FROM users WHERE email = :email")
     suspend fun getUserByEmail(email: String): User?
 }

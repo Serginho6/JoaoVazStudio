@@ -40,7 +40,7 @@ class TrainListActivity : AppCompatActivity() {
         btnAddTrain = findViewById(R.id.btn_add_train)
 
         btnAddTrain.setOnClickListener {
-            val intent = TrainDetailActivity.start(this,null)
+            val intent = TrainDetailActivity.start(this, null, currentUserId)
             startActivity(intent)
         }
     }
@@ -61,7 +61,7 @@ class TrainListActivity : AppCompatActivity() {
     }
 
     private fun openTrainListDetail(train: Train) {
-        val intent = TrainDetailActivity.start(this, train)
+        val intent = TrainDetailActivity.start(this, train, currentUserId)
         startActivity(intent)
     }
 }

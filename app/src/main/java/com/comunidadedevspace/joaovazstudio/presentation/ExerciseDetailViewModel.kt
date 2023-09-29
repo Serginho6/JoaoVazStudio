@@ -11,12 +11,11 @@ import kotlinx.coroutines.launch
 
 class ExerciseDetailViewModel(
     private val exerciseDao: ExerciseDao,
-    private val userId: Long,
 ): ViewModel() {
 
     fun execute(taskAction: TaskAction){
         when (taskAction.taskActionType) {
-            ActionType.DELETE.name -> deleteById(taskAction.exercise!!.id, userId)
+            ActionType.DELETE.name -> deleteById(taskAction.exercise!!.id)
             ActionType.CREATE.name -> insertIntoDataBase(taskAction.exercise!!)
             ActionType.UPDATE.name -> updateIntoDataBase(taskAction.exercise!!)
         }
@@ -30,9 +29,9 @@ class ExerciseDetailViewModel(
     }
 
     //DELETE BY ID
-    private fun deleteById(id: Int, userId: Long) {
+    private fun deleteById(id: Int) {
         viewModelScope.launch {
-            exerciseDao.deleteById(id, userId)
+            exerciseDao.deleteById(id)
         }
     }
 
@@ -45,12 +44,12 @@ class ExerciseDetailViewModel(
 
     companion object {
 
-        fun getVMFactory(application: Application, userId: Long): ViewModelProvider.Factory {
+        fun getVMFactory(application: Application): ViewModelProvider.Factory {
             val dataBaseInstance = (application as JoaoVazStudio).getAppDataBase()
             val dao = dataBaseInstance.exerciseDao()
             val factory = object : ViewModelProvider.Factory {
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return ExerciseDetailViewModel(dao, userId) as T
+                    return ExerciseDetailViewModel(dao) as T
                 }
             }
             return factory

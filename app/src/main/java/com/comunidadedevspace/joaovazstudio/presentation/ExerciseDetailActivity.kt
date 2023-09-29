@@ -19,6 +19,8 @@ import com.google.android.material.snackbar.Snackbar
 
 class ExerciseDetailActivity : AppCompatActivity() {
 
+    private var currentUserId: Long = -1L
+
     private lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var editTextVideoUrl: EditText
@@ -28,7 +30,7 @@ class ExerciseDetailActivity : AppCompatActivity() {
     private lateinit var btnSaveExercise: Button
 
     private val viewModel: ExerciseDetailViewModel by viewModels{
-        ExerciseDetailViewModel.getVMFactory(application, userId = -1L)
+        ExerciseDetailViewModel.getVMFactory(application)
     }
 
     companion object{
@@ -51,6 +53,8 @@ class ExerciseDetailActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         editTextVideoUrl = findViewById(R.id.edt_task_video_url)
+
+        currentUserId = intent.getLongExtra("currentUserId", -1L)
 
         // Recuperar exercício
         exercise = intent.getSerializableExtra(TASK_DETAIL_EXTRA) as Exercise?

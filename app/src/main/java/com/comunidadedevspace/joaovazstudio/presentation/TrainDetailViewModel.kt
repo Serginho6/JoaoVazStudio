@@ -11,12 +11,11 @@ import kotlinx.coroutines.launch
 
 class TrainDetailViewModel(
     private val trainDao: TrainDao,
-    private val userId: Long,
 ): ViewModel() {
 
     fun execute(trainAction: TrainAction){
         when (trainAction.trainActionType) {
-            ActionType.DELETE.name -> deleteById(trainAction.train!!.id, userId)
+            ActionType.DELETE.name -> deleteById(trainAction.train!!.id)
             ActionType.CREATE.name -> insertIntoDataBase(trainAction.train!!)
             ActionType.UPDATE.name -> updateIntoDataBase(trainAction.train!!)
         }
@@ -30,9 +29,9 @@ class TrainDetailViewModel(
     }
 
     //DELETE BY ID
-    private fun deleteById(id: Int, userId: Long) {
+    private fun deleteById(id: Int) {
         viewModelScope.launch {
-            trainDao.deleteById(id, userId)
+            trainDao.deleteById(id)
         }
     }
 
@@ -45,12 +44,12 @@ class TrainDetailViewModel(
 
     companion object {
 
-        fun getVMFactory(application: Application, userId: Long): ViewModelProvider.Factory {
+        fun getVMFactory(application: Application): ViewModelProvider.Factory {
             val dataBaseInstance = (application as JoaoVazStudio).getAppDataBase()
             val trainDao = dataBaseInstance.trainDao()
             val factory = object : ViewModelProvider.Factory {
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return TrainDetailViewModel(trainDao, userId) as T
+                    return TrainDetailViewModel(trainDao) as T
                 }
             }
             return factory

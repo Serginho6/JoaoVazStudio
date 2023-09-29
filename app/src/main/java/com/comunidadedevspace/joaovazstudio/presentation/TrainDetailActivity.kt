@@ -19,23 +19,25 @@ import com.google.android.material.snackbar.Snackbar
 
 class TrainDetailActivity: AppCompatActivity() {
 
+    private var currentUserId: Long = -1L
+
     private lateinit var sharedPreferences: SharedPreferences
 
     private var train: Train? = null
     private lateinit var btnSaveTrain: Button
 
     private val trainDetailViewModel: TrainDetailViewModel by viewModels{
-        TrainDetailViewModel.getVMFactory(application, -1L)
+        TrainDetailViewModel.getVMFactory(application)
     }
 
     companion object{
         private const val TRAIN_DETAIL_EXTRA = "train.extra.detail"
+        private const val CURRENT_USER_ID_EXTRA = "currentUserId.extra"
 
-        fun start(context: Context, train: Train?): Intent {
+        fun start(context: Context, train: Train?, currentUserId: Long): Intent {
             val intent = Intent(context, TrainDetailActivity::class.java)
-                .apply {
-                    putExtra(TRAIN_DETAIL_EXTRA, train)
-                }
+            intent.putExtra(TRAIN_DETAIL_EXTRA, train)
+            intent.putExtra(CURRENT_USER_ID_EXTRA, currentUserId)
             return intent
         }
     }
@@ -51,8 +53,10 @@ class TrainDetailActivity: AppCompatActivity() {
             openExerciseDetail()
         }
 
+        currentUserId = intent.getLongExtra("currentUserId", -1L)
+
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        val exerciseListFragment = ExerciseListFragment.newInstance()
+        val exerciseListFragment = ExerciseListFragment.newInstance(currentUserId)
         fragmentTransaction.replace(R.id.fragment_exercises_container, exerciseListFragment)
         fragmentTransaction.commit()
 
