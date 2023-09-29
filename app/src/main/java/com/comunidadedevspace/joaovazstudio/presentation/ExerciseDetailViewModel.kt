@@ -5,16 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.comunidadedevspace.joaovazstudio.JoaoVazStudio
-import com.comunidadedevspace.joaovazstudio.authentication.AuthenticationManager
 import com.comunidadedevspace.joaovazstudio.data.Exercise
 import com.comunidadedevspace.joaovazstudio.data.ExerciseDao
 import kotlinx.coroutines.launch
 
 class ExerciseDetailViewModel(
     private val exerciseDao: ExerciseDao,
+    private val userId: Long,
 ): ViewModel() {
-
-    private val userId = AuthenticationManager.getCurrentUserId()
 
     fun execute(taskAction: TaskAction){
         when (taskAction.taskActionType) {
@@ -47,12 +45,12 @@ class ExerciseDetailViewModel(
 
     companion object {
 
-        fun getVMFactory(application: Application): ViewModelProvider.Factory {
+        fun getVMFactory(application: Application, userId: Long): ViewModelProvider.Factory {
             val dataBaseInstance = (application as JoaoVazStudio).getAppDataBase()
             val dao = dataBaseInstance.exerciseDao()
             val factory = object : ViewModelProvider.Factory {
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return ExerciseDetailViewModel(dao) as T
+                    return ExerciseDetailViewModel(dao, userId) as T
                 }
             }
             return factory

@@ -5,17 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.comunidadedevspace.joaovazstudio.R
-import com.comunidadedevspace.joaovazstudio.authentication.AuthenticationManager.getCurrentUserId
 import com.comunidadedevspace.joaovazstudio.data.Exercise
 
 class ExerciseListFragment : Fragment() {
-
-    private lateinit var selectedTrainContent: LinearLayout
 
     //Adapter
     private val exerciseAdapter: ExerciseListAdapter by lazy {
@@ -23,7 +19,7 @@ class ExerciseListFragment : Fragment() {
     }
 
     private val exerciseViewModel: ExerciseListViewModel by lazy {
-        ExerciseListViewModel.create(requireActivity().application, getCurrentUserId())
+        ExerciseListViewModel.create(requireActivity().application, currentUserId = -1L)
     }
 
     override fun onCreateView(

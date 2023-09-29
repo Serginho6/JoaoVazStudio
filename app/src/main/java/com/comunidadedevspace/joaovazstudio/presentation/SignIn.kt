@@ -145,6 +145,7 @@ class SignIn : AppCompatActivity() {
                     sharedPreferences.edit().putLong("userId", userId).apply()
 
                     val intent = Intent(this@SignIn, MainActivity::class.java)
+                    intent.putExtra("currentUserId", userId)
                     startActivity(intent)
                     runOnUiThread {
                         errorTextView.visibility = View.GONE

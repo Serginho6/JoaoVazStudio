@@ -5,16 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.comunidadedevspace.joaovazstudio.JoaoVazStudio
-import com.comunidadedevspace.joaovazstudio.authentication.AuthenticationManager
 import com.comunidadedevspace.joaovazstudio.data.Train
 import com.comunidadedevspace.joaovazstudio.data.TrainDao
 import kotlinx.coroutines.launch
 
 class TrainDetailViewModel(
     private val trainDao: TrainDao,
+    private val userId: Long,
 ): ViewModel() {
-
-    private val userId = AuthenticationManager.getCurrentUserId()
 
     fun execute(trainAction: TrainAction){
         when (trainAction.trainActionType) {
@@ -47,12 +45,12 @@ class TrainDetailViewModel(
 
     companion object {
 
-        fun getVMFactory(application: Application): ViewModelProvider.Factory {
+        fun getVMFactory(application: Application, userId: Long): ViewModelProvider.Factory {
             val dataBaseInstance = (application as JoaoVazStudio).getAppDataBase()
             val trainDao = dataBaseInstance.trainDao()
             val factory = object : ViewModelProvider.Factory {
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return TrainDetailViewModel(trainDao) as T
+                    return TrainDetailViewModel(trainDao, userId) as T
                 }
             }
             return factory

@@ -14,6 +14,12 @@ import com.comunidadedevspace.joaovazstudio.R
 
 class MoreFragment : Fragment() {
 
+    private var currentUserId: Long = -1L
+
+    fun setCurrentUserId(userId: Long) {
+        this.currentUserId = userId
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,23 +35,27 @@ class MoreFragment : Fragment() {
 
         cardViewImc.setOnClickListener {
             val intent = Intent(activity, ImcActivity::class.java)
+            intent.putExtra("currentUserId", currentUserId)
             startActivity(intent)
         }
 
         cardViewPhysical.setOnClickListener {
 //            val intent = Intent(activity, PhysicalActivity::class.java)
+//            intent.putExtra("currentUserId", currentUserId)
 //            startActivity(intent)
             Toast.makeText(context, "Em breve", Toast.LENGTH_SHORT).show()
         }
 
         cardViewTrain.setOnClickListener {
             val intent = Intent(activity, TrainListActivity::class.java)
+            intent.putExtra("currentUserId", currentUserId)
             startActivity(intent)
         }
 
 //        cardViewProfile.setOnClickListener {
-////            val intent = Intent(activity, SignUp::class.java)
-////            startActivity(intent)
+//            val intent = Intent(activity, SignUp::class.java)
+//            intent.putExtra("currentUserId", currentUserId)
+//            startActivity(intent)
 //            Toast.makeText(context, "Em breve", Toast.LENGTH_SHORT).show()
 //        }
 

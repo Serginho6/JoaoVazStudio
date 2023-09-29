@@ -25,7 +25,7 @@ class TrainDetailActivity: AppCompatActivity() {
     private lateinit var btnSaveTrain: Button
 
     private val trainDetailViewModel: TrainDetailViewModel by viewModels{
-        TrainDetailViewModel.getVMFactory(application)
+        TrainDetailViewModel.getVMFactory(application, -1L)
     }
 
     companion object{

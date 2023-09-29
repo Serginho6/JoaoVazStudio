@@ -8,11 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.comunidadedevspace.joaovazstudio.R
-import com.comunidadedevspace.joaovazstudio.authentication.AuthenticationManager.getCurrentUserId
 import com.comunidadedevspace.joaovazstudio.data.Train
 
 class TrainListActivity : AppCompatActivity() {
 
+    private var currentUserId: Long = -1L
     private lateinit var trainContent: LinearLayout
     private lateinit var btnAddTrain: Button
 
@@ -22,12 +22,14 @@ class TrainListActivity : AppCompatActivity() {
     }
 
     private val trainListViewModel: TrainListViewModel by lazy {
-        TrainListViewModel.create(application, getCurrentUserId())
+        TrainListViewModel.create(application, currentUserId)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_train_list)
+
+        currentUserId = intent.getLongExtra("currentUserId", -1L)
 
         trainContent = findViewById(R.id.train_list_content)
         val rvTasks: RecyclerView = findViewById(R.id.rv_train_list)

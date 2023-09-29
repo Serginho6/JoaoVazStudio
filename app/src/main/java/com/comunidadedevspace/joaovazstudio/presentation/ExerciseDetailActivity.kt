@@ -28,7 +28,7 @@ class ExerciseDetailActivity : AppCompatActivity() {
     private lateinit var btnSaveExercise: Button
 
     private val viewModel: ExerciseDetailViewModel by viewModels{
-        ExerciseDetailViewModel.getVMFactory(application)
+        ExerciseDetailViewModel.getVMFactory(application, userId = -1L)
     }
 
     companion object{
