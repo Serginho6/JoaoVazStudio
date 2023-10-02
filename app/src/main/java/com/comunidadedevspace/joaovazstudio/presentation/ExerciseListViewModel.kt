@@ -7,16 +7,16 @@ import com.comunidadedevspace.joaovazstudio.JoaoVazStudio
 import com.comunidadedevspace.joaovazstudio.data.Exercise
 import com.comunidadedevspace.joaovazstudio.data.ExerciseDao
 
-class ExerciseListViewModel(private val exerciseDao: ExerciseDao, private val currentUserId: Long) : ViewModel() {
+class ExerciseListViewModel(private val exerciseDao: ExerciseDao, private val currentTrainId: Int) : ViewModel() {
 
-    val exerciseListLiveData: LiveData<List<Exercise>> = exerciseDao.getExercisesByUserId(currentUserId)
+    val exerciseListLiveData: LiveData<List<Exercise>> = exerciseDao.getExercisesByTrainId(currentTrainId)
 
         companion object {
 
-            fun create(application: Application, currentUserId: Long): ExerciseListViewModel {
+            fun create(application: Application, currentTrainId: Int): ExerciseListViewModel {
             val dataBaseInstance = (application as JoaoVazStudio).getAppDataBase()
             val exerciseDao = dataBaseInstance.exerciseDao()
-            return ExerciseListViewModel(exerciseDao, currentUserId)
+            return ExerciseListViewModel(exerciseDao, currentTrainId)
         }
     }
 }

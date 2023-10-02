@@ -13,7 +13,7 @@ import com.comunidadedevspace.joaovazstudio.data.Exercise
 
 class ExerciseListFragment : Fragment() {
 
-    private var currentUserId: Long = -1L
+    private var currentTrainId: Int = -1
 
     //Adapter
     private val exerciseAdapter: ExerciseListAdapter by lazy {
@@ -21,7 +21,7 @@ class ExerciseListFragment : Fragment() {
     }
 
     private val exerciseViewModel: ExerciseListViewModel by lazy {
-        ExerciseListViewModel.create(requireActivity().application, currentUserId)
+        ExerciseListViewModel.create(requireActivity().application, currentTrainId)
     }
 
     override fun onCreateView(
@@ -30,10 +30,9 @@ class ExerciseListFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_exercise_list, container, false)
 
-        // Obter o valor de currentUserId do Bundle e atribuí-lo à variável currentUserId
-        arguments?.getLong("currentUserId", -1L)?.let {
-            currentUserId = it
-        }
+        // Obter os exercícios do currentTrainId do
+        currentTrainId = arguments?.getInt("currentTrainId", -1) ?: -1
+
         return view
     }
 
@@ -74,9 +73,9 @@ class ExerciseListFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(currentUserId: Long) = ExerciseListFragment().apply {
+        fun newInstance(currentTrainId: Int) = ExerciseListFragment().apply {
             arguments = Bundle().apply {
-                putLong("currentUserId", currentUserId)
+                putInt("currentTrainId", currentTrainId)
             }
         }
     }

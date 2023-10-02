@@ -19,7 +19,7 @@ import com.google.android.material.snackbar.Snackbar
 
 class TrainDetailActivity: AppCompatActivity() {
 
-    private var currentUserId: Long = -1L
+    private var currentTrainId: Int = -1
 
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -32,12 +32,12 @@ class TrainDetailActivity: AppCompatActivity() {
 
     companion object{
         private const val TRAIN_DETAIL_EXTRA = "train.extra.detail"
-        private const val CURRENT_USER_ID_EXTRA = "currentUserId.extra"
+        private const val CURRENT_TRAIN_ID_EXTRA = "currentTrainId.extra"
 
         fun start(context: Context, train: Train?, currentUserId: Long): Intent {
             val intent = Intent(context, TrainDetailActivity::class.java)
             intent.putExtra(TRAIN_DETAIL_EXTRA, train)
-            intent.putExtra(CURRENT_USER_ID_EXTRA, currentUserId)
+            intent.putExtra(CURRENT_TRAIN_ID_EXTRA, currentUserId)
             return intent
         }
     }
@@ -59,10 +59,10 @@ class TrainDetailActivity: AppCompatActivity() {
             }
         }
 
-        currentUserId = intent.getLongExtra("currentUserId", -1L)
+        currentTrainId = intent.getIntExtra("currentTrainId", -1)
 
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        val exerciseListFragment = ExerciseListFragment.newInstance(currentUserId)
+        val exerciseListFragment = ExerciseListFragment.newInstance(currentTrainId)
         fragmentTransaction.replace(R.id.fragment_exercises_container, exerciseListFragment)
         fragmentTransaction.commit()
 
@@ -163,7 +163,8 @@ class TrainDetailActivity: AppCompatActivity() {
     }
 
     private fun openExerciseDetail() {
-        val intent = ExerciseDetailActivity.start(this, null, train?.id ?: 0)
+        val trainId = train?.id ?: -1
+        val intent = ExerciseDetailActivity.start(this, null, trainId)
         startActivity(intent)
     }
 }
