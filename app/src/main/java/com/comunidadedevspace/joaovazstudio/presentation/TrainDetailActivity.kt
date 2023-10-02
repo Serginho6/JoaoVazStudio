@@ -50,7 +50,13 @@ class TrainDetailActivity: AppCompatActivity() {
         val btnAddExercise = findViewById<Button>(R.id.add_exercise)
 
         btnAddExercise.setOnClickListener {
-            openExerciseDetail()
+            if (train != null) {
+                // Um treino já existe, permita adicionar um exercício.
+                openExerciseDetail()
+            } else {
+                // Nenhum treino existe, exiba um Toast ou mensagem de alerta.
+                showMessage(btnAddExercise, "Você precisa salvar a ficha antes de adicionar um exercício.")
+            }
         }
 
         currentUserId = intent.getLongExtra("currentUserId", -1L)
