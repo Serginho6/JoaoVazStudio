@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -130,11 +131,15 @@ class ExerciseListSelectedFragment : Fragment() {
                     sharedPreferences.edit().putInt(sharedPreferencesKey, selectedTrain.id).apply()
 
                     loadExercisesForSelectedTrain(selectedTrain)
+                    updateTrainContentVisibility(true)
                     dialog.dismiss()
                 }
                 .setNegativeButton("Cancelar", null)
+                .setNeutralButton("Limpar") { _, _ ->
+                    clearSelectedTrain()
+                }
 
-            // Crie o AlertDialog separadamente
+                    // Crie o AlertDialog separadamente
             val alertDialog = builder.create()
             alertDialog.show()
 
@@ -156,6 +161,26 @@ class ExerciseListSelectedFragment : Fragment() {
             exerciseAdapter.submitList(listExercises)
 
             sharedPreferences.edit().putInt(sharedPreferencesKey, selectedTrain.id).apply()
+        }
+    }
+
+    private fun clearSelectedTrain() {
+        // Limpe o treino selecionado no SharedPreferences
+        sharedPreferences.edit().remove(sharedPreferencesKey).apply()
+
+        // Limpe a lista de exercícios
+        exerciseAdapter.submitList(null)
+
+        // Oculte a lista de exercícios e mostre o conteúdo selecionar treino
+        updateTrainContentVisibility(false)
+    }
+
+    private fun updateTrainContentVisibility(isTrainSelected: Boolean) {
+        val selectedTrainContent = view?.findViewById<LinearLayout>(R.id.selected_train_content)
+        if (isTrainSelected) {
+            selectedTrainContent?.visibility = View.GONE
+        } else {
+            selectedTrainContent?.visibility = View.VISIBLE
         }
     }
 
