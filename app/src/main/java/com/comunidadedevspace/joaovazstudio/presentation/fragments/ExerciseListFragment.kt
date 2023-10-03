@@ -20,7 +20,7 @@ class ExerciseListFragment : Fragment() {
 
     //Adapter
     private val exerciseAdapter: ExerciseListAdapter by lazy {
-        ExerciseListAdapter(requireContext(), ::openExerciseListDetail)
+        ExerciseListAdapter(::openExerciseListDetail)
     }
 
     private val exerciseViewModel: ExerciseListViewModel by lazy {

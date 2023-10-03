@@ -26,7 +26,7 @@ class ExerciseListSelectedAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseListSelectedViewHolder {
         val view: View = LayoutInflater
             .from(parent.context)
-            .inflate(R.layout.item_exercise, parent, false)
+            .inflate(R.layout.item_exercise_selected, parent, false)
 
         return ExerciseListSelectedViewHolder(view)
     }
@@ -34,10 +34,6 @@ class ExerciseListSelectedAdapter(
     override fun onBindViewHolder(holder: ExerciseListSelectedViewHolder, position: Int) {
         val exercise = getItem(position)
         holder.bind(exercise, openExerciseDetailView)
-
-        holder.itemView.setOnClickListener {
-            openExerciseDetailView(exercise)
-        }
 
         holder.checkbox.setOnCheckedChangeListener { _, isChecked ->
             exercise.isSelected = isChecked
@@ -96,10 +92,6 @@ class ExerciseListSelectedViewHolder(private val view: View) : RecyclerView.View
         tvTaskTitle.text = exercise.title
         tvTaskDesc.text = exercise.description
         checkbox.isChecked = exercise.isSelected
-
-        view.setOnClickListener {
-            openTaskDetailView.invoke(exercise)
-        }
 
         val youtubeVideoId = exercise.youtubeVideoId
         if (!youtubeVideoId.isNullOrEmpty()) {

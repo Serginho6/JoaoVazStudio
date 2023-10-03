@@ -1,25 +1,16 @@
 package com.comunidadedevspace.joaovazstudio.presentation.adapters
 
-import android.content.Context
-import android.content.Intent
-import android.content.res.ColorStateList
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.comunidadedevspace.joaovazstudio.R
 import com.comunidadedevspace.joaovazstudio.data.local.Exercise
 
 class ExerciseListAdapter(
-    private val context: Context,
     private val openExerciseDetailView: (exercise: Exercise) -> Unit
 ) : ListAdapter<Exercise, ExerciseListViewHolder>(ExerciseListAdapter) {
 
@@ -38,36 +29,12 @@ class ExerciseListAdapter(
         holder.itemView.setOnClickListener {
             openExerciseDetailView(exercise)
         }
-
-        holder.checkbox.setOnCheckedChangeListener { _, isChecked ->
-            exercise.isSelected = isChecked
-            updateTaskAppearance(holder, isChecked)
-        }
-        updateTaskAppearance(holder, exercise.isSelected)
     }
 
     private var onItemClickListener: ((Exercise) -> Unit)? = null
 
     fun setOnItemClickListener(listener: (Exercise) -> Unit) {
         onItemClickListener = listener
-    }
-
-    private fun updateTaskAppearance(holder: ExerciseListViewHolder, isSelected: Boolean) {
-        if (isSelected) {
-            // Altere a aparência quando o CheckBox estiver selecionado
-            holder.tvTaskTitle.setTextColor(ContextCompat.getColor(context, R.color.selectedTextColor))
-            holder.tvTaskDesc.setTextColor(ContextCompat.getColor(context, R.color.selectedTextColor))
-            holder.checkbox.setTextColor(ContextCompat.getColor(context, R.color.selectedTextColor))
-            holder.checkbox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.selectedTextColor))
-            holder.ivTaskVideoThumbnail.alpha = 0.5f
-        } else {
-            // Restaure a aparência padrão quando o CheckBox NÃO estiver selecionado
-            holder.tvTaskTitle.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
-            holder.tvTaskDesc.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
-            holder.checkbox.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
-            holder.checkbox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.defaultTextColor))
-            holder.ivTaskVideoThumbnail.alpha = 1f
-        }
     }
 
     companion object : DiffUtil.ItemCallback<Exercise>(){
@@ -84,10 +51,8 @@ class ExerciseListAdapter(
 }
 
 class ExerciseListViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-    val tvTaskTitle: TextView = view.findViewById(R.id.tv_task_title)
-    val tvTaskDesc: TextView = view.findViewById(R.id.tv_task_description)
-    val ivTaskVideoThumbnail: ImageView = view.findViewById(R.id.iv_video_thumbnail)
-    val checkbox: CheckBox = view.findViewById(R.id.checkbox_task)
+    private val tvTaskTitle: TextView = view.findViewById(R.id.tv_task_title)
+    private val tvTaskDesc: TextView = view.findViewById(R.id.tv_task_description)
 
     fun bind(
         exercise: Exercise,
@@ -95,26 +60,21 @@ class ExerciseListViewHolder(private val view: View) : RecyclerView.ViewHolder(v
     ) {
         tvTaskTitle.text = exercise.title
         tvTaskDesc.text = exercise.description
-        checkbox.isChecked = exercise.isSelected
 
         view.setOnClickListener {
             openTaskDetailView.invoke(exercise)
         }
+    }
 
-        val youtubeVideoId = exercise.youtubeVideoId
-        if (!youtubeVideoId.isNullOrEmpty()) {
-            // Carregue a miniatura do vídeo usando Glide
-            val videoThumbnailUrl = "https://img.youtube.com/vi/$youtubeVideoId/0.jpg"
-            Glide.with(view)
-                .load(videoThumbnailUrl)
-                .into(ivTaskVideoThumbnail)
+    companion object : DiffUtil.ItemCallback<Exercise>(){
 
-            ivTaskVideoThumbnail.setOnClickListener {
-                // Redirecione o usuário para o vídeo no YouTube
-                val youtubeVideoUrl = "https://www.youtube.com/watch?v=$youtubeVideoId"
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(youtubeVideoUrl))
-                view.context.startActivity(intent)
-            }
+        override fun areItemsTheSame(oldItem: Exercise, newItem: Exercise): Boolean {
+            return oldItem == newItem
+        }
+
+        override fun areContentsTheSame(oldItem: Exercise, newItem: Exercise): Boolean {
+            return oldItem.title == newItem.title &&
+                    oldItem.description == newItem.description
         }
     }
 }
