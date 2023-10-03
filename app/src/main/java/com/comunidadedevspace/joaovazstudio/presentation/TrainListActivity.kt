@@ -62,6 +62,7 @@ class TrainListActivity : AppCompatActivity() {
 
     private fun openTrainListDetail(train: Train) {
         val intent = TrainDetailActivity.start(this, train, currentUserId)
+        intent.putExtra("currentTrainId", train.id)
         startActivity(intent)
     }
 }

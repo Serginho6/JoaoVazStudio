@@ -47,6 +47,8 @@ class TrainDetailActivity: AppCompatActivity() {
         setContentView(R.layout.activity_train_detail)
         setSupportActionBar(findViewById(R.id.toolbar))
 
+        currentTrainId = intent.getIntExtra("currentTrainId", -1)
+
         val btnAddExercise = findViewById<Button>(R.id.add_exercise)
 
         btnAddExercise.setOnClickListener {
@@ -58,8 +60,6 @@ class TrainDetailActivity: AppCompatActivity() {
                 showMessage(btnAddExercise, "Você precisa salvar a ficha antes de adicionar um exercício.")
             }
         }
-
-        currentTrainId = intent.getIntExtra("currentTrainId", -1)
 
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         val exerciseListFragment = ExerciseListFragment.newInstance(currentTrainId)
