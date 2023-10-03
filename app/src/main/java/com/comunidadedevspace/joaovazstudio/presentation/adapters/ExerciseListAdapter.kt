@@ -1,9 +1,11 @@
 package com.comunidadedevspace.joaovazstudio.presentation.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +13,7 @@ import com.comunidadedevspace.joaovazstudio.R
 import com.comunidadedevspace.joaovazstudio.data.local.Exercise
 
 class ExerciseListAdapter(
+    private val context: Context,
     private val openExerciseDetailView: (exercise: Exercise) -> Unit
 ) : ListAdapter<Exercise, ExerciseListViewHolder>(ExerciseListAdapter) {
 
@@ -26,6 +29,8 @@ class ExerciseListAdapter(
         val exercise = getItem(position)
         holder.bind(exercise, openExerciseDetailView)
 
+        updateExerciseAppearance(holder, exercise.isSelected)
+
         holder.itemView.setOnClickListener {
             openExerciseDetailView(exercise)
         }
@@ -35,6 +40,18 @@ class ExerciseListAdapter(
 
     fun setOnItemClickListener(listener: (Exercise) -> Unit) {
         onItemClickListener = listener
+    }
+
+    private fun updateExerciseAppearance(holder: ExerciseListViewHolder, isSelected: Boolean) {
+        if (isSelected) {
+            // Altere a aparência quando o CheckBox estiver selecionado
+            holder.tvExerciseTitle.setTextColor(ContextCompat.getColor(context, R.color.selectedTextColor))
+            holder.tvExerciseDesc.setTextColor(ContextCompat.getColor(context, R.color.selectedTextColor))
+        } else {
+            // Restaure a aparência padrão quando o CheckBox NÃO estiver selecionado
+            holder.tvExerciseTitle.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
+            holder.tvExerciseDesc.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
+        }
     }
 
     companion object : DiffUtil.ItemCallback<Exercise>(){
@@ -51,15 +68,15 @@ class ExerciseListAdapter(
 }
 
 class ExerciseListViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-    private val tvTaskTitle: TextView = view.findViewById(R.id.tv_task_title)
-    private val tvTaskDesc: TextView = view.findViewById(R.id.tv_task_description)
+    val tvExerciseTitle: TextView = view.findViewById(R.id.tv_task_title)
+    val tvExerciseDesc: TextView = view.findViewById(R.id.tv_task_description)
 
     fun bind(
         exercise: Exercise,
         openTaskDetailView:(exercise: Exercise) -> Unit
     ) {
-        tvTaskTitle.text = exercise.title
-        tvTaskDesc.text = exercise.description
+        tvExerciseTitle.text = exercise.title
+        tvExerciseDesc.text = exercise.description
 
         view.setOnClickListener {
             openTaskDetailView.invoke(exercise)

@@ -37,9 +37,9 @@ class ExerciseListSelectedAdapter(
 
         holder.checkbox.setOnCheckedChangeListener { _, isChecked ->
             exercise.isSelected = isChecked
-            updateTaskAppearance(holder, isChecked)
+            updateExerciseSlctdAppearance(holder, isChecked)
         }
-        updateTaskAppearance(holder, exercise.isSelected)
+        updateExerciseSlctdAppearance(holder, exercise.isSelected)
     }
 
     private var onItemClickListener: ((Exercise) -> Unit)? = null
@@ -48,21 +48,21 @@ class ExerciseListSelectedAdapter(
         onItemClickListener = listener
     }
 
-    private fun updateTaskAppearance(holder: ExerciseListSelectedViewHolder, isSelected: Boolean) {
+    private fun updateExerciseSlctdAppearance(holder: ExerciseListSelectedViewHolder, isSelected: Boolean) {
         if (isSelected) {
             // Altere a aparência quando o CheckBox estiver selecionado
-            holder.tvTaskTitle.setTextColor(ContextCompat.getColor(context, R.color.selectedTextColor))
-            holder.tvTaskDesc.setTextColor(ContextCompat.getColor(context, R.color.selectedTextColor))
+            holder.tvExerciseSlctdTitle.setTextColor(ContextCompat.getColor(context, R.color.selectedTextColor))
+            holder.tvExerciseSlctdDesc.setTextColor(ContextCompat.getColor(context, R.color.selectedTextColor))
             holder.checkbox.setTextColor(ContextCompat.getColor(context, R.color.selectedTextColor))
             holder.checkbox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.selectedTextColor))
-            holder.ivTaskVideoThumbnail.alpha = 0.5f
+            holder.ivVideoThumbnail.alpha = 0.5f
         } else {
             // Restaure a aparência padrão quando o CheckBox NÃO estiver selecionado
-            holder.tvTaskTitle.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
-            holder.tvTaskDesc.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
+            holder.tvExerciseSlctdTitle.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
+            holder.tvExerciseSlctdDesc.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
             holder.checkbox.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
             holder.checkbox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.defaultTextColor))
-            holder.ivTaskVideoThumbnail.alpha = 1f
+            holder.ivVideoThumbnail.alpha = 1f
         }
     }
 
@@ -80,17 +80,17 @@ class ExerciseListSelectedAdapter(
 }
 
 class ExerciseListSelectedViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-    val tvTaskTitle: TextView = view.findViewById(R.id.tv_task_title)
-    val tvTaskDesc: TextView = view.findViewById(R.id.tv_task_description)
-    val ivTaskVideoThumbnail: ImageView = view.findViewById(R.id.iv_video_thumbnail)
-    val checkbox: CheckBox = view.findViewById(R.id.checkbox_task)
+    val tvExerciseSlctdTitle: TextView = view.findViewById(R.id.tv_exercise_selected_title)
+    val tvExerciseSlctdDesc: TextView = view.findViewById(R.id.tv_exercise_selected_description)
+    val ivVideoThumbnail: ImageView = view.findViewById(R.id.iv_video_thumbnail)
+    val checkbox: CheckBox = view.findViewById(R.id.checkbox_exercise)
 
     fun bind(
         exercise: Exercise,
         openTaskDetailView:(exercise: Exercise) -> Unit
     ) {
-        tvTaskTitle.text = exercise.title
-        tvTaskDesc.text = exercise.description
+        tvExerciseSlctdTitle.text = exercise.title
+        tvExerciseSlctdDesc.text = exercise.description
         checkbox.isChecked = exercise.isSelected
 
         val youtubeVideoId = exercise.youtubeVideoId
@@ -99,9 +99,9 @@ class ExerciseListSelectedViewHolder(private val view: View) : RecyclerView.View
             val videoThumbnailUrl = "https://img.youtube.com/vi/$youtubeVideoId/0.jpg"
             Glide.with(view)
                 .load(videoThumbnailUrl)
-                .into(ivTaskVideoThumbnail)
+                .into(ivVideoThumbnail)
 
-            ivTaskVideoThumbnail.setOnClickListener {
+            ivVideoThumbnail.setOnClickListener {
                 // Redirecione o usuário para o vídeo no YouTube
                 val youtubeVideoUrl = "https://www.youtube.com/watch?v=$youtubeVideoId"
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(youtubeVideoUrl))
