@@ -2,8 +2,8 @@ package com.comunidadedevspace.joaovazstudio
 
 import android.app.Application
 import androidx.room.Room
-import com.comunidadedevspace.joaovazstudio.data.AppDataBase
-import com.comunidadedevspace.joaovazstudio.data.MIGRATION_9_10
+import com.comunidadedevspace.joaovazstudio.data.local.AppDataBase
+import com.comunidadedevspace.joaovazstudio.data.database.MIGRATION_9_10
 
 class JoaoVazStudio: Application() {
 

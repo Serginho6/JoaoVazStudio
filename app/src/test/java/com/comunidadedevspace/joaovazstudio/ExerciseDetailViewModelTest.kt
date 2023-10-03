@@ -1,10 +1,10 @@
 package com.comunidadedevspace.joaovazstudio
 
-import com.comunidadedevspace.joaovazstudio.data.Exercise
-import com.comunidadedevspace.joaovazstudio.data.ExerciseDao
-import com.comunidadedevspace.joaovazstudio.presentation.ActionType
-import com.comunidadedevspace.joaovazstudio.presentation.ExerciseDetailViewModel
-import com.comunidadedevspace.joaovazstudio.presentation.TaskAction
+import com.comunidadedevspace.joaovazstudio.data.local.Exercise
+import com.comunidadedevspace.joaovazstudio.data.local.ExerciseDao
+import com.comunidadedevspace.joaovazstudio.data.database.ActionType
+import com.comunidadedevspace.joaovazstudio.presentation.viewmodel.ExerciseDetailViewModel
+import com.comunidadedevspace.joaovazstudio.data.database.TaskAction
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test

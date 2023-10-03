@@ -5,7 +5,7 @@
     android:layout_margin="10dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.TrainListActivity">
+    tools:context=".presentation.view.TrainListActivity">
 
     <LinearLayout
         android:id="@+id/train_list_content"

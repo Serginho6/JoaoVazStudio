@@ -21,31 +21,31 @@
         android:theme="@style/Theme.TaskBeats"
         tools:targetApi="31" >
         <activity
-            android:name=".presentation.SignUp"
+            android:name=".presentation.view.SignUp"
             android:exported="false" />
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.view.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.ImcActivity"
+            android:name=".presentation.view.ImcActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.ImcResultActivity"
+            android:name=".presentation.view.ImcResultActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.PhysicalActivity"
+            android:name=".presentation.view.PhysicalActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.TrainListActivity"
+            android:name=".presentation.view.TrainListActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.TrainDetailActivity"
+            android:name=".presentation.view.TrainDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.AboutActivity"
+            android:name=".presentation.view.AboutActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.SignIn"
+            android:name=".presentation.view.SignIn"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,7 +53,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.ExerciseDetailActivity"
+            android:name=".presentation.view.ExerciseDetailActivity"
             android:exported="false" />
     </application>
 
