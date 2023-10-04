@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
+import android.graphics.Paint
 import android.net.Uri
 import android.preference.PreferenceManager
 import android.view.LayoutInflater
@@ -74,18 +75,21 @@ class ExerciseListSelectedAdapter(
 
     private fun updateExerciseSlctdAppearance(holder: ExerciseListSelectedViewHolder, isSelected: Boolean) {
         if (isSelected) {
-            // Altere a aparência quando o CheckBox estiver selecionado
-            holder.tvExerciseSlctdTitle.setTextColor(ContextCompat.getColor(context, R.color.selectedTextColor))
-            holder.tvExerciseSlctdDesc.setTextColor(ContextCompat.getColor(context, R.color.selectedTextColor))
-            holder.checkbox.setTextColor(ContextCompat.getColor(context, R.color.selectedTextColor))
+            holder.tvExerciseSlctdTitle.alpha = 0.5f
+            holder.tvExerciseSlctdDesc.alpha = 0.5f
+            holder.tvExerciseSlctdTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+            holder.tvExerciseSlctdDesc.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             holder.checkbox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.selectedTextColor))
             holder.ivVideoThumbnail.alpha = 0.5f
         } else {
-            // Restaure a aparência padrão quando o CheckBox NÃO estiver selecionado
             holder.tvExerciseSlctdTitle.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
             holder.tvExerciseSlctdDesc.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
+            holder.tvExerciseSlctdTitle.alpha = 1f
+            holder.tvExerciseSlctdDesc.alpha = 1f
+            holder.tvExerciseSlctdTitle.paintFlags = holder.tvExerciseSlctdTitle.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+            holder.tvExerciseSlctdDesc.paintFlags = holder.tvExerciseSlctdDesc.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
             holder.checkbox.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
-            holder.checkbox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.defaultTextColor))
+            holder.checkbox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white))
             holder.ivVideoThumbnail.alpha = 1f
         }
     }
@@ -120,14 +124,14 @@ class ExerciseListSelectedViewHolder(private val view: View) : RecyclerView.View
 
         val youtubeVideoId = exercise.youtubeVideoId
         if (!youtubeVideoId.isNullOrEmpty()) {
-            // Carregue a miniatura do vídeo usando Glide
+            // Carrega a miniatura do vídeo usando Glide
             val videoThumbnailUrl = "https://img.youtube.com/vi/$youtubeVideoId/0.jpg"
             Glide.with(view)
                 .load(videoThumbnailUrl)
                 .into(ivVideoThumbnail)
 
             ivVideoThumbnail.setOnClickListener {
-                // Redirecione o usuário para o vídeo no YouTube
+                // Redireciona o usuário para o vídeo no YouTube
                 val youtubeVideoUrl = "https://www.youtube.com/watch?v=$youtubeVideoId"
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(youtubeVideoUrl))
                 view.context.startActivity(intent)

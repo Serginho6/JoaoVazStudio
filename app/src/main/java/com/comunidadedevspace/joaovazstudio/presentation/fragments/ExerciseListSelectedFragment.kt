@@ -60,6 +60,8 @@ class ExerciseListSelectedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        checkSelectedTrainAndUpdateContent()
+
         val rvTasks: RecyclerView = view.findViewById(R.id.selected_train_exercises)
         rvTasks.adapter = exerciseAdapter
 
@@ -95,6 +97,7 @@ class ExerciseListSelectedFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        checkSelectedTrainAndUpdateContent()
         listFromDataBase()
     }
 
@@ -131,7 +134,7 @@ class ExerciseListSelectedFragment : Fragment() {
                     sharedPreferences.edit().putInt(sharedPreferencesKey, selectedTrain.id).apply()
 
                     loadExercisesForSelectedTrain(selectedTrain)
-                    updateTrainContentVisibility(true)
+                    checkSelectedTrainAndUpdateContent()
                     dialog.dismiss()
                 }
                 .setNegativeButton("Cancelar", null)
@@ -181,6 +184,26 @@ class ExerciseListSelectedFragment : Fragment() {
             selectedTrainContent?.visibility = View.GONE
         } else {
             selectedTrainContent?.visibility = View.VISIBLE
+        }
+    }
+
+    private fun checkSelectedTrainAndUpdateContent() {
+        val selectedTrainId = sharedPreferences.getInt(sharedPreferencesKey, -1)
+        if (selectedTrainId != -1) {
+            viewLifecycleOwner.lifecycleScope.launch {
+                val selectedTrain = withContext(Dispatchers.IO) {
+                    val trainDao = (requireActivity().application as JoaoVazStudio).getAppDataBase().trainDao()
+                    trainDao.getTrainById(selectedTrainId)
+                }
+                if (selectedTrain != null) {
+                    loadExercisesForSelectedTrain(selectedTrain)
+                    updateTrainContentVisibility(true)
+                } else {
+                    updateTrainContentVisibility(false)
+                }
+            }
+        } else {
+            updateTrainContentVisibility(false)
         }
     }
 

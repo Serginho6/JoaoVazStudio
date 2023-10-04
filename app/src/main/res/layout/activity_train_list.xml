@@ -21,11 +21,12 @@
 
         <TextView
             style="@style/Title3"
-            android:text="Adicione uma nova ficha treino"
+            android:text="Adicione uma nova \n\nficha treino"
             android:textAlignment="center"
             android:textSize="36sp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"/>
 
         <ImageView
             android:id="@+id/iv_content"
