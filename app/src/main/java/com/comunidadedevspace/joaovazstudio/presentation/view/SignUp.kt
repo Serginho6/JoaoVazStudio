@@ -2,6 +2,7 @@ package com.comunidadedevspace.joaovazstudio.presentation.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Patterns
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -57,7 +58,11 @@ class SignUp : AppCompatActivity() {
 
         val registerButton = findViewById<Button>(R.id.btn_register)
         registerButton.setOnClickListener {
-            if (isInputValid()) {
+            val email = emailEditText.text.toString()
+
+            if (!isValidEmail(email)) {
+                showErrorMessage("Endereço de e-mail inválido")
+            } else if (isInputValid()) {
                 saveUserToDatabase()
             } else {
                 showErrorMessage("É necessário preencher todos os campos.")
@@ -74,7 +79,9 @@ class SignUp : AppCompatActivity() {
         val height = heightEditText.text.toString()
         val weight = weightEditText.text.toString()
 
-        return name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() &&
+        val isEmailValid = isValidEmail(email)
+
+        return name.isNotEmpty() && isEmailValid && email.isNotEmpty() && password.isNotEmpty() &&
                 phone.isNotEmpty() && gender && height.isNotEmpty() && weight.isNotEmpty()
     }
 
@@ -130,5 +137,10 @@ class SignUp : AppCompatActivity() {
         val errorMessageTextView = findViewById<TextView>(R.id.tv_error_signup)
         errorMessageTextView.visibility = View.VISIBLE
         errorMessageTextView.text = message
+    }
+
+    private fun isValidEmail(email: String): Boolean {
+        val pattern = Patterns.EMAIL_ADDRESS
+        return pattern.matcher(email).matches()
     }
 }

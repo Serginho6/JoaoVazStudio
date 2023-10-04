@@ -39,10 +39,10 @@
         <EditText
             android:id="@+id/name_edt_text"
             style="@style/Body1"
-            android:inputType="text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
+            android:inputType="text"
             android:hint="Seu nome"
             android:padding="10dp"
             android:maxLength="40" />
@@ -72,10 +72,10 @@
         <EditText
             android:id="@+id/email_edt_text"
             style="@style/Body1"
-            android:inputType="textEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
+            android:inputType="textEmailAddress"
             android:hint="Ex.: aluno@gmail.com"
             android:padding="10dp"
             android:maxLength="30" />
@@ -105,10 +105,10 @@
         <EditText
             android:id="@+id/password_edt_text"
             style="@style/Body1"
-            android:inputType="numberPassword"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
+            android:inputType="numberPassword"
             android:hint="Ex.: 12345678"
             android:padding="10dp"
             android:maxLength="8" />
@@ -138,10 +138,10 @@
         <EditText
             android:id="@+id/phone_edt_text"
             style="@style/Body1"
-            android:inputType="phone|numberDecimal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
+            android:inputType="phone|numberDecimal"
             android:hint="Ex.: +55 (47) 98877-6655"
             android:padding="10dp"
             android:maxLength="14" />
@@ -227,10 +227,10 @@
                 <EditText
                     android:id="@+id/height_edt_text"
                     style="@style/Body1"
-                    android:inputType="numberDecimal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
+                    android:inputType="numberDecimal"
                     android:hint="em metros"
                     android:padding="10dp"
                     android:maxLength="4" />
@@ -263,10 +263,10 @@
                 <EditText
                     android:id="@+id/weight_edt_text"
                     style="@style/Body1"
-                    android:inputType="numberDecimal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
+                    android:inputType="numberDecimal"
                     android:hint="em kilos"
                     android:padding="10dp"
                     android:maxLength="3" />
