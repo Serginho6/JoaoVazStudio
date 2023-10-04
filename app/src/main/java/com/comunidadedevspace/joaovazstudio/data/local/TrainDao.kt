@@ -19,4 +19,6 @@ interface TrainDao {
     fun getTrainsByUserId(userId: Long): LiveData<List<Train>>
     @Query("SELECT * FROM train WHERE id = :trainId")
     fun getTrainById(trainId: Int): Train?
+    @Query("SELECT DISTINCT t.* FROM train t INNER JOIN exercise e ON t.id = e.trainId WHERE t.userId = :userId")
+    fun getTrainsWithExercisesByUserId(userId: Long): LiveData<List<Train>>
 }

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -97,7 +98,6 @@ class ExerciseListSelectedFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        checkSelectedTrainAndUpdateContent()
         listFromDataBase()
     }
 
@@ -122,8 +122,8 @@ class ExerciseListSelectedFragment : Fragment() {
         // Verifique se há um treino selecionado no SharedPreferences
         val selectedTrainId = sharedPreferences.getInt(sharedPreferencesKey, -1)
 
-        // Observe a lista de treinos do usuário atual
-        trainDao.getTrainsByUserId(currentUserId).observe(viewLifecycleOwner) { trains ->
+        // Observe a lista de treinos do usuário atual que têm exercícios associados
+        trainDao.getTrainsWithExercisesByUserId(currentUserId).observe(viewLifecycleOwner) { trains ->
             val trainTitles = trains.map { it.trainTitle }.toTypedArray()
 
             val builder = AlertDialog.Builder(requireContext())
@@ -134,7 +134,7 @@ class ExerciseListSelectedFragment : Fragment() {
                     sharedPreferences.edit().putInt(sharedPreferencesKey, selectedTrain.id).apply()
 
                     loadExercisesForSelectedTrain(selectedTrain)
-                    checkSelectedTrainAndUpdateContent()
+                    updateTrainContentVisibility(true)
                     dialog.dismiss()
                 }
                 .setNegativeButton("Cancelar", null)
@@ -142,7 +142,7 @@ class ExerciseListSelectedFragment : Fragment() {
                     clearSelectedTrain()
                 }
 
-                    // Crie o AlertDialog separadamente
+            // Cria o AlertDialog separadamente
             val alertDialog = builder.create()
             alertDialog.show()
 
@@ -205,6 +205,10 @@ class ExerciseListSelectedFragment : Fragment() {
         } else {
             updateTrainContentVisibility(false)
         }
+    }
+
+    private fun showErrorToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     companion object {
