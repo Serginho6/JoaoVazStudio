@@ -2,8 +2,10 @@ package com.comunidadedevspace.joaovazstudio.presentation.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.net.Uri
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +25,16 @@ class ExerciseListSelectedAdapter(
     private val openExerciseDetailView: (exercise: Exercise) -> Unit
 ) : ListAdapter<Exercise, ExerciseListSelectedViewHolder>(ExerciseListAdapter) {
 
+    private val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+    private val checkedExercisesSet: MutableSet<String> = mutableSetOf()
+
+    init {
+        val checkedExercises = sharedPreferences.getStringSet("checkedExercises", mutableSetOf())
+        if (checkedExercises != null) {
+            checkedExercisesSet.addAll(checkedExercises)
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseListSelectedViewHolder {
         val view: View = LayoutInflater
             .from(parent.context)
@@ -35,11 +47,23 @@ class ExerciseListSelectedAdapter(
         val exercise = getItem(position)
         holder.bind(exercise, openExerciseDetailView)
 
+        holder.checkbox.setOnCheckedChangeListener(null)
+
+        holder.checkbox.isChecked = checkedExercisesSet.contains(exercise.title)
+
         holder.checkbox.setOnCheckedChangeListener { _, isChecked ->
-            exercise.isSelected = isChecked
+            if (isChecked) {
+                checkedExercisesSet.add(exercise.title)
+            } else {
+                checkedExercisesSet.remove(exercise.title)
+            }
+
+            sharedPreferences.edit().putStringSet("checkedExercises", checkedExercisesSet).apply()
+
             updateExerciseSlctdAppearance(holder, isChecked)
         }
-        updateExerciseSlctdAppearance(holder, exercise.isSelected)
+
+        updateExerciseSlctdAppearance(holder, holder.checkbox.isChecked)
     }
 
     private var onItemClickListener: ((Exercise) -> Unit)? = null
@@ -80,6 +104,7 @@ class ExerciseListSelectedAdapter(
 }
 
 class ExerciseListSelectedViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+
     val tvExerciseSlctdTitle: TextView = view.findViewById(R.id.tv_exercise_selected_title)
     val tvExerciseSlctdDesc: TextView = view.findViewById(R.id.tv_exercise_selected_description)
     val ivVideoThumbnail: ImageView = view.findViewById(R.id.iv_video_thumbnail)
