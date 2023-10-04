@@ -43,6 +43,39 @@ class ExerciseListSelectedFragment : Fragment() {
         ExerciseListViewModel.create(requireActivity().application, currentTrainId)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        checkSelectedTrainAndUpdateContent()
+
+        // Salve o ID do treino selecionado no estado
+        outState.putInt("selectedTrainId", sharedPreferences.getInt(sharedPreferencesKey, -1))
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        // Verifique se há um estado anteriormente salvo
+        val selectedTrainId = savedInstanceState?.getInt("selectedTrainId", -1)
+
+        if (selectedTrainId != null && selectedTrainId != -1) {
+            // Carregue os exercícios para o treino selecionado
+            viewLifecycleOwner.lifecycleScope.launch {
+                val selectedTrain = withContext(Dispatchers.IO) {
+                    val trainDao = (requireActivity().application as JoaoVazStudio).getAppDataBase().trainDao()
+                    trainDao.getTrainById(selectedTrainId)
+                }
+
+                if (selectedTrain != null) {
+                    loadExercisesForSelectedTrain(selectedTrain)
+                    updateTrainContentVisibility(true)
+                } else {
+                    updateTrainContentVisibility(false)
+                }
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -69,21 +102,6 @@ class ExerciseListSelectedFragment : Fragment() {
 
         fabSelectTrain.setOnClickListener {
             showSelectTrainDialog()
-        }
-
-        // Após a seleção inicial do treino no SharedPreferences
-        val selectedTrainId = sharedPreferences.getInt(sharedPreferencesKey, -1)
-        if (selectedTrainId != -1) {
-            // Usando Coroutines para executar a operação de banco de dados em uma thread separada
-            viewLifecycleOwner.lifecycleScope.launch {
-                val selectedTrain = withContext(Dispatchers.IO) {
-                    val trainDao = (requireActivity().application as JoaoVazStudio).getAppDataBase().trainDao()
-                    trainDao.getTrainById(selectedTrainId)
-                }
-                if (selectedTrain != null) {
-                    loadExercisesForSelectedTrain(selectedTrain)
-                }
-            }
         }
 
         exerciseAdapter.setOnItemClickListener { exercise ->
