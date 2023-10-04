@@ -55,8 +55,10 @@ class ExerciseListSelectedAdapter(
         holder.checkbox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 checkedExercisesSet.add(exercise.title)
+                exercise.isCompleted = true
             } else {
                 checkedExercisesSet.remove(exercise.title)
+                exercise.isCompleted = false
             }
 
             sharedPreferences.edit().putStringSet("checkedExercises", checkedExercisesSet).apply()

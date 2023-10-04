@@ -2,8 +2,8 @@ package com.comunidadedevspace.joaovazstudio
 
 import android.app.Application
 import androidx.room.Room
+import com.comunidadedevspace.joaovazstudio.data.database.MIGRATION_10_11
 import com.comunidadedevspace.joaovazstudio.data.local.AppDataBase
-import com.comunidadedevspace.joaovazstudio.data.database.MIGRATION_9_10
 
 class JoaoVazStudio: Application() {
 
@@ -13,7 +13,7 @@ class JoaoVazStudio: Application() {
         super.onCreate()
 
         dataBase = Room.databaseBuilder(applicationContext, AppDataBase::class.java, "joao-vaz-studio-database")
-            .addMigrations(MIGRATION_9_10)
+            .addMigrations(MIGRATION_10_11)
             .build()
     }
 

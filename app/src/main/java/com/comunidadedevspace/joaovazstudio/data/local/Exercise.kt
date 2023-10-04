@@ -18,4 +18,5 @@ data class Exercise(
     val description: String,
     var youtubeVideoId: String?,
     var isSelected: Boolean,
+    var isCompleted: Boolean = false
 ) : Serializable
