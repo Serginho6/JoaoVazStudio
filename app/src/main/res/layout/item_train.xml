@@ -15,7 +15,7 @@
         android:layout_margin="10dp"
         android:padding="5dp"
         tools:text="Treino 'A' "
-        android:background="@color/gray"/>
+        android:background="@color/off_white"/>
 
     <TextView
         android:id="@+id/tv_train_description"
@@ -27,6 +27,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_train_title"
-        android:background="@color/gray"/>
+        android:background="@color/off_white"/>
 
 </RelativeLayout>

@@ -26,7 +26,7 @@
         android:padding="16dp"
         android:textAlignment="center"
         android:textSize="38sp"
-        android:textColor="@color/green_300"
+        android:textColor="@color/sea_green"
         tools:text="27.1020" />
 
     <TextView

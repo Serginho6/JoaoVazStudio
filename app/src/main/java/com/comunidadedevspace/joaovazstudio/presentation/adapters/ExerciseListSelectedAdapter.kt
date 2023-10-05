@@ -81,7 +81,7 @@ class ExerciseListSelectedAdapter(
             holder.tvExerciseSlctdDesc.alpha = 0.5f
             holder.tvExerciseSlctdTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             holder.tvExerciseSlctdDesc.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-            holder.checkbox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.green_300))
+            holder.checkbox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.sea_green))
             holder.ivVideoThumbnail.alpha = 0.5f
         } else {
             holder.tvExerciseSlctdTitle.setTextColor(ContextCompat.getColor(context, R.color.white))

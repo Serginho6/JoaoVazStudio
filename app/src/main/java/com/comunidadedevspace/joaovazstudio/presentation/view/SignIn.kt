@@ -107,7 +107,7 @@ class SignIn : AppCompatActivity() {
             }
         }
 
-        val clickableColor = ContextCompat.getColor(this, R.color.green_300)
+        val clickableColor = ContextCompat.getColor(this, R.color.sea_green)
 
         spannableString.setSpan(
             clickableSpan,
