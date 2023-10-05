@@ -10,7 +10,7 @@ enum class ActionType {
     CREATE,
 }
 
-data class TaskAction(
+data class ExerciseAction(
     val exercise: Exercise?,
     val taskActionType: String
 ) : Serializable

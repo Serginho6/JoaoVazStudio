@@ -5,21 +5,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.comunidadedevspace.joaovazstudio.JoaoVazStudio
+import com.comunidadedevspace.joaovazstudio.data.database.ActionType
+import com.comunidadedevspace.joaovazstudio.data.database.ExerciseAction
 import com.comunidadedevspace.joaovazstudio.data.local.Exercise
 import com.comunidadedevspace.joaovazstudio.data.local.ExerciseDao
-import com.comunidadedevspace.joaovazstudio.data.database.ActionType
-import com.comunidadedevspace.joaovazstudio.data.database.TaskAction
 import kotlinx.coroutines.launch
 
 class ExerciseDetailViewModel(
     private val exerciseDao: ExerciseDao,
 ): ViewModel() {
 
-    fun execute(taskAction: TaskAction){
-        when (taskAction.taskActionType) {
-            ActionType.DELETE.name -> deleteById(taskAction.exercise!!.id)
-            ActionType.CREATE.name -> insertIntoDataBase(taskAction.exercise!!)
-            ActionType.UPDATE.name -> updateIntoDataBase(taskAction.exercise!!)
+    fun execute(exerciseAction: ExerciseAction){
+        when (exerciseAction.taskActionType) {
+            ActionType.DELETE.name -> deleteById(exerciseAction.exercise!!.id)
+            ActionType.CREATE.name -> insertIntoDataBase(exerciseAction.exercise!!)
+            ActionType.UPDATE.name -> updateIntoDataBase(exerciseAction.exercise!!)
         }
     }
 

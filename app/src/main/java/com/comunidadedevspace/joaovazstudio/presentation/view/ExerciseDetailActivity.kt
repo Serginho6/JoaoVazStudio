@@ -15,21 +15,16 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.comunidadedevspace.joaovazstudio.R
 import com.comunidadedevspace.joaovazstudio.data.database.ActionType
+import com.comunidadedevspace.joaovazstudio.data.database.ExerciseAction
 import com.comunidadedevspace.joaovazstudio.data.local.Exercise
-import com.comunidadedevspace.joaovazstudio.data.database.TaskAction
 import com.comunidadedevspace.joaovazstudio.presentation.viewmodel.ExerciseDetailViewModel
 import com.google.android.material.snackbar.Snackbar
 
 class ExerciseDetailActivity : AppCompatActivity() {
 
-    private var currentUserId: Long = -1L
+    private var exercise: Exercise? = null
 
     private lateinit var sharedPreferences: SharedPreferences
-
-    private lateinit var editTextVideoUrl: EditText
-    private var youtubeVideoUrl: String? = null
-
-    private var exercise: Exercise? = null
     private lateinit var btnSaveExercise: Button
 
     private val viewModel: ExerciseDetailViewModel by viewModels{
@@ -37,13 +32,13 @@ class ExerciseDetailActivity : AppCompatActivity() {
     }
 
     companion object{
-        private const val TASK_DETAIL_EXTRA = "task.extra.detail"
+        private const val EXERCISE_DETAIL_EXTRA = "task.extra.detail"
         private const val TRAIN_ID_EXTRA = "train.extra.id"
 
         fun start(context: Context, exercise: Exercise?, trainId: Int): Intent{
             val intent = Intent(context, ExerciseDetailActivity::class.java)
                 .apply {
-                    putExtra(TASK_DETAIL_EXTRA, exercise)
+                    putExtra(EXERCISE_DETAIL_EXTRA, exercise)
                     putExtra(TRAIN_ID_EXTRA, trainId)
                 }
             return intent
@@ -55,12 +50,8 @@ class ExerciseDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_exercise_detail)
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        editTextVideoUrl = findViewById(R.id.edt_task_video_url)
-
-        currentUserId = intent.getLongExtra("currentUserId", -1L)
-
         // Recuperar exercício
-        exercise = intent.getSerializableExtra(TASK_DETAIL_EXTRA) as Exercise?
+        exercise = intent.getSerializableExtra(EXERCISE_DETAIL_EXTRA) as Exercise?
 
         // Recuperar ID do treino
         val trainId = intent.getIntExtra(TRAIN_ID_EXTRA, 0)
@@ -84,26 +75,30 @@ class ExerciseDetailActivity : AppCompatActivity() {
             val desc = edtDescription.text.toString()
             val videoUrl = edtVideoUrl.text.toString()
 
-            if (title.isNotEmpty() && desc.isNotEmpty() && videoUrl.isNotEmpty()) {
+            val userId = sharedPreferences.getLong("userId", -1L)
+
+            if (userId != -1L) {
                 val videoId = extractVideoIdFromUrl(videoUrl)
-                if (videoId.isNotEmpty()) {
-                    val userId = sharedPreferences.getLong("userId", -1) // Obtenha o userId do SharedPreferences
-                    if (userId != -1L) {
+
+                // Verifica se o videoId é válido apenas se o campo de vídeo estiver preenchido
+                if (videoUrl.isBlank() || isValidYouTubeVideoId(videoId)) {
+                    if (title.isNotEmpty() && desc.isNotEmpty()) {
                         if (exercise == null) {
                             addOrUpdateExercise(0, trainId, userId, title, desc, videoId, ActionType.CREATE)
                         } else {
                             addOrUpdateExercise(exercise!!.id, trainId, userId, title, desc, videoId, ActionType.UPDATE)
                         }
                     } else {
-                        showMessage(it, "Usuário não autenticado")
+                        showMessage(it, "É necessário adicionar Exercício e Quantidade")
                     }
                 } else {
-                    showMessage(it, "URL do vídeo inválida")
+                    showMessage(it, "URL do vídeo do YouTube inválida") // Exibe uma mensagem de erro se a URL for inválida
                 }
             } else {
-                showMessage(it, "É necessário adicionar Exercício, Quantidade e URL do vídeo")
+                showMessage(it, "Usuário não autenticado")
             }
         }
+
     }
 
     private fun extractVideoIdFromUrl(videoUrl: String): String {
@@ -151,8 +146,8 @@ class ExerciseDetailActivity : AppCompatActivity() {
     }
 
     private fun performAction(exercise: Exercise, actionType: ActionType){
-        val taskAction = TaskAction(exercise, actionType.name)
-        viewModel.execute(taskAction)
+        val exerciseAction = ExerciseAction(exercise, actionType.name)
+        viewModel.execute(exerciseAction)
         finish()
     }
 
@@ -160,5 +155,10 @@ class ExerciseDetailActivity : AppCompatActivity() {
         Snackbar.make(view, message, Snackbar.LENGTH_LONG)
             .setAction("Action", null)
             .show()
+    }
+
+    private fun isValidYouTubeVideoId(videoId: String): Boolean {
+        // Verifica se o videoId é não nulo e possui o formato correto de um ID do YouTube
+        return videoId.isNotEmpty() && videoId.matches(Regex("^[a-zA-Z0-9_-]{11}$"))
     }
 }

@@ -4,7 +4,7 @@ import com.comunidadedevspace.joaovazstudio.data.local.Exercise
 import com.comunidadedevspace.joaovazstudio.data.local.ExerciseDao
 import com.comunidadedevspace.joaovazstudio.data.database.ActionType
 import com.comunidadedevspace.joaovazstudio.presentation.viewmodel.ExerciseDetailViewModel
-import com.comunidadedevspace.joaovazstudio.data.database.TaskAction
+import com.comunidadedevspace.joaovazstudio.data.database.ExerciseAction
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
@@ -37,13 +37,13 @@ class ExerciseDetailViewModelTest {
             isSelected = false
         )
 
-        val taskAction = TaskAction(
+        val exerciseAction = ExerciseAction(
             exercise = exercise,
             taskActionType = ActionType.CREATE.name
         )
 
         //When
-        underTest.execute(taskAction)
+        underTest.execute(exerciseAction)
 
         //Then
         verify(exerciseDao).insert(exercise)
@@ -62,13 +62,13 @@ class ExerciseDetailViewModelTest {
             isSelected = false
         )
 
-        val taskAction = TaskAction(
+        val exerciseAction = ExerciseAction(
             exercise = exercise,
             taskActionType = ActionType.UPDATE.name
         )
 
         //When
-        underTest.execute(taskAction)
+        underTest.execute(exerciseAction)
 
         //Then
         verify(exerciseDao).update(exercise)
@@ -87,13 +87,13 @@ class ExerciseDetailViewModelTest {
             isSelected = false
         )
 
-        val taskAction = TaskAction(
+        val exerciseAction = ExerciseAction(
             exercise = exercise,
             taskActionType = ActionType.DELETE.name
         )
 
         //When
-        underTest.execute(taskAction)
+        underTest.execute(exerciseAction)
 
         //Then
         verify(exerciseDao).deleteById(exercise.id, userId = 0)

@@ -126,18 +126,26 @@ class ExerciseListSelectedViewHolder(private val view: View) : RecyclerView.View
 
         val youtubeVideoId = exercise.youtubeVideoId
         if (!youtubeVideoId.isNullOrEmpty()) {
-            // Carrega a miniatura do vídeo usando Glide
-            val videoThumbnailUrl = "https://img.youtube.com/vi/$youtubeVideoId/0.jpg"
-            Glide.with(view)
-                .load(videoThumbnailUrl)
-                .into(ivVideoThumbnail)
+            // Carrega a miniatura do vídeo usando Glide dentro de um bloco try-catch
+            try {
+                val videoThumbnailUrl = "https://img.youtube.com/vi/$youtubeVideoId/0.jpg"
+                Glide.with(view)
+                    .load(videoThumbnailUrl)
+                    .into(ivVideoThumbnail)
 
-            ivVideoThumbnail.setOnClickListener {
-                // Redireciona o usuário para o vídeo no YouTube
-                val youtubeVideoUrl = "https://www.youtube.com/watch?v=$youtubeVideoId"
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(youtubeVideoUrl))
-                view.context.startActivity(intent)
+                ivVideoThumbnail.isClickable = true
+                ivVideoThumbnail.setOnClickListener {
+                    val youtubeVideoUrl = "https://www.youtube.com/watch?v=$youtubeVideoId"
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(youtubeVideoUrl))
+                    view.context.startActivity(intent)
+                }
+            } catch (e: Exception) {
+                ivVideoThumbnail.isClickable = false
+                ivVideoThumbnail.visibility = View.GONE
             }
+        } else {
+            ivVideoThumbnail.isClickable = false
+            ivVideoThumbnail.visibility = View.GONE
         }
     }
 }
