@@ -1,10 +1,10 @@
 package com.comunidadedevspace.joaovazstudio
 
+import com.comunidadedevspace.joaovazstudio.data.database.ActionType
+import com.comunidadedevspace.joaovazstudio.data.database.ExerciseAction
 import com.comunidadedevspace.joaovazstudio.data.local.Exercise
 import com.comunidadedevspace.joaovazstudio.data.local.ExerciseDao
-import com.comunidadedevspace.joaovazstudio.data.database.ActionType
 import com.comunidadedevspace.joaovazstudio.presentation.viewmodel.ExerciseDetailViewModel
-import com.comunidadedevspace.joaovazstudio.data.database.ExerciseAction
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
@@ -96,7 +96,7 @@ class ExerciseDetailViewModelTest {
         underTest.execute(exerciseAction)
 
         //Then
-        verify(exerciseDao).deleteById(exercise.id, userId = 0)
+        verify(exerciseDao).deleteById(exercise.id)
     }
 
 }
