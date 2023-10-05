@@ -48,10 +48,10 @@ class ExerciseDetailViewModel(
 
         fun getVMFactory(application: Application): ViewModelProvider.Factory {
             val dataBaseInstance = (application as JoaoVazStudio).getAppDataBase()
-            val dao = dataBaseInstance.exerciseDao()
+            val exerciseDao = dataBaseInstance.exerciseDao()
             val factory = object : ViewModelProvider.Factory {
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return ExerciseDetailViewModel(dao) as T
+                    return ExerciseDetailViewModel(exerciseDao) as T
                 }
             }
             return factory

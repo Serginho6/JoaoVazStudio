@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.comunidadedevspace.joaovazstudio.R
 import com.comunidadedevspace.joaovazstudio.data.local.Exercise
 import com.comunidadedevspace.joaovazstudio.presentation.adapters.ExerciseListAdapter
-import com.comunidadedevspace.joaovazstudio.presentation.view.ExerciseDetailActivity
 import com.comunidadedevspace.joaovazstudio.presentation.viewmodel.ExerciseListViewModel
 
 class ExerciseListFragment : Fragment() {
@@ -70,8 +70,18 @@ class ExerciseListFragment : Fragment() {
     }
 
     private fun openExerciseListDetail(exercise: Exercise) {
-        val intent = ExerciseDetailActivity.start(requireContext(), exercise, 0)
-        requireActivity().startActivity(intent)
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+        dialogBuilder.setMessage("Deseja excluir este exercício?")
+            .setPositiveButton("Sim") { dialog, _ ->
+                // Executar ação de exclusão aqui
+                exerciseViewModel.deleteExercise(exercise)
+                dialog.dismiss()
+            }
+            .setNegativeButton("Não") { dialog, _ ->
+                dialog.dismiss()
+            }
+        val dialog = dialogBuilder.create()
+        dialog.show()
     }
 
     companion object {

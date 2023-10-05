@@ -5,9 +5,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -121,28 +118,6 @@ class ExerciseDetailActivity : AppCompatActivity() {
     ){
         val exercise = Exercise(id, userId, trainId, title, description, videoId, isSelected = false)
         performAction(exercise, actionType)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater : MenuInflater = menuInflater
-        inflater.inflate(R.menu.menu_train_or_exercise_detail, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.delete_task -> {
-
-                if(exercise != null){
-                    performAction(exercise!!, ActionType.DELETE)
-                }else{
-                    showMessage(btnSaveExercise, "Impossível excluir item não criado.")
-                }
-
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 
     private fun performAction(exercise: Exercise, actionType: ActionType){
