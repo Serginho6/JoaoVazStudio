@@ -23,7 +23,9 @@ import com.comunidadedevspace.joaovazstudio.data.local.Exercise
 
 class ExerciseListSelectedAdapter(
     private val context: Context,
-    private val openExerciseDetailView: (exercise: Exercise) -> Unit
+    private val openExerciseDetailView: (exercise: Exercise) -> Unit,
+    private val updateExerciseSelection: (exercise: Exercise, isSelected: Boolean) -> Unit
+
 ) : ListAdapter<Exercise, ExerciseListSelectedViewHolder>(ExerciseListAdapter) {
 
     private val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
@@ -48,21 +50,17 @@ class ExerciseListSelectedAdapter(
         val exercise = getItem(position)
         holder.bind(exercise, openExerciseDetailView)
 
-        holder.checkbox.setOnCheckedChangeListener(null)
-
         holder.checkbox.isChecked = checkedExercisesSet.contains(exercise.title)
 
         holder.checkbox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 checkedExercisesSet.add(exercise.title)
-                exercise.isCompleted = true
             } else {
                 checkedExercisesSet.remove(exercise.title)
-                exercise.isCompleted = false
             }
 
             sharedPreferences.edit().putStringSet("checkedExercises", checkedExercisesSet).apply()
-
+//            updateExerciseSelection(exercise, isChecked)
             updateExerciseSlctdAppearance(holder, isChecked)
         }
 

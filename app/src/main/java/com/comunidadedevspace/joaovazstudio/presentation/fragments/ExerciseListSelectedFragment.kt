@@ -35,7 +35,9 @@ class ExerciseListSelectedFragment : Fragment() {
 
     // Adapter
     private val exerciseAdapter: ExerciseListSelectedAdapter by lazy {
-        ExerciseListSelectedAdapter(requireContext(), ::openExerciseListDetail)
+        ExerciseListSelectedAdapter(requireContext(), ::openExerciseListDetail) { exercise, isSelected ->
+            updateExerciseSelectionInDatabase(exercise, isSelected)
+        }
     }
 
     // ViewModel
@@ -221,6 +223,17 @@ class ExerciseListSelectedFragment : Fragment() {
             }
         } else {
             updateTrainContentVisibility(false)
+        }
+    }
+
+    private fun updateExerciseSelectionInDatabase(exercise: Exercise, isSelected: Boolean) {
+        exercise.isSelected = isSelected
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                val exerciseDao = (requireActivity().application as JoaoVazStudio).getAppDataBase().exerciseDao()
+                exerciseDao.updateExercise(exercise)
+            }
         }
     }
 
