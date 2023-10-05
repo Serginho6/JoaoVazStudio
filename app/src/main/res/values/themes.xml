@@ -1,33 +1,39 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.TaskBeats" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.JoaoVazStudio" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/black</item>
+        <item name="backgroundTint">@color/off_white</item>
+
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/green_300</item>
         <item name="colorPrimaryVariant">@color/gray_100</item>
         <item name="colorOnPrimary">@color/black</item>
+
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/green_300</item>
-        <item name="colorSecondaryVariant">@color/black_700</item>
+        <item name="colorSecondaryVariant">@color/gray_100</item>
         <item name="colorOnSecondary">@color/black</item>
+
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimary</item>
-        <!-- Customize your theme here. -->
+
     </style>
 
     <style name="Title3" parent="Widget.AppCompat.TextView">
         <item name="fontFamily">@font/bebasneue_regular</item>
         <item name="android:letterSpacing">0.1</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/black_700</item>
-        <item name="android:textSize">22dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:layout_marginTop">8sp</item>
     </style>
 
     <style name="Body1" parent="Widget.AppCompat.TextView">
         <item name="fontFamily">@font/bebasneue_regular</item>
         <item name="android:letterSpacing">0.1</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">16dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="ButtonPrimary" parent="Widget.AppCompat.Button">
@@ -38,10 +44,9 @@
         <item name="android:textColor">@color/black</item>
         <item name="backgroundTint">@color/green_300</item>
     </style>
-  <!-- Base application theme. -->
-    <style name="Base.Theme.TaskBeats" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <style name="MenuTextWhite">
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
 </resources>

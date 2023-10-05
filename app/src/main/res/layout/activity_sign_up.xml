@@ -29,6 +29,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/name_cardview"
         style="@style/Body1"
+        android:backgroundTint="@color/gray"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
@@ -62,6 +63,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/email_cardview"
         style="@style/Body1"
+        android:backgroundTint="@color/gray"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
@@ -95,6 +97,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/password_cardview"
         style="@style/Body1"
+        android:backgroundTint="@color/gray"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
@@ -128,6 +131,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/phone_cardview"
         style="@style/Body1"
+        android:backgroundTint="@color/gray"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
@@ -219,6 +223,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/height_cardview"
                 style="@style/Body1"
+                android:backgroundTint="@color/gray"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
@@ -255,6 +260,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/weight_cardview"
                 style="@style/Body1"
+                android:backgroundTint="@color/gray"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"

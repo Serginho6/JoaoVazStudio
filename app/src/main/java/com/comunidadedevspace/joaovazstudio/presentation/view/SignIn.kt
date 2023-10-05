@@ -3,7 +3,6 @@ package com.comunidadedevspace.joaovazstudio.presentation.view
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.res.Configuration
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
@@ -17,7 +16,6 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -86,17 +84,6 @@ class SignIn : AppCompatActivity() {
                 startActivity(intent)
                 finish() // Feche a tela de login
             }
-        }
-
-        // Troca imagem da tela de acordo com o tema.
-        val imageView = findViewById<ImageView>(R.id.image_view_logo)
-
-        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-
-        if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
-            imageView.setImageResource(R.drawable.joao_vaz_icon_dark)
-        } else {
-            imageView.setImageResource(R.drawable.joao_vaz_icon_white)
         }
 
         btnLogin.setOnClickListener {

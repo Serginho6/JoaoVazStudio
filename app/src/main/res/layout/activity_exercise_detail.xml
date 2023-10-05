@@ -25,6 +25,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/exercise_cardview"
             style="@style/Body1"
+            android:backgroundTint="@color/gray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp">
@@ -51,6 +52,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/quantity_cardview"
             style="@style/Body1"
+            android:backgroundTint="@color/gray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp">
@@ -78,6 +80,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/video_url_cardview"
             style="@style/Body1"
+            android:backgroundTint="@color/gray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp">

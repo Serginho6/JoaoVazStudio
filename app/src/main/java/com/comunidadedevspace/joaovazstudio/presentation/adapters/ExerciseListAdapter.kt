@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -29,8 +28,6 @@ class ExerciseListAdapter(
         val exercise = getItem(position)
         holder.bind(exercise, openExerciseDetailView)
 
-        updateExerciseAppearance(holder, exercise.isSelected)
-
         holder.itemView.setOnClickListener {
             openExerciseDetailView(exercise)
         }
@@ -40,18 +37,6 @@ class ExerciseListAdapter(
 
     fun setOnItemClickListener(listener: (Exercise) -> Unit) {
         onItemClickListener = listener
-    }
-
-    private fun updateExerciseAppearance(holder: ExerciseListViewHolder, isSelected: Boolean) {
-        if (isSelected) {
-            // Altere a aparência quando o CheckBox estiver selecionado
-            holder.tvExerciseTitle.setTextColor(ContextCompat.getColor(context, R.color.selectedTextColor))
-            holder.tvExerciseDesc.setTextColor(ContextCompat.getColor(context, R.color.selectedTextColor))
-        } else {
-            // Restaure a aparência padrão quando o CheckBox NÃO estiver selecionado
-            holder.tvExerciseTitle.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
-            holder.tvExerciseDesc.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
-        }
     }
 
     companion object : DiffUtil.ItemCallback<Exercise>(){

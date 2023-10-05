@@ -81,16 +81,16 @@ class ExerciseListSelectedAdapter(
             holder.tvExerciseSlctdDesc.alpha = 0.5f
             holder.tvExerciseSlctdTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             holder.tvExerciseSlctdDesc.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-            holder.checkbox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.selectedTextColor))
+            holder.checkbox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.green_300))
             holder.ivVideoThumbnail.alpha = 0.5f
         } else {
-            holder.tvExerciseSlctdTitle.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
-            holder.tvExerciseSlctdDesc.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
+            holder.tvExerciseSlctdTitle.setTextColor(ContextCompat.getColor(context, R.color.white))
+            holder.tvExerciseSlctdDesc.setTextColor(ContextCompat.getColor(context, R.color.white))
             holder.tvExerciseSlctdTitle.alpha = 1f
             holder.tvExerciseSlctdDesc.alpha = 1f
             holder.tvExerciseSlctdTitle.paintFlags = holder.tvExerciseSlctdTitle.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
             holder.tvExerciseSlctdDesc.paintFlags = holder.tvExerciseSlctdDesc.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-            holder.checkbox.setTextColor(ContextCompat.getColor(context, R.color.defaultTextColor))
+            holder.checkbox.setTextColor(ContextCompat.getColor(context, R.color.white))
             holder.checkbox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white))
             holder.ivVideoThumbnail.alpha = 1f
         }
