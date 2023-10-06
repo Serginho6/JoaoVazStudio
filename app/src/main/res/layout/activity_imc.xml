@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="20dp"
-    tools:context=".presentation.ImcActivity">
+    android:padding="20dp"
+    tools:context=".presentation.view.ImcActivity">
 
     <ImageView
         android:id="@+id/imcIndex"

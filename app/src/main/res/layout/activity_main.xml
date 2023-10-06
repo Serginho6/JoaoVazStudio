@@ -4,16 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.MainActivity">
+    tools:context=".presentation.view.MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout="@layout/fragment_selected_train"/>
+        tools:layout="@layout/fragment_exercise_list_selected"/>
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
+        android:backgroundTint="@color/gray"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:fabCradleMargin="10dp"
@@ -28,13 +29,5 @@
             app:menu="@menu/menu_main"/>
 
     </com.google.android.material.bottomappbar.BottomAppBar>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_baseline_add_24"
-        app:layout_anchor="@id/bottomAppBar"
-        app:tint="@color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

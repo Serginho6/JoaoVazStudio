@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".presentation.ImcResultActivity">
+    android:padding="20dp"
+    tools:context=".presentation.view.ImcResultActivity">
 
     <TextView
         style="@style/Title3"
@@ -26,7 +27,7 @@
         android:padding="16dp"
         android:textAlignment="center"
         android:textSize="38sp"
-        android:textColor="@color/green_300"
+        android:textColor="@color/sea_green"
         tools:text="27.1020" />
 
     <TextView

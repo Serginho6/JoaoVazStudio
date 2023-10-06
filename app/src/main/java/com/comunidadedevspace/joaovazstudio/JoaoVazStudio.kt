@@ -2,9 +2,8 @@ package com.comunidadedevspace.joaovazstudio
 
 import android.app.Application
 import androidx.room.Room
-import com.comunidadedevspace.joaovazstudio.data.AppDataBase
-import com.comunidadedevspace.joaovazstudio.data.MIGRATION_9_10
-import com.google.firebase.FirebaseApp
+import com.comunidadedevspace.joaovazstudio.data.database.MIGRATION_11_12
+import com.comunidadedevspace.joaovazstudio.data.local.AppDataBase
 
 class JoaoVazStudio: Application() {
 
@@ -13,10 +12,8 @@ class JoaoVazStudio: Application() {
     override fun onCreate() {
         super.onCreate()
 
-        FirebaseApp.initializeApp(this)
-
         dataBase = Room.databaseBuilder(applicationContext, AppDataBase::class.java, "joao-vaz-studio-database")
-            .addMigrations(MIGRATION_9_10)
+            .addMigrations(MIGRATION_11_12)
             .build()
     }
 

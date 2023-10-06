@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.ExerciseDetailActivity">
+    tools:context=".presentation.view.ExerciseDetailActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,14 +22,25 @@
             android:layout_marginStart="8dp"
             android:text="Exercício:"/>
 
-        <EditText
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/exercise_cardview"
             style="@style/Body1"
-            android:id="@+id/edt_task_title"
+            android:backgroundTint="@color/gray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:hint="Adicione uma atividade"/>
+            android:layout_margin="15dp">
+
+            <EditText
+                style="@style/Body1"
+                android:id="@+id/edt_task_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:inputType="text"
+                android:hint="Adicione uma atividade"/>
+
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             style="@style/Title3"
@@ -38,14 +49,25 @@
             android:layout_marginStart="8dp"
             android:text="Quantidade:"/>
 
-        <EditText
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/quantity_cardview"
             style="@style/Body1"
-            android:id="@+id/edt_task_description"
+            android:backgroundTint="@color/gray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:hint="Adicione o tempo ou número de séries"/>
+            android:layout_margin="15dp">
+
+            <EditText
+                style="@style/Body1"
+                android:id="@+id/edt_task_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:inputType="text"
+                android:hint="Adicione o tempo ou número de séries"/>
+
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             style="@style/Title3"
@@ -55,15 +77,25 @@
             android:layout_marginStart="8dp"
             android:text="Video:"/>
 
-        <EditText
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/video_url_cardview"
             style="@style/Body1"
-            android:id="@+id/edt_task_video_url"
+            android:backgroundTint="@color/gray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_video"
-            android:hint="Cole aqui o link do Youtube"
-            android:inputType="text"
-            android:layout_marginHorizontal="10dp"/>
+            android:layout_margin="15dp">
+
+            <EditText
+                style="@style/Body1"
+                android:id="@+id/edt_task_video_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_video"
+                android:hint="Cole aqui o link do Youtube"
+                android:inputType="text"
+                android:layout_marginHorizontal="10dp"/>
+
+        </com.google.android.material.card.MaterialCardView>
 
         <Button
             style="@style/ButtonPrimary"
