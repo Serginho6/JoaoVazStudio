@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="20dp"
+    android:padding="20dp"
     tools:context=".presentation.view.SignIn">
 
     <TextView
@@ -113,6 +113,21 @@
         android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@+id/password_cardview"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/forgot_password_link"
+        style="@style/Body1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="Esqueceu a senha?"
+        android:textColor="@color/sea_green"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toTopOf="@+id/checkbox_keep_connected"
+        app:layout_constraintBottom_toBottomOf="@id/checkbox_keep_connected"
+        app:layout_constraintEnd_toEndOf="@id/password_cardview"
+        android:layout_gravity="center_horizontal"/>
 
     <TextView
         android:id="@+id/tv_error_signin"

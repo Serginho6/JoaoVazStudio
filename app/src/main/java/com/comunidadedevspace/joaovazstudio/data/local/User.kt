@@ -10,7 +10,7 @@ data class User(
     var id: Long = 0,
     val name: String,
     val email: String,
-    val password: String,
+    var password: String,
     val phone: String,
     val gender: String,
     val height: String,

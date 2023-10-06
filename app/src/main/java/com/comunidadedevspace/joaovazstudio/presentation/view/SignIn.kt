@@ -86,6 +86,13 @@ class SignIn : AppCompatActivity() {
             }
         }
 
+        val forgotPasswordLink = findViewById<TextView>(R.id.forgot_password_link)
+
+        forgotPasswordLink.setOnClickListener {
+            val intent = Intent(this@SignIn, ForgotPassword::class.java)
+            startActivity(intent)
+        }
+
         btnLogin.setOnClickListener {
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
