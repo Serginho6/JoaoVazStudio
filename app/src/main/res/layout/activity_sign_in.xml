@@ -48,8 +48,9 @@
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:hint="seu e-mail"
-            android:maxLength="30"
-            android:padding="10dp" />
+            android:maxLength="256"
+            android:padding="10dp"
+            android:inputType="textEmailAddress" />
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -83,8 +84,7 @@
             android:hint="Sua senha"
             android:maxLength="8"
             android:padding="10dp"
-            android:inputType="textPassword"
-            android:password="true" />
+            android:inputType="numberPassword" />
 
         <ImageButton
             android:id="@+id/password_toggle_button"
