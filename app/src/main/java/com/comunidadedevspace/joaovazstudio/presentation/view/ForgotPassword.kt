@@ -56,6 +56,8 @@ class ForgotPassword : AppCompatActivity() {
                             showError("E-mail não encontrado")
                         }
                     }
+                } else {
+                    showError("Senha deve conter de 6 à 8 dígitos")
                 }
             } else {
                 showError("E-mail inválido")
@@ -81,7 +83,10 @@ class ForgotPassword : AppCompatActivity() {
     }
 
     private fun isValidPassword(password: String): Boolean {
-        return password.length >= 8
+        val minLength = 6
+        val maxLength = 8
+
+        return  password.length in minLength..maxLength
     }
 
     private fun showSuccess(message: String) {
