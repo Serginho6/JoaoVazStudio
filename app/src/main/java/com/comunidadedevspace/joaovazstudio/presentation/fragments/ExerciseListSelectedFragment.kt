@@ -18,7 +18,6 @@ import com.comunidadedevspace.joaovazstudio.R
 import com.comunidadedevspace.joaovazstudio.data.local.Exercise
 import com.comunidadedevspace.joaovazstudio.data.local.Train
 import com.comunidadedevspace.joaovazstudio.presentation.adapters.ExerciseListSelectedAdapter
-import com.comunidadedevspace.joaovazstudio.presentation.view.ExerciseDetailActivity
 import com.comunidadedevspace.joaovazstudio.presentation.viewmodel.ExerciseListViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Dispatchers
@@ -35,7 +34,7 @@ class ExerciseListSelectedFragment : Fragment() {
 
     // Adapter
     private val exerciseAdapter: ExerciseListSelectedAdapter by lazy {
-        ExerciseListSelectedAdapter(requireContext(), ::openExerciseListDetail) { exercise, isSelected ->
+        ExerciseListSelectedAdapter(requireContext()) { exercise, isSelected ->
             updateExerciseSelectionInDatabase(exercise, isSelected)
         }
     }
@@ -130,16 +129,12 @@ class ExerciseListSelectedFragment : Fragment() {
         exerciseViewModel.exerciseListLiveData.observe(viewLifecycleOwner, listObserver)
     }
 
-    private fun openExerciseListDetail(exercise: Exercise) {
-        val intent = ExerciseDetailActivity.start(requireContext(), exercise, 0)
-        requireActivity().startActivity(intent)
-    }
-
     private fun showSelectTrainDialog() {
         val trainDao = (requireActivity().application as JoaoVazStudio).getAppDataBase().trainDao()
 
-        // Verifique se há um treino selecionado no SharedPreferences
         val selectedTrainId = sharedPreferences.getInt(sharedPreferencesKey, -1)
+
+        val isTrainSelected = selectedTrainId != -1
 
         // Observe a lista de treinos do usuário atual que têm exercícios associados
         trainDao.getTrainsWithExercisesByUserId(currentUserId).observe(viewLifecycleOwner) { trains ->
@@ -157,9 +152,11 @@ class ExerciseListSelectedFragment : Fragment() {
                     dialog.dismiss()
                 }
                 .setNegativeButton("Cancelar", null)
-                .setNeutralButton("Limpar") { _, _ ->
+            if (isTrainSelected) {
+                builder.setNeutralButton("Concluir") { _, _ ->
                     clearSelectedTrain()
                 }
+            }
 
             // Cria o AlertDialog separadamente
             val alertDialog = builder.create()
@@ -195,6 +192,7 @@ class ExerciseListSelectedFragment : Fragment() {
 
         // Oculte a lista de exercícios e mostre o conteúdo selecionar treino
         updateTrainContentVisibility(false)
+        showCongratulationsDialog()
     }
 
     private fun updateTrainContentVisibility(isTrainSelected: Boolean) {
@@ -231,10 +229,21 @@ class ExerciseListSelectedFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             withContext(Dispatchers.IO) {
-                val exerciseDao = (requireActivity().application as JoaoVazStudio).getAppDataBase().exerciseDao()
+                val exerciseDao =
+                    (requireActivity().application as JoaoVazStudio).getAppDataBase().exerciseDao()
                 exerciseDao.updateExercise(exercise)
             }
         }
+    }
+
+    private fun showCongratulationsDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Parabéns! \uD83E\uDD73\uD83C\uDF89")
+            .setMessage("\nUfa, treino de hoje tá pago. \n\nNos vemos no próximo!")
+            .setPositiveButton("Ok") { dialog, _ ->
+                dialog.dismiss()
+            }
+        builder.create().show()
     }
 
     companion object {

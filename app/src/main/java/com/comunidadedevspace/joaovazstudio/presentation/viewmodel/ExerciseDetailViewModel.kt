@@ -40,7 +40,7 @@ class ExerciseDetailViewModel(
     //UPDATE
     private fun updateIntoDataBase(exercise: Exercise) {
         viewModelScope.launch {
-            exerciseDao.update(exercise)
+            exerciseDao.updateExercise(exercise)
         }
     }
 

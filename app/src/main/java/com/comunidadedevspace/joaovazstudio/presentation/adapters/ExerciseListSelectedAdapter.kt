@@ -22,9 +22,8 @@ import com.comunidadedevspace.joaovazstudio.R
 import com.comunidadedevspace.joaovazstudio.data.local.Exercise
 
 class ExerciseListSelectedAdapter(
-    private val context: Context,
-    private val openExerciseDetailView: (exercise: Exercise) -> Unit,
-    private val updateExerciseSelection: (exercise: Exercise, isSelected: Boolean) -> Unit
+    context: Context,
+    private val updateExerciseSelectionInDatabase: (exercise: Exercise, isSelected: Boolean) -> Unit,
 
 ) : ListAdapter<Exercise, ExerciseListSelectedViewHolder>(ExerciseListAdapter) {
 
@@ -48,7 +47,7 @@ class ExerciseListSelectedAdapter(
 
     override fun onBindViewHolder(holder: ExerciseListSelectedViewHolder, position: Int) {
         val exercise = getItem(position)
-        holder.bind(exercise, openExerciseDetailView)
+        holder.bind(exercise)
 
         holder.checkbox.isChecked = checkedExercisesSet.contains(exercise.title)
 
@@ -60,38 +59,15 @@ class ExerciseListSelectedAdapter(
             }
 
             sharedPreferences.edit().putStringSet("checkedExercises", checkedExercisesSet).apply()
-//            updateExerciseSelection(exercise, isChecked)
-            updateExerciseSlctdAppearance(holder, isChecked)
+            holder.updateAppearance(holder.checkbox.isChecked)
         }
-
-        updateExerciseSlctdAppearance(holder, holder.checkbox.isChecked)
+        holder.updateAppearance(holder.checkbox.isChecked)
     }
 
     private var onItemClickListener: ((Exercise) -> Unit)? = null
 
     fun setOnItemClickListener(listener: (Exercise) -> Unit) {
         onItemClickListener = listener
-    }
-
-    private fun updateExerciseSlctdAppearance(holder: ExerciseListSelectedViewHolder, isSelected: Boolean) {
-        if (isSelected) {
-            holder.tvExerciseSlctdTitle.alpha = 0.5f
-            holder.tvExerciseSlctdDesc.alpha = 0.5f
-            holder.tvExerciseSlctdTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-            holder.tvExerciseSlctdDesc.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-            holder.checkbox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.sea_green))
-            holder.ivVideoThumbnail.alpha = 0.5f
-        } else {
-            holder.tvExerciseSlctdTitle.setTextColor(ContextCompat.getColor(context, R.color.white))
-            holder.tvExerciseSlctdDesc.setTextColor(ContextCompat.getColor(context, R.color.white))
-            holder.tvExerciseSlctdTitle.alpha = 1f
-            holder.tvExerciseSlctdDesc.alpha = 1f
-            holder.tvExerciseSlctdTitle.paintFlags = holder.tvExerciseSlctdTitle.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-            holder.tvExerciseSlctdDesc.paintFlags = holder.tvExerciseSlctdDesc.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-            holder.checkbox.setTextColor(ContextCompat.getColor(context, R.color.white))
-            holder.checkbox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white))
-            holder.ivVideoThumbnail.alpha = 1f
-        }
     }
 
     companion object : DiffUtil.ItemCallback<Exercise>(){
@@ -107,16 +83,17 @@ class ExerciseListSelectedAdapter(
     }
 }
 
-class ExerciseListSelectedViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+class ExerciseListSelectedViewHolder(
+    private val view: View,
+) : RecyclerView.ViewHolder(view) {
 
-    val tvExerciseSlctdTitle: TextView = view.findViewById(R.id.tv_exercise_selected_title)
-    val tvExerciseSlctdDesc: TextView = view.findViewById(R.id.tv_exercise_selected_description)
-    val ivVideoThumbnail: ImageView = view.findViewById(R.id.iv_video_thumbnail)
+    private val tvExerciseSlctdTitle: TextView = view.findViewById(R.id.tv_exercise_selected_title)
+    private val tvExerciseSlctdDesc: TextView = view.findViewById(R.id.tv_exercise_selected_description)
+    private val ivVideoThumbnail: ImageView = view.findViewById(R.id.iv_video_thumbnail)
     val checkbox: CheckBox = view.findViewById(R.id.checkbox_exercise)
 
     fun bind(
         exercise: Exercise,
-        openTaskDetailView:(exercise: Exercise) -> Unit
     ) {
         tvExerciseSlctdTitle.text = exercise.title
         tvExerciseSlctdDesc.text = exercise.description
@@ -144,6 +121,27 @@ class ExerciseListSelectedViewHolder(private val view: View) : RecyclerView.View
         } else {
             ivVideoThumbnail.isClickable = false
             ivVideoThumbnail.visibility = View.GONE
+        }
+    }
+
+    fun updateAppearance(isSelected: Boolean) {
+        if (isSelected) {
+            tvExerciseSlctdTitle.alpha = 0.5f
+            tvExerciseSlctdDesc.alpha = 0.5f
+            tvExerciseSlctdTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+            tvExerciseSlctdDesc.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+            checkbox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(view.context, R.color.sea_green))
+            ivVideoThumbnail.alpha = 0.5f
+        } else {
+            tvExerciseSlctdTitle.setTextColor(ContextCompat.getColor(view.context, R.color.white))
+            tvExerciseSlctdDesc.setTextColor(ContextCompat.getColor(view.context, R.color.white))
+            tvExerciseSlctdTitle.alpha = 1f
+            tvExerciseSlctdDesc.alpha = 1f
+            tvExerciseSlctdTitle.paintFlags = tvExerciseSlctdTitle.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+            tvExerciseSlctdDesc.paintFlags = tvExerciseSlctdDesc.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+            checkbox.setTextColor(ContextCompat.getColor(view.context, R.color.white))
+            checkbox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(view.context, R.color.white))
+            ivVideoThumbnail.alpha = 1f
         }
     }
 }
