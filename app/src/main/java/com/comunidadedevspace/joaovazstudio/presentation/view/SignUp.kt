@@ -1,6 +1,7 @@
 package com.comunidadedevspace.joaovazstudio.presentation.view
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
@@ -14,10 +15,20 @@ import androidx.room.Room
 import com.comunidadedevspace.joaovazstudio.R
 import com.comunidadedevspace.joaovazstudio.data.local.AppDataBase
 import com.comunidadedevspace.joaovazstudio.data.local.User
+import com.comunidadedevspace.joaovazstudio.databinding.ActivitySignUpBinding
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SignUp : AppCompatActivity() {
+
+    private lateinit var binding: ActivitySignUpBinding
+    private val auth = FirebaseAuth.getInstance()
 
     private lateinit var nameEditText: EditText
     private lateinit var emailEditText: EditText
@@ -29,7 +40,8 @@ class SignUp : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_up)
+        binding = ActivitySignUpBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         nameEditText = findViewById(R.id.name_edt_text)
         emailEditText = findViewById(R.id.email_edt_text)
@@ -57,18 +69,49 @@ class SignUp : AppCompatActivity() {
         }
 
         val registerButton = findViewById<Button>(R.id.btn_register)
-        registerButton.setOnClickListener {
+        registerButton.setOnClickListener { view ->
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
 
-            if (!isValidEmail(email)) {
-                showErrorMessage("Endereço de e-mail inválido")
-            } else if (!isValidPassword(password)) {
-                showErrorMessage("Senha deve conter de 6 à 8 dígitos")
-            } else if (isInputValid()) {
-                saveUserToDatabase()
+//            if (!isValidEmail(email)) {
+//                showErrorMessage("Endereço de e-mail inválido")
+//            } else if (!isValidPassword(password)) {
+//                showErrorMessage("Senha deve conter de 6 à 8 dígitos")
+//            } else if (isInputValid()) {
+//                saveUserToDatabase()
+//            } else {
+//                showErrorMessage("É necessário preencher todos os campos.")
+//            }
+
+            if (email.isEmpty() || password.isEmpty()) {
+                val snackbar =
+                    Snackbar.make(view, "Preencha todos os campos", Snackbar.LENGTH_SHORT)
+                snackbar.setBackgroundTint(Color.RED)
+                snackbar.show()
             } else {
-                showErrorMessage("É necessário preencher todos os campos.")
+                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener{
+                    if (it.isSuccessful){
+                        val snackbar =
+                            Snackbar.make(view, "Usuário Cadastrado", Snackbar.LENGTH_SHORT)
+                        val backgroundColor = Color.parseColor("#FF03DAC5")
+                        snackbar.setBackgroundTint(backgroundColor)
+                        snackbar.show()
+                        binding.emailEdtText.setText("")
+                        binding.passwordEdtText.setText("")
+                    }
+                }.addOnFailureListener{exception ->
+                    val errorMessage = when(exception){
+                        is FirebaseAuthWeakPasswordException -> "Digite uma senha com no mínimo 6 caracteres."
+                        is FirebaseAuthInvalidCredentialsException -> "Digite um email válido."
+                        is FirebaseAuthUserCollisionException -> "E-mail já cadastrado."
+                        is FirebaseNetworkException -> "Sem conexão com a internet."
+                        else -> "Erro ao cadastrar usuário."
+                    }
+                    val snackbar =
+                        Snackbar.make(view, errorMessage, Snackbar.LENGTH_SHORT)
+                    snackbar.setBackgroundTint(Color.RED)
+                    snackbar.show()
+                }
             }
         }
     }
@@ -154,4 +197,6 @@ class SignUp : AppCompatActivity() {
 
         return  password.length in minLength..maxLength
     }
+
+
 }
