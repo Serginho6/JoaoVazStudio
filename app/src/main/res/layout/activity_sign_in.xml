@@ -94,7 +94,7 @@
             android:scaleType="fitCenter"
             android:layout_gravity="end|center_vertical"
             android:layout_marginEnd="10dp"
-            android:background="?android:selectableItemBackground"
+            android:background="@color/black_brown"
             android:contentDescription="Alternar visibilidade da senha"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
