@@ -2,19 +2,27 @@
 É um aplicativo em fase de desenvolvimento para criação de treinos e controle de evolução do físico para os alunos do Studio João Vaz Training.
 
 ## :camera_flash: Screenshots
-<!-- You can add more screenshots here if you like -->
-<!--<img src="/screenshots/Screenshot_1.png" width="260">&emsp;<img src="/screenshots/Screenshot_2.png" width="260">&emsp;<img src="/screenshots/Screenshot_3.png" width="260">-->
+<img src="/screenshots/screenshot-7.png" width="260">&emsp;<img src="/screenshots/screenshot-8.png" width="260">&emsp;<img src="/screenshots/screenshot-3.png" width="260">&emsp;<img src="/screenshots/screenshot-2.png" width="260">&emsp;<img src="/screenshots/screenshot-1.png" width="260">&emsp;<img src="/screenshots/screenshot-4.png" width="260">&emsp;<img src="/screenshots/screenshot-5.png" width="260">
 
-## Tecnologias
+## Tecnologies
 * Kotlin
 * RecyclerView
 * RecyclerView Adapter
+* Viewmodels
 * FloatActionButton
 * CRUD
 * Room DataBase
+* Foreign Key
+* Shared Preferences
 * MVVM Architecture
 * Unit Testing
 * LiveData
+* Coroutines
+
+## To-do
+* Firebase Authentication
+* Physical Assestment feature
+* Edit Profile
 
 ## Author
 Sérgio Bismark Cim Marchewsky (follow me on [Linkedin](https://www.linkedin.com/in/s%C3%A9rgio-bismark-cim-marchewsky-ab0062129/))
