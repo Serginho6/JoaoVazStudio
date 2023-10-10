@@ -12,8 +12,6 @@ interface ExerciseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(exercise: Exercise)
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun update(exercise: Exercise)
-    @Update
     suspend fun updateExercise(exercise: Exercise)
     @Query("SELECT * FROM exercise WHERE trainId = :trainId AND isSelected = 1")
     fun getSelectedExercises(trainId: Int): List<Exercise>

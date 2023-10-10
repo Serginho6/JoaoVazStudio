@@ -59,9 +59,12 @@ class SignUp : AppCompatActivity() {
         val registerButton = findViewById<Button>(R.id.btn_register)
         registerButton.setOnClickListener {
             val email = emailEditText.text.toString()
+            val password = passwordEditText.text.toString()
 
             if (!isValidEmail(email)) {
                 showErrorMessage("Endereço de e-mail inválido")
+            } else if (!isValidPassword(password)) {
+                showErrorMessage("Senha deve conter de 6 à 8 dígitos")
             } else if (isInputValid()) {
                 saveUserToDatabase()
             } else {
@@ -80,8 +83,9 @@ class SignUp : AppCompatActivity() {
         val weight = weightEditText.text.toString()
 
         val isEmailValid = isValidEmail(email)
+        val isPasswordValid = isValidPassword(password)
 
-        return name.isNotEmpty() && isEmailValid && email.isNotEmpty() && password.isNotEmpty() &&
+        return name.isNotEmpty() && isEmailValid && email.isNotEmpty() && isPasswordValid && password.isNotEmpty() &&
                 phone.isNotEmpty() && gender && height.isNotEmpty() && weight.isNotEmpty()
     }
 
@@ -142,5 +146,12 @@ class SignUp : AppCompatActivity() {
     private fun isValidEmail(email: String): Boolean {
         val pattern = Patterns.EMAIL_ADDRESS
         return pattern.matcher(email).matches()
+    }
+
+    private fun isValidPassword(password: String): Boolean {
+        val minLength = 6
+        val maxLength = 8
+
+        return  password.length in minLength..maxLength
     }
 }

@@ -86,8 +86,15 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="300dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="40dp"
         android:src="@drawable/imc_result"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_marginTop="-40dp"
+        android:src="@drawable/imc_result_2"/>
 
     <TextView
         style="@style/Body1"
