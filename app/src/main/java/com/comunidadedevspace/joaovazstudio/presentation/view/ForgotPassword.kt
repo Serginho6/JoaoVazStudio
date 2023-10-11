@@ -8,18 +8,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.comunidadedevspace.joaovazstudio.JoaoVazStudio
 import com.comunidadedevspace.joaovazstudio.R
-import com.comunidadedevspace.joaovazstudio.data.local.User
 import com.comunidadedevspace.joaovazstudio.data.local.UserDao
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class ForgotPassword : AppCompatActivity() {
 
     private val auth = FirebaseAuth.getInstance()
 
     private lateinit var emailEditText: EditText
-    private lateinit var newPasswordEditText: EditText
     private lateinit var userDao: UserDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,22 +61,9 @@ class ForgotPassword : AppCompatActivity() {
         }
     }
 
-    private suspend fun getUserByEmail(email: String): User? {
-        return withContext(Dispatchers.IO) {
-            userDao.getUserByEmail(email)
-        }
-    }
-
     private fun isValidEmail(email: String): Boolean {
         val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
         return email.matches(emailPattern.toRegex())
-    }
-
-    private fun isValidPassword(password: String): Boolean {
-        val minLength = 6
-        val maxLength = 8
-
-        return  password.length in minLength..maxLength
     }
 
     private fun showSuccess(message: String) {
