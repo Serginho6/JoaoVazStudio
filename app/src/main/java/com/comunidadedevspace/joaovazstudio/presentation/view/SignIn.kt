@@ -3,6 +3,7 @@ package com.comunidadedevspace.joaovazstudio.presentation.view
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
@@ -19,19 +20,16 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
-import androidx.room.Room
 import com.comunidadedevspace.joaovazstudio.R
-import com.comunidadedevspace.joaovazstudio.data.local.AppDataBase
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-
-sealed class LoginResult {
-    data class Success(val userId: Long) : LoginResult()
-    data class Error(val message: String) : LoginResult()
-}
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 
 class SignIn : AppCompatActivity() {
+
+    private val auth = FirebaseAuth.getInstance()
 
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
@@ -61,7 +59,8 @@ class SignIn : AppCompatActivity() {
         passwordToggleButton.setOnClickListener {
             // Alternar a visibilidade da senha quando o botão for clicado
             if (passwordEditText.transformationMethod == PasswordTransformationMethod.getInstance()) {
-                passwordEditText.transformationMethod = HideReturnsTransformationMethod.getInstance()
+                passwordEditText.transformationMethod =
+                    HideReturnsTransformationMethod.getInstance()
                 passwordToggleButton.setImageResource(R.drawable.ic_visibility) // Ícone para senha visível
             } else {
                 passwordEditText.transformationMethod = PasswordTransformationMethod.getInstance()
@@ -93,10 +92,49 @@ class SignIn : AppCompatActivity() {
             startActivity(intent)
         }
 
-        btnLogin.setOnClickListener {
+        btnLogin.setOnClickListener { view ->
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
-            attemptLogin(email, password)
+
+            if (email.isEmpty() || password.isEmpty()) {
+                val snackbar =
+                    Snackbar.make(view, "Preencha todos os campos", Snackbar.LENGTH_SHORT)
+                snackbar.setBackgroundTint(Color.RED)
+                snackbar.show()
+            } else {
+                auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener { loginResult ->
+                        if (loginResult.isSuccessful) {
+
+                            val editor = sharedPreferences.edit()
+                            if (keepConnectedCheckBox.isChecked) {
+                                editor.putBoolean("isLoggedIn", true)
+                            } else {
+                                editor.putBoolean("isLoggedIn", false)
+                            }
+                            editor.apply()
+
+                            val intent = Intent(this@SignIn, MainActivity::class.java)
+                            startActivity(intent)
+
+                            val snackbar =
+                                Snackbar.make(view, "Login bem-sucedido", Snackbar.LENGTH_SHORT)
+                            val backgroundColor = Color.parseColor("#FF03DAC5")
+                            snackbar.setBackgroundTint(backgroundColor)
+                            snackbar.show()
+                        }
+                    }.addOnFailureListener { exception ->
+                    val errorMessage = when (exception) {
+                        is FirebaseAuthInvalidUserException -> "Usuário não encontrado. Verifique o e-mail fornecido."
+                        is FirebaseAuthInvalidCredentialsException -> "Senha inválida. Verifique ou recupere sua senha."
+                        is FirebaseNetworkException -> "Sem conexão com a internet."
+                        else -> "Erro ao fazer login. Verifique e-mail e senha."
+                    }
+                    val snackbar = Snackbar.make(view, errorMessage, Snackbar.LENGTH_SHORT)
+                    snackbar.setBackgroundTint(Color.RED)
+                    snackbar.show()
+                }
+            }
         }
 
         val registreSeAquiTextView = findViewById<TextView>(R.id.textview_link)
@@ -132,61 +170,61 @@ class SignIn : AppCompatActivity() {
         registreSeAquiTextView.text = spannableString
         registreSeAquiTextView.movementMethod = LinkMovementMethod.getInstance()
     }
-
-    private fun attemptLogin(email: String, password: String) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            // Verificando as credenciais no banco de dados
-            when (val result = isValidCredentials(email, password)) {
-                is LoginResult.Success -> {
-                    val userId = result.userId // Obtenha o userId após o login bem-sucedido
-                    sharedPreferences.edit().putLong("userId", userId).apply()
-
-                    val intent = Intent(this@SignIn, MainActivity::class.java)
-                    intent.putExtra("currentUserId", userId)
-                    startActivity(intent)
-                    runOnUiThread {
-                        errorTextView.visibility = View.GONE
-
-                        if (keepConnectedCheckBox.isChecked) {
-                            sharedPreferences.edit().putBoolean("isLoggedIn", true).apply()
-                        } else {
-                            sharedPreferences.edit().putBoolean("isLoggedIn", false).apply()
-                        }
-                    }
-                }
-                is LoginResult.Error -> {
-                    showError(result.message)
-                }
-            }
-        }
-    }
-
-    private suspend fun isValidCredentials(email: String, password: String): LoginResult {
-        return try {
-            val userDao = Room.databaseBuilder(
-                applicationContext,
-                AppDataBase::class.java,
-                "joao-vaz-studio-database"
-            ).build().userDao()
-
-            val user = userDao.getUserByEmail(email)
-
-            if (user != null && user.password == password) {
-                val userId = user.id
-                LoginResult.Success(userId)
-            } else {
-                LoginResult.Error("Email ou Senha incorreto(s)")
-            }
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-            LoginResult.Error("Preencha todos os campos")
-        }
-    }
-
-    private fun showError(message: String) {
-        runOnUiThread {
-            errorTextView.text = message
-            errorTextView.visibility = View.VISIBLE
-        }
-    }
 }
+
+//    private fun attemptLogin(email: String, password: String) {
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            // Verificando as credenciais no banco de dados
+//            when (val result = isValidCredentials(email, password)) {
+//                is LoginResult.Success -> {
+//                    val userId = result.userId // Obtenha o userId após o login bem-sucedido
+//                    sharedPreferences.edit().putLong("userId", userId).apply()
+//
+//                    val intent = Intent(this@SignIn, MainActivity::class.java)
+//                    intent.putExtra("currentUserId", userId)
+//                    startActivity(intent)
+//                    runOnUiThread {
+//                        errorTextView.visibility = View.GONE
+//
+//                        if (keepConnectedCheckBox.isChecked) {
+//                            sharedPreferences.edit().putBoolean("isLoggedIn", true).apply()
+//                        } else {
+//                            sharedPreferences.edit().putBoolean("isLoggedIn", false).apply()
+//                        }
+//                    }
+//                }
+//                is LoginResult.Error -> {
+//                    showError(result.message)
+//                }
+//            }
+//        }
+//    }
+//
+//    private suspend fun isValidCredentials(email: String, password: String): LoginResult {
+//        return try {
+//            val userDao = Room.databaseBuilder(
+//                applicationContext,
+//                AppDataBase::class.java,
+//                "joao-vaz-studio-database"
+//            ).build().userDao()
+//
+//            val user = userDao.getUserByEmail(email)
+//
+//            if (user != null && user.password == password) {
+//                val userId = user.id
+//                LoginResult.Success(userId)
+//            } else {
+//                LoginResult.Error("Email ou Senha incorreto(s)")
+//            }
+//        } catch (ex: Exception) {
+//            ex.printStackTrace()
+//            LoginResult.Error("Preencha todos os campos")
+//        }
+//    }
+//
+//    private fun showError(message: String) {
+//        runOnUiThread {
+//            errorTextView.text = message
+//            errorTextView.visibility = View.VISIBLE
+//        }
+//    }

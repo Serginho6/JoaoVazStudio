@@ -27,8 +27,8 @@ import kotlinx.coroutines.launch
 
 class SignUp : AppCompatActivity() {
 
-    private lateinit var binding: ActivitySignUpBinding
     private val auth = FirebaseAuth.getInstance()
+    private lateinit var binding: ActivitySignUpBinding
 
     private lateinit var nameEditText: EditText
     private lateinit var emailEditText: EditText
@@ -73,16 +73,6 @@ class SignUp : AppCompatActivity() {
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
 
-//            if (!isValidEmail(email)) {
-//                showErrorMessage("Endereço de e-mail inválido")
-//            } else if (!isValidPassword(password)) {
-//                showErrorMessage("Senha deve conter de 6 à 8 dígitos")
-//            } else if (isInputValid()) {
-//                saveUserToDatabase()
-//            } else {
-//                showErrorMessage("É necessário preencher todos os campos.")
-//            }
-
             if (email.isEmpty() || password.isEmpty()) {
                 val snackbar =
                     Snackbar.make(view, "Preencha todos os campos", Snackbar.LENGTH_SHORT)
@@ -99,9 +89,9 @@ class SignUp : AppCompatActivity() {
                         binding.emailEdtText.setText("")
                         binding.passwordEdtText.setText("")
                     }
-                }.addOnFailureListener{exception ->
+                }.addOnFailureListener{ exception ->
                     val errorMessage = when(exception){
-                        is FirebaseAuthWeakPasswordException -> "Digite uma senha com no mínimo 6 caracteres."
+                        is FirebaseAuthWeakPasswordException -> "Sua senha deve conter de 6 à 8 dígitos."
                         is FirebaseAuthInvalidCredentialsException -> "Digite um email válido."
                         is FirebaseAuthUserCollisionException -> "E-mail já cadastrado."
                         is FirebaseNetworkException -> "Sem conexão com a internet."
@@ -113,6 +103,16 @@ class SignUp : AppCompatActivity() {
                     snackbar.show()
                 }
             }
+
+            //            if (!isValidEmail(email)) {
+//                showErrorMessage("Endereço de e-mail inválido")
+//            } else if (!isValidPassword(password)) {
+//                showErrorMessage("Senha deve conter de 6 à 8 dígitos")
+//            } else if (isInputValid()) {
+//                saveUserToDatabase()
+//            } else {
+//                showErrorMessage("É necessário preencher todos os campos.")
+//            }
         }
     }
 

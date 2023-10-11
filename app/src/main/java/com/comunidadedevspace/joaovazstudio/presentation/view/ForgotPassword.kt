@@ -6,16 +6,17 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.comunidadedevspace.joaovazstudio.JoaoVazStudio
 import com.comunidadedevspace.joaovazstudio.R
 import com.comunidadedevspace.joaovazstudio.data.local.User
 import com.comunidadedevspace.joaovazstudio.data.local.UserDao
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ForgotPassword : AppCompatActivity() {
+
+    private val auth = FirebaseAuth.getInstance()
 
     private lateinit var emailEditText: EditText
     private lateinit var newPasswordEditText: EditText
@@ -29,40 +30,33 @@ class ForgotPassword : AppCompatActivity() {
         userDao = app.getAppDataBase().userDao()
 
         emailEditText = findViewById(R.id.edt_email_forgot)
-        newPasswordEditText = findViewById(R.id.password_forgot_new)
 
         val resetButton = findViewById<Button>(R.id.btn_reset_password)
         val backButton = findViewById<Button>(R.id.btn_back_to_login)
 
         resetButton.setOnClickListener {
             val email = emailEditText.text.toString()
-            val newPassword = newPasswordEditText.text.toString()
 
             if (isValidEmail(email)) {
-                if (isValidPassword(newPassword)){
-                    lifecycleScope.launch {
-                        val user = getUserByEmail(email)
-
-                        if (user != null) {
-                            user.password = newPassword
-                            userDao.update(user)
-
-                            showSuccess("Senha redefinida com sucesso")
-
+                auth.sendPasswordResetEmail(email)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            showSuccess("E-mail de redefinição de senha enviado. Verifique sua caixa de entrada.")
                             val intent = Intent(this@ForgotPassword, SignIn::class.java)
                             startActivity(intent)
                             finish()
                         } else {
-                            showError("E-mail não encontrado")
+                            showError("Erro ao enviar o e-mail de redefinição de senha. Verifique o e-mail fornecido.")
                         }
                     }
-                } else {
-                    showError("Senha deve conter de 6 à 8 dígitos")
-                }
+                    .addOnFailureListener { exception ->
+                        showError("Erro ao enviar o e-mail de redefinição de senha: ${exception.message}")
+                    }
             } else {
                 showError("E-mail inválido")
             }
         }
+
 
         backButton.setOnClickListener {
             val intent = Intent(this@ForgotPassword, SignIn::class.java)
