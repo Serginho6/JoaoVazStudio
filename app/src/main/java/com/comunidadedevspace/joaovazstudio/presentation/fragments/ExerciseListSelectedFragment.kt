@@ -26,7 +26,6 @@ import kotlinx.coroutines.withContext
 
 class ExerciseListSelectedFragment : Fragment() {
 
-    private var currentUserId: Long = -1L
     private var currentTrainId: Int = -1
 
     private val sharedPreferencesKey = "selected_train_id"
@@ -83,7 +82,6 @@ class ExerciseListSelectedFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_exercise_list_selected, container, false)
 
-        currentUserId = arguments?.getLong("currentUserId", -1L) ?: -1L
         currentTrainId = arguments?.getInt("currentTrainId", -1) ?: -1
 
         sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
@@ -132,42 +130,46 @@ class ExerciseListSelectedFragment : Fragment() {
     private fun showSelectTrainDialog() {
         val trainDao = (requireActivity().application as JoaoVazStudio).getAppDataBase().trainDao()
 
+        val userUid = sharedPreferences.getString("userUid", null)
+
         val selectedTrainId = sharedPreferences.getInt(sharedPreferencesKey, -1)
 
         val isTrainSelected = selectedTrainId != -1
 
         // Observe a lista de treinos do usuário atual que têm exercícios associados
-        trainDao.getTrainsWithExercisesByUserId(currentUserId).observe(viewLifecycleOwner) { trains ->
-            val trainTitles = trains.map { it.trainTitle }.toTypedArray()
+        if (userUid != null) {
+            trainDao.getTrainsWithExercisesByUserId(userUid).observe(viewLifecycleOwner) { trains ->
+                val trainTitles = trains.map { it.trainTitle }.toTypedArray()
 
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Selecionar Treino Existente")
-                .setSingleChoiceItems(trainTitles, -1) { dialog, which ->
-                    val selectedTrain = trains[which]
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setTitle("Selecionar Treino Existente")
+                    .setSingleChoiceItems(trainTitles, -1) { dialog, which ->
+                        val selectedTrain = trains[which]
 
-                    sharedPreferences.edit().putInt(sharedPreferencesKey, selectedTrain.id).apply()
+                        sharedPreferences.edit().putInt(sharedPreferencesKey, selectedTrain.id).apply()
 
-                    loadExercisesForSelectedTrain(selectedTrain)
-                    updateTrainContentVisibility(true)
-                    dialog.dismiss()
+                        loadExercisesForSelectedTrain(selectedTrain)
+                        updateTrainContentVisibility(true)
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton("Cancelar", null)
+                if (isTrainSelected) {
+                    builder.setNeutralButton("Concluir") { _, _ ->
+                        clearSelectedTrain()
+                    }
                 }
-                .setNegativeButton("Cancelar", null)
-            if (isTrainSelected) {
-                builder.setNeutralButton("Concluir") { _, _ ->
-                    clearSelectedTrain()
-                }
-            }
 
-            // Cria o AlertDialog separadamente
-            val alertDialog = builder.create()
-            alertDialog.show()
+                // Cria o AlertDialog separadamente
+                val alertDialog = builder.create()
+                alertDialog.show()
 
-            // Se houver um treino selecionado no SharedPreferences, selecione-o no diálogo
-            if (selectedTrainId != -1) {
-                val selectedTrainIndex = trains.indexOfFirst { it.id == selectedTrainId }
-                if (selectedTrainIndex != -1) {
-                    val dialogListView = alertDialog.listView
-                    dialogListView.setItemChecked(selectedTrainIndex, true)
+                // Se houver um treino selecionado no SharedPreferences, selecione-o no diálogo
+                if (selectedTrainId != -1) {
+                    val selectedTrainIndex = trains.indexOfFirst { it.id == selectedTrainId }
+                    if (selectedTrainIndex != -1) {
+                        val dialogListView = alertDialog.listView
+                        dialogListView.setItemChecked(selectedTrainIndex, true)
+                    }
                 }
             }
         }
@@ -248,10 +250,10 @@ class ExerciseListSelectedFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(currentTrainId: Int, currentUserId: Long) = ExerciseListSelectedFragment().apply {
+        fun newInstance(currentTrainId: Int, userUid: String?) = ExerciseListSelectedFragment().apply {
             arguments = Bundle().apply {
                 putInt("currentTrainId", currentTrainId)
-                putLong("currentUserId", currentUserId)
+                putString("userUid", userUid)
             }
         }
     }

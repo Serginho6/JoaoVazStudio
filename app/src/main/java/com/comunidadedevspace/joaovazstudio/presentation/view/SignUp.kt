@@ -3,7 +3,6 @@ package com.comunidadedevspace.joaovazstudio.presentation.view
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
@@ -11,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
 import com.comunidadedevspace.joaovazstudio.R
+import com.comunidadedevspace.joaovazstudio.data.database.FirebaseRepository
 import com.comunidadedevspace.joaovazstudio.data.local.AppDataBase
 import com.comunidadedevspace.joaovazstudio.data.local.User
 import com.comunidadedevspace.joaovazstudio.databinding.ActivitySignUpBinding
@@ -68,29 +68,30 @@ class SignUp : AppCompatActivity() {
 
         val registerButton = findViewById<Button>(R.id.btn_register)
         registerButton.setOnClickListener { view ->
+            val name = nameEditText.text.toString()
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
+            val phone = phoneEditText.text.toString()
+            val height = heightEditText.text.toString()
+            val weight = weightEditText.text.toString()
 
-            if (email.isEmpty() || password.isEmpty()) {
+            if (name.isEmpty() ||email.isEmpty() || password.isEmpty() || phone.isEmpty() || gender.isEmpty() || height.isEmpty() || weight.isEmpty()) {
                 val snackbar =
                     Snackbar.make(view, "Preencha todos os campos", Snackbar.LENGTH_SHORT)
                 snackbar.setBackgroundTint(Color.RED)
                 snackbar.show()
             } else {
-                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener{
-                    if (it.isSuccessful){
-                        val snackbar =
-                            Snackbar.make(view, "Usuário Cadastrado", Snackbar.LENGTH_SHORT)
-                        val backgroundColor = Color.parseColor("#FF03DAC5")
-                        snackbar.setBackgroundTint(backgroundColor)
-                        snackbar.show()
-                        binding.emailEdtText.setText("")
-                        binding.passwordEdtText.setText("")
-                        isInputValid()
-                        saveUserToDatabase()
+                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val firebaseUser = task.result?.user
+                        if (firebaseUser != null) {
+                            val uid = firebaseUser.uid
+                            // Agora, você tem o uid do usuário criado com sucesso, que pode ser usado para salvar informações adicionais no Firebase.
+                            saveAdditionalUserInfo(uid, nameEditText.text.toString(), phone, gender, height, weight)
+                        }
                     }
-                }.addOnFailureListener{ exception ->
-                    val errorMessage = when(exception){
+                }.addOnFailureListener { exception ->
+                    val errorMessage = when (exception) {
                         is FirebaseAuthWeakPasswordException -> "Sua senha deve conter de 6 à 8 dígitos."
                         is FirebaseAuthInvalidCredentialsException -> "Digite um email válido."
                         is FirebaseAuthUserCollisionException -> "E-mail já cadastrado."
@@ -106,39 +107,28 @@ class SignUp : AppCompatActivity() {
         }
     }
 
-    private fun isInputValid(): Boolean {
-        val name = nameEditText.text.toString()
-        val email = emailEditText.text.toString()
-        val password = passwordEditText.text.toString()
-        val phone = phoneEditText.text.toString()
-        val gender = gender.isNotEmpty()
-        val height = heightEditText.text.toString()
-        val weight = weightEditText.text.toString()
-
-        val isEmailValid = isValidEmail(email)
-        val isPasswordValid = isValidPassword(password)
-
-        return name.isNotEmpty() && isEmailValid && email.isNotEmpty() && isPasswordValid && password.isNotEmpty() &&
-                phone.isNotEmpty() && gender && height.isNotEmpty() && weight.isNotEmpty()
-    }
-
-    private fun saveUserToDatabase() {
-        val name = nameEditText.text.toString()
-        val email = emailEditText.text.toString()
-        val password = passwordEditText.text.toString()
-        val phone = phoneEditText.text.toString()
-        val height = heightEditText.text.toString()
-        val weight = weightEditText.text.toString()
-
+    private fun saveAdditionalUserInfo(uid: String, name: String, phone: String, gender: String, height: String, weight: String) {
         val user = User(
+            id = 0,
             name = name,
-            email = email,
-            password = password,
+            email = emailEditText.text.toString(),
+            password = passwordEditText.text.toString(),
             phone = phone,
             gender = gender,
             height = height,
             weight = weight
         )
+
+        FirebaseRepository().saveUserInfo(uid, user) { success ->
+            if (success) {
+                runOnUiThread {
+                    clearEditTextFields()
+                    navigateToSignIn()
+                }
+            } else {
+                // Aqui você pode adicionar um Snackbar ou tratamento de erro, se necessário
+            }
+        }
 
         lifecycleScope.launch(Dispatchers.IO) {
             val userDao = Room.databaseBuilder(
@@ -168,17 +158,5 @@ class SignUp : AppCompatActivity() {
     private fun navigateToSignIn() {
         val intent = Intent(this@SignUp, SignIn::class.java)
         startActivity(intent)
-    }
-
-    private fun isValidEmail(email: String): Boolean {
-        val pattern = Patterns.EMAIL_ADDRESS
-        return pattern.matcher(email).matches()
-    }
-
-    private fun isValidPassword(password: String): Boolean {
-        val minLength = 6
-        val maxLength = 8
-
-        return  password.length in minLength..maxLength
     }
 }

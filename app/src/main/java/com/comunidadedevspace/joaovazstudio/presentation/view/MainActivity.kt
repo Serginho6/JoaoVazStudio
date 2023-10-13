@@ -17,15 +17,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val currentUserId = intent.getLongExtra("currentUserId", -1L)
+        val userUid = intent.getStringExtra("userUid")
         currentTrainId = intent.getIntExtra("currentTrainId", -1)
 
         val bottomNavView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
 
-        val exerciseListSelectedFragment = ExerciseListSelectedFragment.newInstance(currentTrainId, currentUserId)
+        val exerciseListSelectedFragment = ExerciseListSelectedFragment.newInstance(currentTrainId, userUid)
 
         moreFragment = MoreFragment.newInstance()
-        moreFragment.setCurrentUserId(currentUserId)
+        moreFragment.setUserUid(userUid)
 
         supportFragmentManager.commit {
             replace(R.id.fragment_container_view, exerciseListSelectedFragment)

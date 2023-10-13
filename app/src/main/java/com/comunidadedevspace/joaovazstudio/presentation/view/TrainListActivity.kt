@@ -1,5 +1,7 @@
 package com.comunidadedevspace.joaovazstudio.presentation.view
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -14,7 +16,9 @@ import com.comunidadedevspace.joaovazstudio.presentation.viewmodel.TrainListView
 
 class TrainListActivity : AppCompatActivity() {
 
-    private var currentUserId: Long = -1L
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var userUid: String
+
     private lateinit var trainContent: LinearLayout
     private lateinit var btnAddTrain: Button
 
@@ -24,14 +28,15 @@ class TrainListActivity : AppCompatActivity() {
     }
 
     private val trainListViewModel: TrainListViewModel by lazy {
-        TrainListViewModel.create(application, currentUserId)
+        TrainListViewModel.create(application, userUid)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_train_list)
 
-        currentUserId = intent.getLongExtra("currentUserId", -1L)
+        sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        userUid = sharedPreferences.getString("userUid", null) ?: ""
 
         trainContent = findViewById(R.id.train_list_content)
         val rvTasks: RecyclerView = findViewById(R.id.rv_train_list)
@@ -42,7 +47,7 @@ class TrainListActivity : AppCompatActivity() {
         btnAddTrain = findViewById(R.id.btn_add_train)
 
         btnAddTrain.setOnClickListener {
-            val intent = TrainDetailActivity.start(this, null, currentUserId)
+            val intent = TrainDetailActivity.start(this, null, userUid)
             startActivity(intent)
         }
     }
@@ -63,7 +68,7 @@ class TrainListActivity : AppCompatActivity() {
     }
 
     private fun openTrainListDetail(train: Train) {
-        val intent = TrainDetailActivity.start(this, train, currentUserId)
+        val intent = TrainDetailActivity.start(this, train, userUid)
         intent.putExtra("currentTrainId", train.id)
         startActivity(intent)
     }

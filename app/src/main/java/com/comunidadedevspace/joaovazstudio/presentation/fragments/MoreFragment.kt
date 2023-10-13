@@ -18,10 +18,12 @@ import com.comunidadedevspace.joaovazstudio.presentation.view.TrainListActivity
 
 class MoreFragment : Fragment() {
 
-    private var currentUserId: Long = -1L
+    private var userUid: String = "userUid"
 
-    fun setCurrentUserId(userId: Long) {
-        this.currentUserId = userId
+    fun setUserUid(userUid: String?) {
+        if (userUid != null) {
+            this.userUid = userUid
+        }
     }
 
     override fun onCreateView(
@@ -39,7 +41,7 @@ class MoreFragment : Fragment() {
 
         cardViewImc.setOnClickListener {
             val intent = Intent(activity, ImcActivity::class.java)
-            intent.putExtra("currentUserId", currentUserId)
+            intent.putExtra("currentUserId", userUid)
             startActivity(intent)
         }
 
@@ -52,7 +54,7 @@ class MoreFragment : Fragment() {
 
         cardViewTrain.setOnClickListener {
             val intent = Intent(activity, TrainListActivity::class.java)
-            intent.putExtra("currentUserId", currentUserId)
+            intent.putExtra("currentUserId", userUid)
             startActivity(intent)
         }
 

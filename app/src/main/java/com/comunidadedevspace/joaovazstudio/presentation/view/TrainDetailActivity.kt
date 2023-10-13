@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.comunidadedevspace.joaovazstudio.R
 import com.comunidadedevspace.joaovazstudio.data.database.ActionType
+import com.comunidadedevspace.joaovazstudio.data.database.FirebaseRepository
 import com.comunidadedevspace.joaovazstudio.data.database.TrainAction
 import com.comunidadedevspace.joaovazstudio.data.local.Train
 import com.comunidadedevspace.joaovazstudio.presentation.fragments.ExerciseListFragment
@@ -23,9 +24,11 @@ import com.google.android.material.snackbar.Snackbar
 
 class TrainDetailActivity: AppCompatActivity() {
 
-    private var currentTrainId: Int = -1
+    private val firebaseRepository = FirebaseRepository()
 
     private lateinit var sharedPreferences: SharedPreferences
+
+    private var currentTrainId: Int = -1
 
     private var train: Train? = null
     private lateinit var btnSaveTrain: Button
@@ -38,7 +41,7 @@ class TrainDetailActivity: AppCompatActivity() {
         private const val TRAIN_DETAIL_EXTRA = "train.extra.detail"
         private const val CURRENT_TRAIN_ID_EXTRA = "currentTrainId.extra"
 
-        fun start(context: Context, train: Train?, currentUserId: Long): Intent {
+        fun start(context: Context, train: Train?, currentUserId: String?): Intent {
             val intent = Intent(context, TrainDetailActivity::class.java)
             intent.putExtra(TRAIN_DETAIL_EXTRA, train)
             intent.putExtra(CURRENT_TRAIN_ID_EXTRA, currentUserId)
@@ -89,33 +92,44 @@ class TrainDetailActivity: AppCompatActivity() {
             val title = edtTrainTitle.text.toString()
             val desc = edtTrainDescription.text.toString()
 
-            if (title.isNotEmpty() && desc.isNotEmpty()) {
-                val userId = sharedPreferences.getLong("userId", -1) // Obtenha o userId do SharedPreferences
-                if (userId != -1L) {
-                    if (train == null) {
-                        addOrUpdateTrain(0, userId, title, desc, ActionType.CREATE)
+            val userUid = sharedPreferences.getString("userUid", null)
+
+            if (userUid != null) {
+                if (title.isNotEmpty() && desc.isNotEmpty()) {
+                    val trainToSave = if (train == null) {
+                        Train(0, userUid, title, desc)
                     } else {
-                        addOrUpdateTrain(train!!.id, userId, title, desc, ActionType.UPDATE)
+                        train!!.copy(trainTitle = title, trainDescription = desc)
+                    }
+
+                    firebaseRepository.saveTrain(trainToSave) { success ->
+                        if (success) {
+                            showMessage(btnSaveTrain, "Ficha de treino salva com sucesso.")
+                        } else {
+                            showMessage(btnSaveTrain, "Falha ao salvar a ficha de treino.")
+                        }
                     }
                 } else {
-                    showMessage(btnSaveTrain, "Usuário não autenticado")
+                    showMessage(btnSaveTrain, "Ficha de treino requer título e descrição.")
                 }
             } else {
-                showMessage(btnSaveTrain, "Treino necessita Título e Descrição.")
+                showMessage(btnSaveTrain, "Usuário não autenticado")
             }
         }
+
+
     }
 
-    private fun addOrUpdateTrain(
-        id: Int,
-        userId: Long,
-        title:String,
-        description:String,
-        actionType: ActionType
-    ){
-        val train = Train(id, userId, title, description)
-        performAction(train, actionType)
-    }
+//    private fun addOrUpdateTrain(
+//        id: Int,
+//        userId: Long,
+//        title:String,
+//        description:String,
+//        actionType: ActionType
+//    ){
+//        val train = Train(id, userId, title, description)
+//        performAction(train, actionType)
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater : MenuInflater = menuInflater

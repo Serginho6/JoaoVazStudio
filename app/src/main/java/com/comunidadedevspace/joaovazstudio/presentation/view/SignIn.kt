@@ -24,7 +24,6 @@ import com.comunidadedevspace.joaovazstudio.R
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 
 class SignIn : AppCompatActivity() {
@@ -76,12 +75,12 @@ class SignIn : AppCompatActivity() {
 
         val isUserLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
         if (isUserLoggedIn) {
-            val userId = sharedPreferences.getLong("userId", -1)
-            if (userId != -1L) {
+            val userUid = sharedPreferences.getString("userUid", null)
+            if (userUid != "userUid") {
                 val intent = Intent(this@SignIn, MainActivity::class.java)
-                intent.putExtra("currentUserId", userId)
+                intent.putExtra("userUid", userUid)
                 startActivity(intent)
-                finish() // Feche a tela de login
+                finish()
             }
         }
 
@@ -106,13 +105,18 @@ class SignIn : AppCompatActivity() {
                     .addOnCompleteListener { loginResult ->
                         if (loginResult.isSuccessful) {
 
-                            val editor = sharedPreferences.edit()
-                            if (keepConnectedCheckBox.isChecked) {
-                                editor.putBoolean("isLoggedIn", true)
-                            } else {
-                                editor.putBoolean("isLoggedIn", false)
+                            val userUid = FirebaseAuth.getInstance().currentUser?.uid
+
+                            if (userUid != null) {
+                                val editor = sharedPreferences.edit()
+                                if (keepConnectedCheckBox.isChecked) {
+                                    editor.putBoolean("isLoggedIn", true)
+                                } else {
+                                    editor.putBoolean("isLoggedIn", false)
+                                }
+                                editor.putString("userUid", userUid)
+                                editor.apply()
                             }
-                            editor.apply()
 
                             val intent = Intent(this@SignIn, MainActivity::class.java)
                             startActivity(intent)
@@ -125,10 +129,9 @@ class SignIn : AppCompatActivity() {
                         }
                     }.addOnFailureListener { exception ->
                     val errorMessage = when (exception) {
-                        is FirebaseAuthInvalidUserException -> "Usuário não encontrado. Verifique o e-mail fornecido."
-                        is FirebaseAuthInvalidCredentialsException -> "Senha inválida. Verifique ou recupere sua senha."
+                        is FirebaseAuthInvalidUserException -> "Usuário desativado. Fale com o administrador."
                         is FirebaseNetworkException -> "Sem conexão com a internet."
-                        else -> "Erro ao fazer login. Verifique e-mail e senha."
+                        else -> "Erro ao fazer login. Verifique e-mail e senha e tente novamente."
                     }
                     val snackbar = Snackbar.make(view, errorMessage, Snackbar.LENGTH_SHORT)
                     snackbar.setBackgroundTint(Color.RED)

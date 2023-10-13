@@ -7,11 +7,11 @@ import androidx.room.TypeConverters
 import com.comunidadedevspace.joaovazstudio.data.database.ExerciseIdListConverter
 import java.io.Serializable
 
-@Entity(tableName = "train", foreignKeys = [ForeignKey(entity = User::class, parentColumns = ["id"], childColumns = ["userId"], onDelete = ForeignKey.CASCADE)])
+@Entity(tableName = "train", foreignKeys = [ForeignKey(entity = User::class, parentColumns = ["id"], childColumns = ["userUid"], onDelete = ForeignKey.CASCADE)])
 data class Train(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
-    val userId: Long,
+    val id: Int,
+    val userUid: String,
     val trainTitle: String,
     val trainDescription: String,
     @TypeConverters(ExerciseIdListConverter::class)
