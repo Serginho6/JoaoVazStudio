@@ -112,7 +112,7 @@
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:inputType="numberPassword"
-            android:hint="Ex.: 12345678"
+            android:hint="Senha de 6 à 8 números"
             android:padding="10dp"
             android:maxLength="8" />
 
@@ -236,9 +236,9 @@
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
                     android:inputType="numberDecimal"
-                    android:hint="em metros"
+                    android:hint="em centímetros"
                     android:padding="10dp"
-                    android:maxLength="4" />
+                    android:maxLength="3" />
 
             </com.google.android.material.card.MaterialCardView>
 

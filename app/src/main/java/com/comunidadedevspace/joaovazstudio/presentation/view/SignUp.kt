@@ -8,10 +8,8 @@ import android.widget.EditText
 import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.room.Room
 import com.comunidadedevspace.joaovazstudio.R
 import com.comunidadedevspace.joaovazstudio.data.database.FirebaseRepository
-import com.comunidadedevspace.joaovazstudio.data.local.AppDataBase
 import com.comunidadedevspace.joaovazstudio.data.local.User
 import com.comunidadedevspace.joaovazstudio.databinding.ActivitySignUpBinding
 import com.google.android.material.snackbar.Snackbar
@@ -87,7 +85,7 @@ class SignUp : AppCompatActivity() {
                         if (firebaseUser != null) {
                             val uid = firebaseUser.uid
                             // Agora, você tem o uid do usuário criado com sucesso, que pode ser usado para salvar informações adicionais no Firebase.
-                            saveAdditionalUserInfo(uid, nameEditText.text.toString(), phone, gender, height, weight)
+                            saveAdditionalUserInfo(uid, name, phone, gender, height, weight)
                         }
                     }
                 }.addOnFailureListener { exception ->
@@ -131,14 +129,6 @@ class SignUp : AppCompatActivity() {
         }
 
         lifecycleScope.launch(Dispatchers.IO) {
-            val userDao = Room.databaseBuilder(
-                applicationContext,
-                AppDataBase::class.java,
-                "joao-vaz-studio-database"
-            ).build().userDao()
-
-            userDao.insert(user)
-
             runOnUiThread {
                 clearEditTextFields()
                 navigateToSignIn()

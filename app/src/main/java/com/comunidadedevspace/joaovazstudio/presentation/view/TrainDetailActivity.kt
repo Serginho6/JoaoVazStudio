@@ -2,31 +2,23 @@ package com.comunidadedevspace.joaovazstudio.presentation.view
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.comunidadedevspace.joaovazstudio.R
-import com.comunidadedevspace.joaovazstudio.data.database.ActionType
-import com.comunidadedevspace.joaovazstudio.data.database.FirebaseRepository
-import com.comunidadedevspace.joaovazstudio.data.database.TrainAction
 import com.comunidadedevspace.joaovazstudio.data.local.Train
 import com.comunidadedevspace.joaovazstudio.presentation.fragments.ExerciseListFragment
 import com.comunidadedevspace.joaovazstudio.presentation.viewmodel.TrainDetailViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class TrainDetailActivity: AppCompatActivity() {
 
-    private val firebaseRepository = FirebaseRepository()
-
-    private lateinit var sharedPreferences: SharedPreferences
+    private val db = FirebaseFirestore.getInstance()
 
     private var currentTrainId: Int = -1
 
@@ -79,99 +71,22 @@ class TrainDetailActivity: AppCompatActivity() {
         val edtTrainTitle = findViewById<EditText>(R.id.edt_train_title)
         val edtTrainDescription = findViewById<EditText>(R.id.edt_train_description)
 
-        btnSaveTrain = findViewById<Button>(R.id.btn_save_train)
+        btnSaveTrain = findViewById(R.id.btn_save_train)
 
         if(train != null) {
             edtTrainTitle.setText(train!!.trainTitle)
             edtTrainDescription.setText(train!!.trainDescription)
         }
 
-        sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-
         btnSaveTrain.setOnClickListener {
             val title = edtTrainTitle.text.toString()
             val desc = edtTrainDescription.text.toString()
-
-            val userUid = sharedPreferences.getString("userUid", null)
+            val userUid = FirebaseAuth.getInstance().currentUser?.uid
 
             if (userUid != null) {
-                if (title.isNotEmpty() && desc.isNotEmpty()) {
-                    val trainToSave = if (train == null) {
-                        Train(0, userUid, title, desc)
-                    } else {
-                        train!!.copy(trainTitle = title, trainDescription = desc)
-                    }
-
-                    firebaseRepository.saveTrain(trainToSave) { success ->
-                        if (success) {
-                            showMessage(btnSaveTrain, "Ficha de treino salva com sucesso.")
-                        } else {
-                            showMessage(btnSaveTrain, "Falha ao salvar a ficha de treino.")
-                        }
-                    }
-                } else {
-                    showMessage(btnSaveTrain, "Ficha de treino requer título e descrição.")
-                }
-            } else {
-                showMessage(btnSaveTrain, "Usuário não autenticado")
+                saveTrainToFirestore(userUid, title, desc)
             }
         }
-
-
-    }
-
-//    private fun addOrUpdateTrain(
-//        id: Int,
-//        userId: Long,
-//        title:String,
-//        description:String,
-//        actionType: ActionType
-//    ){
-//        val train = Train(id, userId, title, description)
-//        performAction(train, actionType)
-//    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater : MenuInflater = menuInflater
-        inflater.inflate(R.menu.menu_train_or_exercise_detail, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.delete_task -> {
-
-                if(train != null){
-                    showConfirmationDialog()
-                }else{
-                    showMessage(btnSaveTrain, "Impossível excluir item não criado.")
-                }
-
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    private fun showConfirmationDialog() {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Confirmação")
-        builder.setMessage("Tem certeza que deseja excluir TODO o treino?")
-        builder.setPositiveButton("Sim") { dialog, which ->
-            // O usuário escolheu "Sim", agora você pode realizar a ação de exclusão.
-            performAction(train!!, ActionType.DELETE)
-        }
-        builder.setNegativeButton("Não") { dialog, which ->
-            // O usuário escolheu "Não", nada acontece.
-            dialog.dismiss() // Fechar o diálogo
-        }
-        builder.show()
-    }
-
-    private fun performAction(train: Train, actionType: ActionType){
-        val trainAction = TrainAction(train, actionType.name)
-        trainDetailViewModel.execute(trainAction)
-        finish()
     }
 
     private fun showMessage(view: View, message:String){
@@ -184,5 +99,25 @@ class TrainDetailActivity: AppCompatActivity() {
         val trainId = train?.id ?: -1
         val intent = ExerciseDetailActivity.start(this, null, trainId)
         startActivity(intent)
+    }
+
+    private fun saveTrainToFirestore(userUid: String, title: String, description: String) {
+        if (userUid.isNotEmpty() && title.isNotEmpty() && description.isNotEmpty()) {
+            val trainToSave = Train(0, userUid, title, description)
+
+            // Salve o treino na coleção "trains" do usuário
+            val userTrainsCollection =
+                db.collection("users")
+                .document(userUid)
+                .collection("trains")
+
+            userTrainsCollection.add(trainToSave).addOnSuccessListener {
+                showMessage(btnSaveTrain, "Treino salvo com sucesso.")
+            }.addOnFailureListener {
+                showMessage(btnSaveTrain, "Falha ao salvar o treino.")
+            }
+        } else {
+            showMessage(btnSaveTrain, "Treino deve ter título e descrição.")
+        }
     }
 }
