@@ -16,7 +16,7 @@ import com.comunidadedevspace.joaovazstudio.presentation.viewmodel.ExerciseListV
 
 class ExerciseListFragment : Fragment() {
 
-    private var currentTrainId: Int = -1
+    private var currentTrainId: String = ""
 
     //Adapter
     private val exerciseAdapter: ExerciseListAdapter by lazy {
@@ -34,7 +34,7 @@ class ExerciseListFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_exercise_list, container, false)
 
         // Obter os exercícios do currentTrainId.
-        currentTrainId = arguments?.getInt("currentTrainId", -1) ?: -1
+        currentTrainId = arguments?.getString("currentTrainId", "") ?: ""
 
         return view
     }

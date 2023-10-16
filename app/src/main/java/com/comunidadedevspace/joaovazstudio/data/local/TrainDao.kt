@@ -14,7 +14,7 @@ interface TrainDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(train: Train)
     @Query("DELETE from train WHERE id =:id")
-    suspend fun deleteById(id: Int)
+    suspend fun deleteById(id: String)
     @Query("SELECT * FROM train WHERE userUid = :userUid")
     fun getTrainsByUserId(userUid: String): LiveData<List<Train>>
     @Query("SELECT * FROM train WHERE id = :trainId")

@@ -9,11 +9,14 @@ import java.io.Serializable
 
 @Entity(tableName = "train", foreignKeys = [ForeignKey(entity = User::class, parentColumns = ["id"], childColumns = ["userUid"], onDelete = ForeignKey.CASCADE)])
 data class Train(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    @PrimaryKey(autoGenerate = false)
+    var id: String,
     val userUid: String,
     val trainTitle: String,
     val trainDescription: String,
     @TypeConverters(ExerciseIdListConverter::class)
     val exerciseIds: List<Int> = emptyList()
-) : Serializable
+) : Serializable {
+    constructor() : this("", "", "", "", emptyList())
+
+}

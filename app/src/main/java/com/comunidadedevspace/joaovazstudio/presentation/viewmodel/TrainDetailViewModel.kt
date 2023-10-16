@@ -31,7 +31,7 @@ class TrainDetailViewModel(
     }
 
     //DELETE BY ID
-    private fun deleteById(id: Int) {
+    private fun deleteById(id: String) {
         viewModelScope.launch {
             trainDao.deleteById(id)
         }

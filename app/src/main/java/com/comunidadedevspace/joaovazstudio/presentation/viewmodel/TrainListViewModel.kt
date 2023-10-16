@@ -1,22 +1,17 @@
 package com.comunidadedevspace.joaovazstudio.presentation.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.comunidadedevspace.joaovazstudio.JoaoVazStudio
-import com.comunidadedevspace.joaovazstudio.data.local.Train
-import com.comunidadedevspace.joaovazstudio.data.local.TrainDao
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 
-class TrainListViewModel(private val trainDao: TrainDao, private val currentUserUid: String) : ViewModel() {
+class TrainListViewModel : ViewModel() {
+    private val db = FirebaseFirestore.getInstance()
 
-    val trainListLiveData: LiveData<List<Train>> = trainDao.getTrainsByUserId(currentUserUid)
-
-        companion object {
-
-            fun create(application: Application, currentUserUid: String): TrainListViewModel {
-            val dataBaseInstance = (application as JoaoVazStudio).getAppDataBase()
-            val trainDao = dataBaseInstance.trainDao()
-            return TrainListViewModel(trainDao, currentUserUid)
-        }
+    // Função para obter uma consulta para os treinos do Firestore
+    fun getTrainListQuery(userUid: String): Query {
+        return db.collection("users")
+            .document(userUid)
+            .collection("trains")
+            .orderBy("trainTitle") // Você pode ordenar da maneira desejada
     }
 }

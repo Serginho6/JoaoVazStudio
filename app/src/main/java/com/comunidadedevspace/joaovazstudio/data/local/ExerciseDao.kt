@@ -13,10 +13,10 @@ interface ExerciseDao {
     suspend fun insert(exercise: Exercise)
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateExercise(exercise: Exercise)
-    @Query("SELECT * FROM exercise WHERE trainId = :trainId AND isSelected = 1")
-    fun getSelectedExercises(trainId: Int): List<Exercise>
+    @Query("SELECT * FROM exercise WHERE trainId = :trainId AND isSelected = ''")
+    fun getSelectedExercises(trainId: String): List<Exercise>
     @Query("DELETE from exercise WHERE id =:id")
     suspend fun deleteById(id: Int)
     @Query("SELECT * FROM exercise WHERE trainId = :trainId")
-    fun getExercisesByTrainId(trainId: Int): LiveData<List<Exercise>>
+    fun getExercisesByTrainId(trainId: String): LiveData<List<Exercise>>
 }

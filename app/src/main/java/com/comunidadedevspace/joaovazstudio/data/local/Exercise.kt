@@ -10,7 +10,7 @@ import java.io.Serializable
     ForeignKey(entity = Train::class, parentColumns = ["id"], childColumns = ["trainId"], onDelete = ForeignKey.CASCADE)
 ])
 data class Exercise(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     val id: Int = 0,
     val userId: Long,
     val trainId: Int,

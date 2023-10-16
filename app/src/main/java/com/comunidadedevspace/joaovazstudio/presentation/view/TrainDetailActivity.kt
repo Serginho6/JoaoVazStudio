@@ -50,15 +50,15 @@ class TrainDetailActivity: AppCompatActivity() {
 
         val btnAddExercise = findViewById<Button>(R.id.add_exercise)
 
-        btnAddExercise.setOnClickListener {
-            if (train != null) {
-                // Um treino já existe, permita adicionar um exercício.
-                openExerciseDetail()
-            } else {
-                // Nenhum treino existe, exiba um Toast ou mensagem de alerta.
-                showMessage(btnAddExercise, "Você precisa salvar a ficha antes de adicionar um exercício.")
-            }
-        }
+//        btnAddExercise.setOnClickListener {
+//            if (train != null) {
+//                // Um treino já existe, permita adicionar um exercício.
+//                openExerciseDetail()
+//            } else {
+//                // Nenhum treino existe, exiba um Toast ou mensagem de alerta.
+//                showMessage(btnAddExercise, "Você precisa salvar a ficha antes de adicionar um exercício.")
+//            }
+//        }
 
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         val exerciseListFragment = ExerciseListFragment.newInstance(currentTrainId)
@@ -95,24 +95,32 @@ class TrainDetailActivity: AppCompatActivity() {
             .show()
     }
 
-    private fun openExerciseDetail() {
-        val trainId = train?.id ?: -1
-        val intent = ExerciseDetailActivity.start(this, null, trainId)
-        startActivity(intent)
-    }
+//    private fun openExerciseDetail() {
+//        val trainId = train?.id ?: "-1"
+//        val intent = ExerciseDetailActivity.start(this, null, trainId)
+//        startActivity(intent)
+//    }
 
     private fun saveTrainToFirestore(userUid: String, title: String, description: String) {
         if (userUid.isNotEmpty() && title.isNotEmpty() && description.isNotEmpty()) {
-            val trainToSave = Train(0, userUid, title, description)
+            val trainToSave = Train("", userUid, title, description)
 
             // Salve o treino na coleção "trains" do usuário
             val userTrainsCollection =
                 db.collection("users")
-                .document(userUid)
-                .collection("trains")
+                    .document(userUid)
+                    .collection("trains")
 
-            userTrainsCollection.add(trainToSave).addOnSuccessListener {
+            userTrainsCollection.add(trainToSave).addOnSuccessListener { documentReference ->
                 showMessage(btnSaveTrain, "Treino salvo com sucesso.")
+
+                // O ID do novo treino é documentReference.id
+                val newTrainId = documentReference.id
+
+                // Agora você pode salvar esse novo ID em qualquer lugar que precise.
+
+                // Exemplo: Salve o ID no objeto train para referência futura.
+                train?.id = newTrainId
             }.addOnFailureListener {
                 showMessage(btnSaveTrain, "Falha ao salvar o treino.")
             }

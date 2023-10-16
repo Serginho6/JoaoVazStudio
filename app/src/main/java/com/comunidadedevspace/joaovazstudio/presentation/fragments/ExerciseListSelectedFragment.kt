@@ -26,7 +26,7 @@ import kotlinx.coroutines.withContext
 
 class ExerciseListSelectedFragment : Fragment() {
 
-    private var currentTrainId: Int = -1
+    private var currentTrainId: String = ""
 
     private val sharedPreferencesKey = "selected_train_id"
     private lateinit var sharedPreferences: SharedPreferences
@@ -82,7 +82,7 @@ class ExerciseListSelectedFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_exercise_list_selected, container, false)
 
-        currentTrainId = arguments?.getInt("currentTrainId", -1) ?: -1
+        currentTrainId = arguments?.getString("currentTrainId", "") ?: ""
 
         sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
 
@@ -132,9 +132,9 @@ class ExerciseListSelectedFragment : Fragment() {
 
         val userUid = sharedPreferences.getString("userUid", null)
 
-        val selectedTrainId = sharedPreferences.getInt(sharedPreferencesKey, -1)
+        val selectedTrainId = sharedPreferences.getString(sharedPreferencesKey, "-1")
 
-        val isTrainSelected = selectedTrainId != -1
+        val isTrainSelected = selectedTrainId != "-1"
 
         // Observe a lista de treinos do usuário atual que têm exercícios associados
         if (userUid != null) {
@@ -146,7 +146,7 @@ class ExerciseListSelectedFragment : Fragment() {
                     .setSingleChoiceItems(trainTitles, -1) { dialog, which ->
                         val selectedTrain = trains[which]
 
-                        sharedPreferences.edit().putInt(sharedPreferencesKey, selectedTrain.id).apply()
+                        sharedPreferences.edit().putString(sharedPreferencesKey, selectedTrain.id).apply()
 
                         loadExercisesForSelectedTrain(selectedTrain)
                         updateTrainContentVisibility(true)
@@ -164,7 +164,7 @@ class ExerciseListSelectedFragment : Fragment() {
                 alertDialog.show()
 
                 // Se houver um treino selecionado no SharedPreferences, selecione-o no diálogo
-                if (selectedTrainId != -1) {
+                if (selectedTrainId != "-1") {
                     val selectedTrainIndex = trains.indexOfFirst { it.id == selectedTrainId }
                     if (selectedTrainIndex != -1) {
                         val dialogListView = alertDialog.listView
@@ -181,7 +181,7 @@ class ExerciseListSelectedFragment : Fragment() {
         exerciseListViewModel.exerciseListLiveData.observe(viewLifecycleOwner) { listExercises ->
             exerciseAdapter.submitList(listExercises)
 
-            sharedPreferences.edit().putInt(sharedPreferencesKey, selectedTrain.id).apply()
+            sharedPreferences.edit().putString(sharedPreferencesKey, selectedTrain.id).apply()
         }
     }
 

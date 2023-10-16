@@ -9,13 +9,13 @@ import com.comunidadedevspace.joaovazstudio.data.local.Exercise
 import com.comunidadedevspace.joaovazstudio.data.local.ExerciseDao
 import kotlinx.coroutines.launch
 
-class ExerciseListViewModel(private val exerciseDao: ExerciseDao, private val currentTrainId: Int) : ViewModel() {
+class ExerciseListViewModel(private val exerciseDao: ExerciseDao, private val currentTrainId: String) : ViewModel() {
 
     val exerciseListLiveData: LiveData<List<Exercise>> = exerciseDao.getExercisesByTrainId(currentTrainId)
 
         companion object {
 
-            fun create(application: Application, currentTrainId: Int): ExerciseListViewModel {
+            fun create(application: Application, currentTrainId: String): ExerciseListViewModel {
             val dataBaseInstance = (application as JoaoVazStudio).getAppDataBase()
             val exerciseDao = dataBaseInstance.exerciseDao()
             return ExerciseListViewModel(exerciseDao, currentTrainId)
