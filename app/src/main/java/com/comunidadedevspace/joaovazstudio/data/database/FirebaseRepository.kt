@@ -11,7 +11,6 @@ class FirebaseRepository {
         db.collection("users").document(uid)
             .set(user)
             .addOnSuccessListener {
-                // Dados do usuário salvos com sucesso
                 callback(true)
             }
             .addOnFailureListener {

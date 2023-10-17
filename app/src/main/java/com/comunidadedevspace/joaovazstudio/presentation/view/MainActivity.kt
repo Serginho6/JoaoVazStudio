@@ -10,7 +10,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
-    private var currentTrainId: Int = -1
     private lateinit var moreFragment: MoreFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val userUid = intent.getStringExtra("userUid")
-        currentTrainId = intent.getIntExtra("currentTrainId", -1)
+        val currentTrainId = intent.getStringExtra("currentTrainId")
 
         val bottomNavView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
 

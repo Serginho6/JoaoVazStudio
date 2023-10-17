@@ -11,9 +11,9 @@ import java.io.Serializable
 ])
 data class Exercise(
     @PrimaryKey(autoGenerate = false)
-    val id: Int = 0,
-    val userId: Long,
-    val trainId: Int,
+    var id: String,
+    val userId: String,
+    val trainId: String,
     val title: String,
     val description: String,
     var youtubeVideoId: String?,

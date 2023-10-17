@@ -8,31 +8,27 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.comunidadedevspace.joaovazstudio.R
-import com.comunidadedevspace.joaovazstudio.data.database.ActionType
-import com.comunidadedevspace.joaovazstudio.data.database.ExerciseAction
 import com.comunidadedevspace.joaovazstudio.data.local.Exercise
-import com.comunidadedevspace.joaovazstudio.presentation.viewmodel.ExerciseDetailViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class ExerciseDetailActivity : AppCompatActivity() {
+
+    private val db = FirebaseFirestore.getInstance()
 
     private var exercise: Exercise? = null
 
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var btnSaveExercise: Button
 
-    private val viewModel: ExerciseDetailViewModel by viewModels{
-        ExerciseDetailViewModel.getVMFactory(application)
-    }
-
     companion object{
         private const val EXERCISE_DETAIL_EXTRA = "task.extra.detail"
         private const val TRAIN_ID_EXTRA = "train.extra.id"
 
-        fun start(context: Context, exercise: Exercise?, trainId: Int): Intent{
+        fun start(context: Context, exercise: Exercise?, trainId: String): Intent{
             val intent = Intent(context, ExerciseDetailActivity::class.java)
                 .apply {
                     putExtra(EXERCISE_DETAIL_EXTRA, exercise)
@@ -51,20 +47,13 @@ class ExerciseDetailActivity : AppCompatActivity() {
         exercise = intent.getSerializableExtra(EXERCISE_DETAIL_EXTRA) as Exercise?
 
         // Recuperar ID do treino
-        val trainId = intent.getIntExtra(TRAIN_ID_EXTRA, 0)
+        val trainId = intent.getStringExtra(TRAIN_ID_EXTRA)
 
         val edtTitle = findViewById<EditText>(R.id.edt_task_title)
         val edtDescription = findViewById<EditText>(R.id.edt_task_description)
         val edtVideoUrl = findViewById<EditText>(R.id.edt_task_video_url)
 
         btnSaveExercise = findViewById(R.id.btn_save_exercise)
-
-        if(exercise != null) {
-            edtTitle.setText(exercise!!.title)
-            edtDescription.setText(exercise!!.description)
-            edtVideoUrl.setText(exercise!!.youtubeVideoId)
-        }
-
         sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
 
         btnSaveExercise.setOnClickListener {
@@ -72,21 +61,20 @@ class ExerciseDetailActivity : AppCompatActivity() {
             val desc = edtDescription.text.toString()
             val videoUrl = edtVideoUrl.text.toString()
 
-            val userId = sharedPreferences.getLong("userId", -1L)
+            val userUid = FirebaseAuth.getInstance().currentUser?.uid
 
-            if (userId != -1L) {
+            if (userUid != null) {
                 val videoId = extractVideoIdFromUrl(videoUrl)
 
                 // Verifica se o videoId é válido apenas se o campo de vídeo estiver preenchido
                 if (videoUrl.isBlank() || isValidYouTubeVideoId(videoId)) {
                     if (title.isNotEmpty() && desc.isNotEmpty()) {
-                        if (exercise == null) {
-                            addOrUpdateExercise(0, trainId, userId, title, desc, videoId, ActionType.CREATE)
-                        } else {
-                            addOrUpdateExercise(exercise!!.id, trainId, userId, title, desc, videoId, ActionType.UPDATE)
+                        // Chama a função para salvar o exercício no Firestore.
+                        if (trainId != null) {
+                            saveExerciseToFirestore(userUid, trainId, title, desc, videoId)
                         }
                     } else {
-                        showMessage(it, "É necessário adicionar Exercício e Quantidade")
+                        showMessage(it, "O exercício deve ter um título válido.")
                     }
                 } else {
                     showMessage(it, "URL do vídeo do YouTube inválida") // Exibe uma mensagem de erro se a URL for inválida
@@ -95,7 +83,34 @@ class ExerciseDetailActivity : AppCompatActivity() {
                 showMessage(it, "Usuário não autenticado")
             }
         }
+    }
 
+    private fun saveExerciseToFirestore(userUid: String, trainId: String, title: String, description: String, videoId: String) {
+        if (userUid.isNotEmpty() && trainId.isNotEmpty() && title.isNotEmpty()) {
+            val exerciseToSave = Exercise("", userUid, trainId, title, description, videoId, isSelected = false)
+
+            // Salve o exercício na coleção "exercises" do treino no Firestore.
+            val trainExercisesCollection =
+                db.collection("users")
+                .document(userUid)
+                .collection("trains")
+                .document(trainId)
+                .collection("exercises")
+
+            trainExercisesCollection.add(exerciseToSave).addOnSuccessListener { documentReference ->
+                showMessage(btnSaveExercise, "Exercício salvo com sucesso.")
+
+                // O ID do novo exercício é documentReference.id
+                val newExerciseId = documentReference.id
+
+                // Exemplo: Salve o ID no objeto exercise para referência futura.
+                exercise?.id = newExerciseId
+            }.addOnFailureListener {
+                showMessage(btnSaveExercise, "Falha ao salvar o exercício.")
+            }
+        } else {
+            showMessage(btnSaveExercise, "O exercício deve ter um título válido.")
+        }
     }
 
     private fun extractVideoIdFromUrl(videoUrl: String): String {
@@ -107,24 +122,11 @@ class ExerciseDetailActivity : AppCompatActivity() {
         return videoId ?: uri.lastPathSegment ?: ""
     }
 
-    private fun addOrUpdateExercise(
-        id: Int,
-        trainId: Int,
-        userId: Long,
-        title: String,
-        description: String,
-        videoId: String,
-        actionType: ActionType
-    ){
-        val exercise = Exercise(id, userId, trainId, title, description, videoId, isSelected = false)
-        performAction(exercise, actionType)
-    }
-
-    private fun performAction(exercise: Exercise, actionType: ActionType){
-        val exerciseAction = ExerciseAction(exercise, actionType.name)
-        viewModel.execute(exerciseAction)
-        finish()
-    }
+//    private fun performAction(exercise: Exercise, actionType: ActionType){
+//        val exerciseAction = ExerciseAction(exercise, actionType.name)
+//        viewModel.execute(exerciseAction)
+//        finish()
+//    }
 
     private fun showMessage(view: View, message:String){
         Snackbar.make(view, message, Snackbar.LENGTH_LONG)

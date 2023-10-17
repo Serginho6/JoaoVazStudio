@@ -15,11 +15,16 @@ import com.comunidadedevspace.joaovazstudio.presentation.adapters.TrainListAdapt
 import com.comunidadedevspace.joaovazstudio.presentation.viewmodel.TrainListViewModel
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.firestore.FirebaseFirestore
 
 class TrainListActivity : AppCompatActivity() {
 
-    private lateinit var sharedPreferences: SharedPreferences
+    private val db = FirebaseFirestore.getInstance()
+
     private lateinit var userUid: String
+    private lateinit var trainId: String
+
+    private lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var trainContent: LinearLayout
     private lateinit var btnAddTrain: Button
@@ -33,6 +38,7 @@ class TrainListActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
         userUid = sharedPreferences.getString("userUid", null) ?: ""
+        trainId = db.collection("users").document(userUid).collection("trains").document().id
 
         trainContent = findViewById(R.id.train_list_content)
         recyclerView = findViewById(R.id.rv_train_list)
@@ -55,14 +61,16 @@ class TrainListActivity : AppCompatActivity() {
         btnAddTrain = findViewById(R.id.btn_add_train)
 
         btnAddTrain.setOnClickListener {
-            val intent = TrainDetailActivity.start(this, null, userUid)
+            val newTrainId = db.collection("users").document(userUid).collection("trains").document().id
+
+            val intent = TrainDetailActivity.start(this, null, newTrainId, userUid)
             startActivity(intent)
         }
     }
 
     private fun openTrainListDetail(train: Train) {
-        val intent = TrainDetailActivity.start(this, train, userUid)
-        intent.putExtra("currentTrainId", train.id)
+        val intent = TrainDetailActivity.start(this, train, trainId, userUid)
+        intent.putExtra("currentTrainId", trainId)
         startActivity(intent)
     }
 

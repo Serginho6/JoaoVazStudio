@@ -6,9 +6,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.comunidadedevspace.joaovazstudio.JoaoVazStudio
 import com.comunidadedevspace.joaovazstudio.R
-import com.comunidadedevspace.joaovazstudio.data.local.UserDao
 import com.google.firebase.auth.FirebaseAuth
 
 class ForgotPassword : AppCompatActivity() {
@@ -16,14 +14,10 @@ class ForgotPassword : AppCompatActivity() {
     private val auth = FirebaseAuth.getInstance()
 
     private lateinit var emailEditText: EditText
-    private lateinit var userDao: UserDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forgot_password)
-
-        val app = application as JoaoVazStudio
-        userDao = app.getAppDataBase().userDao()
 
         emailEditText = findViewById(R.id.edt_email_forgot)
 
