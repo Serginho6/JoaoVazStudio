@@ -1,8 +1,8 @@
 package com.comunidadedevspace.joaovazstudio
 
-import com.comunidadedevspace.joaovazstudio.data.database.ActionType
-import com.comunidadedevspace.joaovazstudio.data.database.ExerciseAction
-import com.comunidadedevspace.joaovazstudio.data.local.Exercise
+import com.comunidadedevspace.joaovazstudio.data.firebase.ActionType
+import com.comunidadedevspace.joaovazstudio.data.firebase.ExerciseAction
+import com.comunidadedevspace.joaovazstudio.data.models.Exercise
 import com.comunidadedevspace.joaovazstudio.presentation.viewmodel.ExerciseDetailViewModel
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule

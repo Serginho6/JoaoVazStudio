@@ -1,4 +1,4 @@
-package com.comunidadedevspace.joaovazstudio.data.local
+package com.comunidadedevspace.joaovazstudio.data.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -6,7 +6,7 @@ import java.io.Serializable
 
 @Entity(tableName = "users")
 data class User(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     val id: Int,
     val name: String,
     val email: String,

@@ -1,10 +1,8 @@
-package com.comunidadedevspace.joaovazstudio.data.local
+package com.comunidadedevspace.joaovazstudio.data.models
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
-import com.comunidadedevspace.joaovazstudio.data.database.ExerciseIdListConverter
 import java.io.Serializable
 
 @Entity(
@@ -13,13 +11,10 @@ import java.io.Serializable
 )
 data class Train(
     @PrimaryKey
-    var id: String = "",
+    var trainId: String,
     val userUid: String,
     val trainTitle: String,
     val trainDescription: String,
-    @TypeConverters(ExerciseIdListConverter::class)
-    val exerciseIds: List<Int> = emptyList()
 ) : Serializable {
-    constructor() : this("", "", "", "", emptyList())
-
+    constructor() : this("", "", "", "")
 }

@@ -1,6 +1,6 @@
-package com.comunidadedevspace.joaovazstudio.data.database
+package com.comunidadedevspace.joaovazstudio.data.firebase
 
-import com.comunidadedevspace.joaovazstudio.data.local.User
+import com.comunidadedevspace.joaovazstudio.data.models.User
 import com.google.firebase.firestore.FirebaseFirestore
 
 class FirebaseRepository {

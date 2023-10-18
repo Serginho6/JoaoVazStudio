@@ -6,15 +6,14 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.comunidadedevspace.joaovazstudio.R
-import com.comunidadedevspace.joaovazstudio.data.local.Train
+import com.comunidadedevspace.joaovazstudio.data.models.Train
 import com.comunidadedevspace.joaovazstudio.presentation.fragments.ExerciseListFragment
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -47,6 +46,7 @@ class TrainDetailActivity: AppCompatActivity() {
         setContentView(R.layout.activity_train_detail)
         setSupportActionBar(findViewById(R.id.toolbar))
 
+        userUid = intent.getStringExtra(USER_UID_EXTRA).toString()
         trainId = intent.getStringExtra(CURRENT_TRAIN_ID_EXTRA).toString()
 
         val btnAddExercise = findViewById<Button>(R.id.add_exercise)
@@ -55,7 +55,7 @@ class TrainDetailActivity: AppCompatActivity() {
             if (train != null) {
                 openExerciseDetail()
             } else {
-                showMessage(btnAddExercise, "Você precisa salvar a ficha antes de adicionar um exercício.")
+                showToast("Você precisa salvar a ficha antes de adicionar um exercício.")
             }
         }
 
@@ -88,6 +88,9 @@ class TrainDetailActivity: AppCompatActivity() {
                 } else {
                     updateTrain(userUid, trainId, title, desc)
                 }
+                val intent = Intent(this, TrainListActivity::class.java)
+                startActivity(intent)
+                finish()
             }
         }
     }
@@ -102,16 +105,16 @@ class TrainDetailActivity: AppCompatActivity() {
                     .collection("trains")
 
             userTrainsCollection.add(trainToSave).addOnSuccessListener { documentReference ->
-                showMessage(btnSaveTrain, "Treino salvo com sucesso.")
+                showToast("Treino salvo com sucesso.")
 
                 val newTrainId = documentReference.id
 
                 trainId = newTrainId // Atualize o trainId com o ID gerado
             }.addOnFailureListener {
-                showMessage(btnSaveTrain, "Falha ao salvar o treino.")
+                showToast("Falha ao salvar o treino.")
             }
         } else {
-            showMessage(btnSaveTrain, "Treino deve ter título e descrição.")
+            showToast("Treino deve ter título e descrição.")
         }
     }
 
@@ -126,34 +129,31 @@ class TrainDetailActivity: AppCompatActivity() {
 
             userTrainsCollection.document(trainId).set(trainToUpdate)
                 .addOnSuccessListener {
-                    showMessage(btnSaveTrain, "Treino atualizado com sucesso.")
+                    showToast("Treino atualizado com sucesso.")
                 }
                 .addOnFailureListener {
-                    showMessage(btnSaveTrain, "Falha ao atualizar o treino.")
+                    showToast("Falha ao atualizar o treino.")
                 }
         } else {
-            showMessage(btnSaveTrain, "Treino deve ter título e descrição.")
+            showToast("Treino deve ter título e descrição.")
         }
     }
 
     private fun deleteTrainFromFirestore(userUid: String, trainId: String) {
-        // Verifique se o usuário e o ID do treino não estão vazios.
         if (userUid.isNotEmpty() && trainId.isNotEmpty()) {
             val userTrainsCollection = db.collection("users")
                 .document(userUid)
                 .collection("trains")
 
-            // Exclua o treino usando o ID fornecido.
             userTrainsCollection.document(trainId).delete()
                 .addOnSuccessListener {
-                    showMessage(btnSaveTrain, "Treino excluído com sucesso.")
-                    // Após a exclusão bem-sucedida, você pode fazer qualquer outra ação necessária.
+                    showToast("Treino excluído com sucesso.")
                 }
                 .addOnFailureListener {
-                    showMessage(btnSaveTrain, "Falha ao excluir o treino.")
+                    showToast("Falha ao excluir o treino.")
                 }
         } else {
-            showMessage(btnSaveTrain, "Erro ao excluir o treino. ID do treino ou ID do usuário vazios.")
+            showToast("Erro ao excluir o treino. ID do treino ou ID do usuário vazios.")
         }
     }
 
@@ -170,7 +170,7 @@ class TrainDetailActivity: AppCompatActivity() {
                 if(train != null){
                     showConfirmationDialog()
                 }else{
-                    showMessage(btnSaveTrain, "Impossível excluir item não criado.")
+                    showToast("Impossível excluir item não criado.")
                 }
 
                 true
@@ -185,25 +185,26 @@ class TrainDetailActivity: AppCompatActivity() {
         builder.setMessage("Tem certeza que deseja excluir TODO o treino?")
         builder.setPositiveButton("Sim") { dialog, which ->
             if (train != null) {
-                deleteTrainFromFirestore(userUid, train!!.id)
+                deleteTrainFromFirestore(userUid, train!!.trainId)
+                val intent = Intent(this, TrainListActivity::class.java)
+                startActivity(intent)
+                finish()
             }
         }
         builder.setNegativeButton("Não") { dialog, which ->
-            // O usuário escolheu "Não", nada acontece.
-            dialog.dismiss() // Fechar o diálogo
+            dialog.dismiss()
         }
         builder.show()
     }
 
     private fun openExerciseDetail() {
-        val trainId = train?.id ?: ""
+        val trainId = train?.trainId ?: ""
         val intent = ExerciseDetailActivity.start(this, null, trainId)
         startActivity(intent)
     }
 
-    private fun showMessage(view: View, message:String){
-        Snackbar.make(view, message, Snackbar.LENGTH_LONG)
-            .setAction("Action", null)
+    private fun showToast(message:String){
+        Toast.makeText(this, message, Toast.LENGTH_LONG)
             .show()
     }
 }

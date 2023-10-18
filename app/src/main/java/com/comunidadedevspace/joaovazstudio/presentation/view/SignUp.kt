@@ -9,8 +9,8 @@ import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.comunidadedevspace.joaovazstudio.R
-import com.comunidadedevspace.joaovazstudio.data.database.FirebaseRepository
-import com.comunidadedevspace.joaovazstudio.data.local.User
+import com.comunidadedevspace.joaovazstudio.data.firebase.FirebaseRepository
+import com.comunidadedevspace.joaovazstudio.data.models.User
 import com.comunidadedevspace.joaovazstudio.databinding.ActivitySignUpBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseNetworkException

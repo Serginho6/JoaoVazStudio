@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.comunidadedevspace.joaovazstudio.R
-import com.comunidadedevspace.joaovazstudio.data.local.Train
+import com.comunidadedevspace.joaovazstudio.data.models.Train
 import com.comunidadedevspace.joaovazstudio.presentation.adapters.TrainListAdapter
 import com.comunidadedevspace.joaovazstudio.presentation.viewmodel.TrainListViewModel
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
@@ -44,11 +44,11 @@ class TrainListActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.rv_train_list)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Usa o TrainListViewModel para obter a consulta aos Treinos cadastrados
+        val newTrainId = db.collection("users").document(userUid).collection("trains").document().id
+
         val trainListViewModel = ViewModelProvider(this).get(TrainListViewModel::class.java)
         val query = trainListViewModel.getTrainListQuery(userUid)
 
-        // Configura as opções do FirestoreRecyclerAdapter
         val options = FirestoreRecyclerOptions.Builder<Train>()
             .setQuery(query, Train::class.java)
             .setLifecycleOwner(this)
@@ -61,8 +61,6 @@ class TrainListActivity : AppCompatActivity() {
         btnAddTrain = findViewById(R.id.btn_add_train)
 
         btnAddTrain.setOnClickListener {
-            val newTrainId = db.collection("users").document(userUid).collection("trains").document().id
-
             val intent = TrainDetailActivity.start(this, null, newTrainId, userUid)
             startActivity(intent)
         }
@@ -70,7 +68,6 @@ class TrainListActivity : AppCompatActivity() {
 
     private fun openTrainListDetail(train: Train) {
         val intent = TrainDetailActivity.start(this, train, trainId, userUid)
-        intent.putExtra("currentTrainId", trainId)
         startActivity(intent)
     }
 

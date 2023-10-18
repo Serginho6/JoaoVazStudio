@@ -5,13 +5,12 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.comunidadedevspace.joaovazstudio.R
-import com.comunidadedevspace.joaovazstudio.data.local.Exercise
-import com.google.android.material.snackbar.Snackbar
+import com.comunidadedevspace.joaovazstudio.data.models.Exercise
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -72,15 +71,18 @@ class ExerciseDetailActivity : AppCompatActivity() {
                         // Chama a função para salvar o exercício no Firestore.
                         if (trainId != null) {
                             saveExerciseToFirestore(userUid, trainId, title, desc, videoId)
+                            val intent = Intent(this, TrainDetailActivity::class.java)
+                            startActivity(intent)
+                            showToast("Exercício salvo com sucesso.")
                         }
                     } else {
-                        showMessage(it, "O exercício deve ter um título válido.")
+                        showToast("O exercício deve ter título e descrição.")
                     }
                 } else {
-                    showMessage(it, "URL do vídeo do YouTube inválida") // Exibe uma mensagem de erro se a URL for inválida
+                    showToast("URL do vídeo do YouTube inválida") // Exibe uma mensagem de erro se a URL for inválida
                 }
             } else {
-                showMessage(it, "Usuário não autenticado")
+                showToast("Usuário não autenticado")
             }
         }
     }
@@ -89,7 +91,6 @@ class ExerciseDetailActivity : AppCompatActivity() {
         if (userUid.isNotEmpty() && trainId.isNotEmpty() && title.isNotEmpty()) {
             val exerciseToSave = Exercise("", userUid, trainId, title, description, videoId, isSelected = false)
 
-            // Salve o exercício na coleção "exercises" do treino no Firestore.
             val trainExercisesCollection =
                 db.collection("users")
                 .document(userUid)
@@ -98,44 +99,30 @@ class ExerciseDetailActivity : AppCompatActivity() {
                 .collection("exercises")
 
             trainExercisesCollection.add(exerciseToSave).addOnSuccessListener { documentReference ->
-                showMessage(btnSaveExercise, "Exercício salvo com sucesso.")
-
-                // O ID do novo exercício é documentReference.id
                 val newExerciseId = documentReference.id
 
-                // Exemplo: Salve o ID no objeto exercise para referência futura.
-                exercise?.id = newExerciseId
+                exercise?.exerciseId = newExerciseId
             }.addOnFailureListener {
-                showMessage(btnSaveExercise, "Falha ao salvar o exercício.")
+                showToast("Falha ao salvar o exercício.")
             }
         } else {
-            showMessage(btnSaveExercise, "O exercício deve ter um título válido.")
+            showToast("O exercício deve ter um título válido.")
         }
     }
 
     private fun extractVideoIdFromUrl(videoUrl: String): String {
-        // Tenta extrair o ID do vídeo a partir da URL no formato "https://www.youtube.com/watch?v=..."
         val uri = Uri.parse(videoUrl)
         val videoId = uri.getQueryParameter("v")
 
-        // Se não foi possível extrair o ID a partir do formato acima, tenta extrair do formato "https://youtu.be/..."
         return videoId ?: uri.lastPathSegment ?: ""
     }
 
-//    private fun performAction(exercise: Exercise, actionType: ActionType){
-//        val exerciseAction = ExerciseAction(exercise, actionType.name)
-//        viewModel.execute(exerciseAction)
-//        finish()
-//    }
-
-    private fun showMessage(view: View, message:String){
-        Snackbar.make(view, message, Snackbar.LENGTH_LONG)
-            .setAction("Action", null)
-            .show()
+    private fun isValidYouTubeVideoId(videoId: String): Boolean {
+        return videoId.isNotEmpty() && videoId.matches(Regex("^[a-zA-Z0-9_-]{11}$"))
     }
 
-    private fun isValidYouTubeVideoId(videoId: String): Boolean {
-        // Verifica se o videoId é não nulo e possui o formato correto de um ID do YouTube
-        return videoId.isNotEmpty() && videoId.matches(Regex("^[a-zA-Z0-9_-]{11}$"))
+    private fun showToast(message:String){
+        Toast.makeText(this, message, Toast.LENGTH_LONG)
+            .show()
     }
 }

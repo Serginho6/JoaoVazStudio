@@ -1,8 +1,8 @@
 package com.comunidadedevspace.joaovazstudio
 
-import com.comunidadedevspace.joaovazstudio.data.database.ActionType
-import com.comunidadedevspace.joaovazstudio.data.database.TrainAction
-import com.comunidadedevspace.joaovazstudio.data.local.Train
+import com.comunidadedevspace.joaovazstudio.data.firebase.ActionType
+import com.comunidadedevspace.joaovazstudio.data.firebase.TrainAction
+import com.comunidadedevspace.joaovazstudio.data.models.Train
 import com.comunidadedevspace.joaovazstudio.presentation.viewmodel.TrainDetailViewModel
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule

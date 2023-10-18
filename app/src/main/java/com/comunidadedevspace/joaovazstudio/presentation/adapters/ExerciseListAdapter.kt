@@ -1,20 +1,20 @@
 package com.comunidadedevspace.joaovazstudio.presentation.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.comunidadedevspace.joaovazstudio.R
-import com.comunidadedevspace.joaovazstudio.data.local.Exercise
+import com.comunidadedevspace.joaovazstudio.data.models.Exercise
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
 class ExerciseListAdapter(
-    private val context: Context,
-    private val openExerciseDetailView: (exercise: Exercise) -> Unit
-) : ListAdapter<Exercise, ExerciseListViewHolder>(ExerciseListAdapter) {
+    options: FirestoreRecyclerOptions<Exercise>,
+    private val showDeleteExerciseDialog: (exercise: Exercise) -> Unit,
+    private val deleteExerciseCallback: (exercise: Exercise) -> Unit
+) : FirestoreRecyclerAdapter<Exercise, ExerciseListAdapter.ExerciseListViewHolder>(options) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseListViewHolder {
         val view: View = LayoutInflater
@@ -24,59 +24,25 @@ class ExerciseListAdapter(
         return ExerciseListViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ExerciseListViewHolder, position: Int) {
-        val exercise = getItem(position)
-        holder.bind(exercise, openExerciseDetailView)
+    override fun onBindViewHolder(holder: ExerciseListViewHolder, position: Int, model: Exercise) {
+        holder.bind(model, showDeleteExerciseDialog)
+    }
 
-        holder.itemView.setOnClickListener {
-            openExerciseDetailView(exercise)
+    class ExerciseListViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+        private val tvExerciseTitle: TextView = view.findViewById(R.id.tv_task_title)
+        private val tvExerciseDesc: TextView = view.findViewById(R.id.tv_task_description)
+
+        fun bind(exercise: Exercise, showDeleteExerciseDialog: (exercise: Exercise) -> Unit) {
+            tvExerciseTitle.text = exercise.title
+            tvExerciseDesc.text = exercise.description
+
+            view.setOnClickListener {
+                showDeleteExerciseDialog.invoke(exercise)
+            }
         }
     }
 
-    private var onItemClickListener: ((Exercise) -> Unit)? = null
-
-    fun setOnItemClickListener(listener: (Exercise) -> Unit) {
-        onItemClickListener = listener
-    }
-
-    companion object : DiffUtil.ItemCallback<Exercise>(){
-
-        override fun areItemsTheSame(oldItem: Exercise, newItem: Exercise): Boolean {
-            return oldItem == newItem
-        }
-
-        override fun areContentsTheSame(oldItem: Exercise, newItem: Exercise): Boolean {
-            return oldItem.title == newItem.title &&
-                    oldItem.description == newItem.description
-        }
-    }
-}
-
-class ExerciseListViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-    val tvExerciseTitle: TextView = view.findViewById(R.id.tv_task_title)
-    val tvExerciseDesc: TextView = view.findViewById(R.id.tv_task_description)
-
-    fun bind(
-        exercise: Exercise,
-        openTaskDetailView:(exercise: Exercise) -> Unit
-    ) {
-        tvExerciseTitle.text = exercise.title
-        tvExerciseDesc.text = exercise.description
-
-        view.setOnClickListener {
-            openTaskDetailView.invoke(exercise)
-        }
-    }
-
-    companion object : DiffUtil.ItemCallback<Exercise>(){
-
-        override fun areItemsTheSame(oldItem: Exercise, newItem: Exercise): Boolean {
-            return oldItem == newItem
-        }
-
-        override fun areContentsTheSame(oldItem: Exercise, newItem: Exercise): Boolean {
-            return oldItem.title == newItem.title &&
-                    oldItem.description == newItem.description
-        }
+    fun deleteExercise(exercise: Exercise) {
+        deleteExerciseCallback(exercise)
     }
 }
