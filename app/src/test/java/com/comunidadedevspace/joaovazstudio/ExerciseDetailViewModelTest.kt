@@ -3,7 +3,6 @@ package com.comunidadedevspace.joaovazstudio
 import com.comunidadedevspace.joaovazstudio.data.firebase.ActionType
 import com.comunidadedevspace.joaovazstudio.data.firebase.ExerciseAction
 import com.comunidadedevspace.joaovazstudio.data.models.Exercise
-import com.comunidadedevspace.joaovazstudio.presentation.viewmodel.ExerciseDetailViewModel
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test

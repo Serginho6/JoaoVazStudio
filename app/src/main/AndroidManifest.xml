@@ -41,7 +41,7 @@
             android:name=".presentation.view.TrainListActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.view.TrainDetailActivity"
+            android:name=".presentation.view.ExerciseListActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.view.AboutActivity"

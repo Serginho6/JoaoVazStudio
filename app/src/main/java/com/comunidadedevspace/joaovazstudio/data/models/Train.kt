@@ -11,10 +11,9 @@ import java.io.Serializable
 )
 data class Train(
     @PrimaryKey
-    var trainId: String,
-    val userUid: String,
     val trainTitle: String,
-    val trainDescription: String,
+    val trainDesc: String,
+    val trainId: String,
 ) : Serializable {
-    constructor() : this("", "", "", "")
+    constructor() : this("", "", "")
 }

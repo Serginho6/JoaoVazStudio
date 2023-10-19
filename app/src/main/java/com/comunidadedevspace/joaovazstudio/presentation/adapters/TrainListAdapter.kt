@@ -33,7 +33,7 @@ class TrainListAdapter(
 
         fun bind(train: Train, openTrainDetailView: (train: Train) -> Unit) {
             tvTrainTitle.text = train.trainTitle
-            tvTrainDesc.text = train.trainDescription
+            tvTrainDesc.text = train.trainDesc
 
             view.setOnClickListener {
                 openTrainDetailView.invoke(train)

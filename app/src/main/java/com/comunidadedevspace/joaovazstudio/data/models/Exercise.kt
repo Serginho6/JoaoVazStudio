@@ -14,13 +14,11 @@ import java.io.Serializable
 )
 data class Exercise(
     @PrimaryKey
-    var exerciseId: String,
-    val userUid: String,
-    val trainId: String,
     val title: String,
-    val description: String,
-    var youtubeVideoId: String?,
-    var isSelected: Boolean,
+    val desc: String,
+    var youtube: String?,
 ) : Serializable {
-    constructor() : this("", "", "", "", "", "", isSelected = false)
+    var isSelected: Boolean = false
+
+    constructor() : this("", "", "")
 }

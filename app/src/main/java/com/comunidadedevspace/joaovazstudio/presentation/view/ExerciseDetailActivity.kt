@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.comunidadedevspace.joaovazstudio.R
 import com.comunidadedevspace.joaovazstudio.data.models.Exercise
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ExerciseDetailActivity : AppCompatActivity() {
@@ -54,60 +53,6 @@ class ExerciseDetailActivity : AppCompatActivity() {
 
         btnSaveExercise = findViewById(R.id.btn_save_exercise)
         sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-
-        btnSaveExercise.setOnClickListener {
-            val title = edtTitle.text.toString()
-            val desc = edtDescription.text.toString()
-            val videoUrl = edtVideoUrl.text.toString()
-
-            val userUid = FirebaseAuth.getInstance().currentUser?.uid
-
-            if (userUid != null) {
-                val videoId = extractVideoIdFromUrl(videoUrl)
-
-                // Verifica se o videoId é válido apenas se o campo de vídeo estiver preenchido
-                if (videoUrl.isBlank() || isValidYouTubeVideoId(videoId)) {
-                    if (title.isNotEmpty() && desc.isNotEmpty()) {
-                        // Chama a função para salvar o exercício no Firestore.
-                        if (trainId != null) {
-                            saveExerciseToFirestore(userUid, trainId, title, desc, videoId)
-                            val intent = Intent(this, TrainDetailActivity::class.java)
-                            startActivity(intent)
-                            showToast("Exercício salvo com sucesso.")
-                        }
-                    } else {
-                        showToast("O exercício deve ter título e descrição.")
-                    }
-                } else {
-                    showToast("URL do vídeo do YouTube inválida") // Exibe uma mensagem de erro se a URL for inválida
-                }
-            } else {
-                showToast("Usuário não autenticado")
-            }
-        }
-    }
-
-    private fun saveExerciseToFirestore(userUid: String, trainId: String, title: String, description: String, videoId: String) {
-        if (userUid.isNotEmpty() && trainId.isNotEmpty() && title.isNotEmpty()) {
-            val exerciseToSave = Exercise("", userUid, trainId, title, description, videoId, isSelected = false)
-
-            val trainExercisesCollection =
-                db.collection("users")
-                .document(userUid)
-                .collection("trains")
-                .document(trainId)
-                .collection("exercises")
-
-            trainExercisesCollection.add(exerciseToSave).addOnSuccessListener { documentReference ->
-                val newExerciseId = documentReference.id
-
-                exercise?.exerciseId = newExerciseId
-            }.addOnFailureListener {
-                showToast("Falha ao salvar o exercício.")
-            }
-        } else {
-            showToast("O exercício deve ter um título válido.")
-        }
     }
 
     private fun extractVideoIdFromUrl(videoUrl: String): String {

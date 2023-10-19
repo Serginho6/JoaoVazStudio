@@ -21,7 +21,7 @@
 
         <TextView
             style="@style/Title3"
-            android:text="Adicione uma nova \n\nficha treino"
+            android:text="Solicite novos treinos \n\nao studio"
             android:textAlignment="center"
             android:textSize="36sp"
             android:layout_width="match_parent"
@@ -38,9 +38,21 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tv_exercises"
+        style="@style/Title3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:text="Seus treinos:"
+        android:textAlignment="center" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_train_list"
         android:layout_marginBottom="40dp"
+        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -51,11 +63,11 @@
         tools:listitem="@layout/item_train" />
 
     <Button
-        android:id="@+id/btn_add_train"
+        android:id="@+id/btn_back_trains"
         style="@style/ButtonPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Novo treino"
+        android:text="Voltar"
         android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.comunidadedevspace.joaovazstudio.presentation.view
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
@@ -27,7 +28,7 @@ class TrainListActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var trainContent: LinearLayout
-    private lateinit var btnAddTrain: Button
+    private lateinit var btnBackMain: Button
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var trainAdapter: FirestoreRecyclerAdapter<Train, TrainListAdapter.TrainListViewHolder>
@@ -38,13 +39,10 @@ class TrainListActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
         userUid = sharedPreferences.getString("userUid", null) ?: ""
-        trainId = db.collection("users").document(userUid).collection("trains").document().id
 
         trainContent = findViewById(R.id.train_list_content)
         recyclerView = findViewById(R.id.rv_train_list)
         recyclerView.layoutManager = LinearLayoutManager(this)
-
-        val newTrainId = db.collection("users").document(userUid).collection("trains").document().id
 
         val trainListViewModel = ViewModelProvider(this).get(TrainListViewModel::class.java)
         val query = trainListViewModel.getTrainListQuery(userUid)
@@ -54,20 +52,23 @@ class TrainListActivity : AppCompatActivity() {
             .setLifecycleOwner(this)
             .build()
 
-        // Inicializar o FirestoreRecyclerAdapter
-        trainAdapter = TrainListAdapter(options) { train -> openTrainListDetail(train) }
+        trainAdapter = TrainListAdapter(options) { train ->
+            trainId = train.trainId
+            openExerciseList(trainId)
+        }
+
         recyclerView.adapter = trainAdapter
 
-        btnAddTrain = findViewById(R.id.btn_add_train)
+        btnBackMain = findViewById(R.id.btn_back_trains)
 
-        btnAddTrain.setOnClickListener {
-            val intent = TrainDetailActivity.start(this, null, newTrainId, userUid)
+        btnBackMain.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
     }
 
-    private fun openTrainListDetail(train: Train) {
-        val intent = TrainDetailActivity.start(this, train, trainId, userUid)
+    private fun openExerciseList(trainId: String) {
+        val intent = ExerciseListActivity.start(this, trainId, userUid)
         startActivity(intent)
     }
 

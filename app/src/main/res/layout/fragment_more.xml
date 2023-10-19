@@ -128,7 +128,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:fontFamily="@font/bebasneue_regular"
-                        android:text="Editar treinos"
+                        android:text="Ver treinos"
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         android:letterSpacing="0.1"
