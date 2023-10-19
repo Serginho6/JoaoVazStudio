@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.comunidadedevspace.joaovazstudio.R
@@ -84,7 +85,6 @@ class SignUp : AppCompatActivity() {
                         val firebaseUser = task.result?.user
                         if (firebaseUser != null) {
                             val uid = firebaseUser.uid
-                            // Agora, você tem o uid do usuário criado com sucesso, que pode ser usado para salvar informações adicionais no Firebase.
                             saveAdditionalUserInfo(uid, name, phone, gender, height, weight)
                         }
                     }
@@ -132,6 +132,7 @@ class SignUp : AppCompatActivity() {
             runOnUiThread {
                 clearEditTextFields()
                 navigateToSignIn()
+                showToast("Usuário cadastrado com sucesso!")
             }
         }
     }
@@ -148,5 +149,9 @@ class SignUp : AppCompatActivity() {
     private fun navigateToSignIn() {
         val intent = Intent(this@SignUp, SignIn::class.java)
         startActivity(intent)
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
