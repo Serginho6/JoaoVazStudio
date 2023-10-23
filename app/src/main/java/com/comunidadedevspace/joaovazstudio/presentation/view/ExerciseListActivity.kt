@@ -69,7 +69,6 @@ class ExerciseListActivity : AppCompatActivity() {
         btnBackTrain.setOnClickListener {
             val intent = Intent(this, TrainListActivity::class.java)
             startActivity(intent)
-            finish()
         }
     }
 

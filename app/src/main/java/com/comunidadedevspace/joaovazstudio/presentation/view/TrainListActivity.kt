@@ -1,7 +1,6 @@
 package com.comunidadedevspace.joaovazstudio.presentation.view
 
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
@@ -16,11 +15,8 @@ import com.comunidadedevspace.joaovazstudio.presentation.adapters.TrainListAdapt
 import com.comunidadedevspace.joaovazstudio.presentation.viewmodel.TrainListViewModel
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.firebase.firestore.FirebaseFirestore
 
 class TrainListActivity : AppCompatActivity() {
-
-    private val db = FirebaseFirestore.getInstance()
 
     private lateinit var userUid: String
     private lateinit var trainId: String
@@ -62,8 +58,7 @@ class TrainListActivity : AppCompatActivity() {
         btnBackMain = findViewById(R.id.btn_back_trains)
 
         btnBackMain.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            finish()
         }
     }
 

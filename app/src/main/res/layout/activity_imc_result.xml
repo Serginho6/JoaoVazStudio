@@ -96,16 +96,14 @@
         android:layout_marginTop="-40dp"
         android:src="@drawable/imc_result_2"/>
 
-    <TextView
-        style="@style/Body1"
-        android:id="@+id/imcWiki"
-        android:layout_width="wrap_content"
+    <Button
+        style="@style/ButtonPrimary"
+        android:id="@+id/btnImcVoltar"
+        android:text="Voltar"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:autoLink="web"
-        android:linksClickable="true"
-        android:textStyle="italic"
-        android:textSize="12sp"
-        android:text="@string/saber_mais"/>
+        android:layout_marginHorizontal="10dp"
+        android:background="@drawable/button_background"/>
 
 </LinearLayout>

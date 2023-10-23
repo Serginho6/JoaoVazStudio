@@ -1,21 +1,17 @@
 package com.comunidadedevspace.joaovazstudio.presentation.view
 
-import android.annotation.SuppressLint
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
+import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.comunidadedevspace.joaovazstudio.R
 
 class ImcResultActivity : AppCompatActivity() {
 
-    @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_imc_result)
-
-        supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val tvResult = findViewById<TextView>(R.id.textview_result)
         val tvClassificacao = findViewById<TextView>(R.id.textview_classificacao)
@@ -24,7 +20,7 @@ class ImcResultActivity : AppCompatActivity() {
 
         tvResult.text = result.toString()
 
-        var classificacao = if(result < 18.5f) {
+        val classificacao = if(result < 18.5f) {
             "ABAIXO DO PESO"
         }else if(result in 18.5f..24.99f) {
             "PESO NORMAL"
@@ -37,10 +33,13 @@ class ImcResultActivity : AppCompatActivity() {
         }
 
         tvClassificacao.text = getString(R.string.message_classificacao,classificacao)
-    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        finish()
-        return super.onOptionsItemSelected(item)
+        val btnImcVoltar = findViewById<Button>(R.id.btnImcVoltar)
+
+        btnImcVoltar.setOnClickListener{
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 }

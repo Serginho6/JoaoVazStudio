@@ -1,33 +1,290 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.view.MainActivity">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_container_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout="@layout/fragment_exercise_list_selected"/>
+    <include layout="@layout/toolbar" />
 
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottomAppBar"
-        android:backgroundTint="@color/gray"
+    <TextView
+        style="@style/Body1"
+        android:id="@+id/selecione"
+        android:text="Selecione sua ficha e bom treino!"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:fabCradleMargin="10dp"
-        android:layout_gravity="bottom">
-        
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_nav_view"
+        android:layout_marginTop="90dp"
+        android:layout_marginHorizontal="20dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view_train"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/selecione"
+        app:cardCornerRadius="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            app:elevation="0dp"
             android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            app:menu="@menu/menu_main"/>
+            android:background="@drawable/item_exercise_background"
+            android:padding="24dp">
 
-    </com.google.android.material.bottomappbar.BottomAppBar>
+            <ImageView
+                android:id="@+id/image_view_train"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/train_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <TextView
+                android:id="@+id/text_view_train"
+                style="@style/Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/bebasneue_regular"
+                android:letterSpacing="0.1"
+                android:text="Meus Treinos"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/image_view_train"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view_imc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/card_view_train"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="15dp"
+        app:cardCornerRadius="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/item_exercise_background"
+            android:padding="24dp">
+
+            <ImageView
+                android:id="@+id/image_view_imc"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/imc_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_view_imc"
+                style="@style/Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/bebasneue_regular"
+                android:letterSpacing="0.1"
+                android:text="Índice de massa corporal"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/image_view_imc"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!--            <androidx.cardview.widget.CardView-->
+    <!--                android:id="@+id/card_view_physical_assessment"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_marginTop="10dp"-->
+    <!--                android:layout_marginHorizontal="10dp"-->
+    <!--                app:cardCornerRadius="16dp"-->
+    <!--                android:layout_below="@id/card_view_imc">-->
+
+
+    <!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="match_parent"-->
+    <!--                    android:padding="24dp"-->
+    <!--                    android:background="@drawable/item_exercise_background">-->
+
+    <!--                    <ImageView-->
+    <!--                        android:id="@+id/image_view_physical"-->
+    <!--                        android:layout_width="60dp"-->
+    <!--                        android:layout_height="60dp"-->
+    <!--                        android:src="@drawable/physical_icon"-->
+    <!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+    <!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--                    <TextView-->
+    <!--                        style="@style/Body1"-->
+    <!--                        android:layout_width="wrap_content"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        android:layout_marginStart="16dp"-->
+    <!--                        android:fontFamily="@font/bebasneue_regular"-->
+    <!--                        android:text="Avaliação Física"-->
+    <!--                        android:textColor="@color/white"-->
+    <!--                        android:textSize="18sp"-->
+    <!--                        android:letterSpacing="0.1"-->
+    <!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--                        app:layout_constraintStart_toEndOf="@id/image_view_physical"-->
+    <!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+    <!--            </androidx.cardview.widget.CardView>-->
+
+    <!--            <androidx.cardview.widget.CardView-->
+    <!--                android:id="@+id/card_view_profile"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_marginTop="10dp"-->
+    <!--                android:layout_marginHorizontal="10dp"-->
+    <!--                app:cardCornerRadius="16dp"-->
+    <!--                android:layout_below="@id/card_view_train">-->
+
+    <!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="match_parent"-->
+    <!--                    android:padding="24dp"-->
+    <!--                    android:background="@drawable/item_exercise_background">-->
+
+    <!--                    <ImageView-->
+    <!--                        android:id="@+id/image_view_profile"-->
+    <!--                        android:layout_width="60dp"-->
+    <!--                        android:layout_height="60dp"-->
+    <!--                        android:src="@drawable/profile_icon"-->
+    <!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--                        app:layout_constraintStart_toStartOf="parent"-->
+    <!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--                    <TextView-->
+    <!--                        style="@style/Body1"-->
+    <!--                        android:id="@+id/text_view_profile"-->
+    <!--                        android:layout_width="wrap_content"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        android:layout_marginStart="16dp"-->
+    <!--                        android:fontFamily="@font/bebasneue_regular"-->
+    <!--                        android:text="Editar perfil"-->
+    <!--                        android:textColor="@color/white"-->
+    <!--                        android:textSize="18sp"-->
+    <!--                        android:letterSpacing="0.1"-->
+    <!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--                        app:layout_constraintStart_toEndOf="@id/image_view_profile"-->
+    <!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+
+    <!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+    <!--            </androidx.cardview.widget.CardView>-->
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view_about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/card_view_imc"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="15dp"
+        app:cardCornerRadius="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/item_exercise_background"
+            android:padding="24dp">
+
+            <ImageView
+                android:id="@+id/image_view_about"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/about_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_view_about"
+                style="@style/Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/bebasneue_regular"
+                android:letterSpacing="0.1"
+                android:text="Sobre o aplicativo"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/image_view_about"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/card_view_about"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="15dp"
+        app:cardCornerRadius="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/item_exercise_background"
+            android:padding="24dp">
+
+            <ImageView
+                android:id="@+id/image_view_logout"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/logout_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/text_view_logout"
+                style="@style/Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/bebasneue_regular"
+                android:letterSpacing="0.1"
+                android:text="Logout"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/image_view_logout"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/image_view_logo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/joao_vaz_icon_dark" />
+
+</RelativeLayout>

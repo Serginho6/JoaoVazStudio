@@ -3,10 +3,13 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="?attr/colorPrimary"
+    android:background="@color/black_brown"
     android:elevation="4dp">
     
     <TextView
+        style="@style/Title3"
+        android:text="Olá,"
+        android:id="@+id/text_view_toolbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"/>
