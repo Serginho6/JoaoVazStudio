@@ -11,40 +11,9 @@
         android:id="@+id/image_view_logo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0.4"
+        android:alpha="0.2"
         android:src="@drawable/joao_vaz_icon_dark"
         tools:ignore="MissingConstraints" />
-
-    <LinearLayout
-        android:id="@+id/train_list_content"
-        android:visibility="invisible"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_margin="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            style="@style/Title3"
-            android:text="Solicite novos treinos \n\nao studio"
-            android:textAlignment="center"
-            android:textSize="36sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"/>
-
-        <ImageView
-            android:id="@+id/iv_content"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginBottom="60dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/train_empty_state"/>
-
-    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_exercises"
@@ -64,7 +33,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="@+id/train_list_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

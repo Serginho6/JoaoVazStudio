@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +22,6 @@ class TrainListActivity : AppCompatActivity() {
 
     private lateinit var sharedPreferences: SharedPreferences
 
-    private lateinit var trainContent: LinearLayout
     private lateinit var btnBackMain: Button
 
     private lateinit var recyclerView: RecyclerView
@@ -36,7 +34,6 @@ class TrainListActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
         userUid = sharedPreferences.getString("userUid", null) ?: ""
 
-        trainContent = findViewById(R.id.train_list_content)
         recyclerView = findViewById(R.id.rv_train_list)
         recyclerView.layoutManager = LinearLayoutManager(this)
 

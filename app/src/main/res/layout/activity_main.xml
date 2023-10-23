@@ -304,7 +304,7 @@
             android:layout_height="30dp"
             android:src="@drawable/about_icon"
             android:clickable="true"
-            android:onClick="openInstagramProfile"/>
+            android:onClick="openDevProfile"/>
 
     </LinearLayout>
 

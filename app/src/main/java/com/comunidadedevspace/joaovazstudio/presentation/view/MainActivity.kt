@@ -115,10 +115,10 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    fun openInstagramProfile(view: View?) {
+    fun openDevProfile(view: View?) {
         val alertDialogBuilder = AlertDialog.Builder(this)
         alertDialogBuilder.setTitle("V.1.0.0")
-        alertDialogBuilder.setMessage("App desenvolvido por um único desenvolvedor.")
+        alertDialogBuilder.setMessage("App feito por um único desenvolvedor.")
 
         alertDialogBuilder.setNeutralButton("Mais") { dialog, which ->
             val linktreeUrl = "https://linktr.ee/sergiomarchewsky?utm_source=linktree_profile_share"
