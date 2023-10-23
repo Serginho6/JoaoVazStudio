@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.comunidadedevspace.joaovazstudio.R
 
 class ImcResultActivity : AppCompatActivity() {
@@ -13,8 +14,8 @@ class ImcResultActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_imc_result)
 
-        val tvResult = findViewById<TextView>(R.id.textview_result)
-        val tvClassificacao = findViewById<TextView>(R.id.textview_classificacao)
+        val tvResult = findViewById<TextView>(R.id.tv_result)
+        val tvClassificacao = findViewById<TextView>(R.id.tv_classificacao)
 
         val result = intent.getFloatExtra("EXTRA_RESULT", 0.1f)
 
@@ -33,6 +34,14 @@ class ImcResultActivity : AppCompatActivity() {
         }
 
         tvClassificacao.text = getString(R.string.message_classificacao,classificacao)
+
+        when (classificacao) {
+            "ABAIXO DO PESO" -> tvClassificacao.setTextColor(ContextCompat.getColor(this, R.color.AbaixoDoPeso))
+            "PESO NORMAL" -> tvClassificacao.setTextColor(ContextCompat.getColor(this, R.color.PesoNormal))
+            "ACIMA DO PESO" -> tvClassificacao.setTextColor(ContextCompat.getColor(this, R.color.AcimaDoPeso))
+            "OBESIDADE GRAU I" -> tvClassificacao.setTextColor(ContextCompat.getColor(this, R.color.ObesidadeGrauI))
+            "OBESIDADE GRAU II" -> tvClassificacao.setTextColor(ContextCompat.getColor(this, R.color.ObesidadeGrauII))
+        }
 
         val btnImcVoltar = findViewById<Button>(R.id.btnImcVoltar)
 

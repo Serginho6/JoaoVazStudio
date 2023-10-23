@@ -119,7 +119,6 @@ class SignIn : AppCompatActivity() {
                             }
 
                             val intent = Intent(this@SignIn, MainActivity::class.java)
-                            intent.putExtra("userUid", userUid)
                             startActivity(intent)
 
                             val snackbar =

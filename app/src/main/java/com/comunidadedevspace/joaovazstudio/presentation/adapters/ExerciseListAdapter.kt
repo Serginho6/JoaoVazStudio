@@ -19,10 +19,11 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
 class ExerciseListAdapter(
-    options: FirestoreRecyclerOptions<Exercise>
+    options: FirestoreRecyclerOptions<Exercise>,
+    private val onAllItemsSelected: () -> Unit
+
 ) : FirestoreRecyclerAdapter<Exercise, ExerciseListAdapter.ExerciseListViewHolder>(options){
 
-//    private val sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
     private val checkedExercisesSet: MutableSet<String> = mutableSetOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseListViewHolder {
@@ -45,8 +46,11 @@ class ExerciseListAdapter(
                 checkedExercisesSet.remove(model.title)
             }
 
-//            sharedPreferences.edit().putStringSet("checkedExercises", checkedExercisesSet).apply()
             holder.updateAppearance(holder.checkbox.isChecked)
+
+            if (checkedExercisesSet.size == itemCount) {
+                onAllItemsSelected()
+            }
         }
         holder.updateAppearance(holder.checkbox.isChecked)
     }
@@ -60,7 +64,6 @@ class ExerciseListAdapter(
         fun bind(exercise: Exercise) {
             tvExerciseTitle.text = exercise.title
             tvExerciseDesc.text = exercise.desc
-            checkbox.isChecked = exercise.isSelected
 
             val youtubeVideoId = exercise.youtube
             if (!youtubeVideoId.isNullOrEmpty()) {

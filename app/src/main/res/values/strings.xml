@@ -6,7 +6,7 @@
     <string name="textNewUser">Ainda não é cadastrado? <xliff:g id="link" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" example="register">Registre-se aqui.</xliff:g></string>
 
     // Strings IMC Result
-    <string name="seu_imc">Seu IMC é:</string>
+    <string name="seu_imc">Seu Índice de Massa Corporal (IMC) é:</string>
     <string name="tabela">VEJA ABAIXO A TABELA:</string>
     <string name="abaixo_do_peso">MENOR QUE 18,50 - ABAIXO DO PESO</string>
     <string name="peso_normal">ENTRE 18,50 E 24,99 - PESO NORMAL</string>
@@ -17,8 +17,8 @@
 
     // Strings IMC
     <string name="preencha_os_campos">Preencha os campos abaixo conforme exemplos pra obter o seu Índice de Massa Corporal (IMC):</string>
-    <string name="peso">Peso: Ex.: 95 Kg</string>
-    <string name="altura">Altura: Ex.: 185 centímetros</string>
+    <string name="peso">Ex.: 95 Kilos</string>
+    <string name="altura">Ex.: 185 Centímetros</string>
     <string name="calcular">CALCULAR</string>
     <string name="title_activity_physical_assessment">PhysicalAssessment</string>
     <!-- Strings used for fragments for navigation -->

@@ -1,19 +1,25 @@
 package com.comunidadedevspace.joaovazstudio.presentation.view
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.comunidadedevspace.joaovazstudio.R
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var db: FirebaseFirestore
+    private val userUid = FirebaseAuth.getInstance().currentUser?.uid
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +27,6 @@ class MainActivity : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
 
-        val userUid = intent.getStringExtra("userUid")
         val textViewToolbar = findViewById<TextView>(R.id.text_view_toolbar)
 
         if (userUid != null) {
@@ -42,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 //        val cardViewPhysical = findViewById<CardView>(R.id.card_view_physical_assessment)
         val cardViewTrain = findViewById<CardView>(R.id.card_view_train)
 //        val cardViewProfile = findViewById<CardView>(R.id.card_view_profile)
-        val cardViewAbout = findViewById<CardView>(R.id.card_view_about)
+        val cardViewInstagram = findViewById<CardView>(R.id.card_view_instagram)
         val cardViewLogout = findViewById<CardView>(R.id.card_view_logout)
 
         cardViewTrain.setOnClickListener {
@@ -71,9 +76,17 @@ class MainActivity : AppCompatActivity() {
 //            Toast.makeText(this, "Em breve", Toast.LENGTH_SHORT).show()
 //        }
 
-        cardViewAbout.setOnClickListener {
-            val intent = Intent(this, AboutActivity::class.java)
-            startActivity(intent)
+        cardViewInstagram.setOnClickListener {
+            val instagramUrl = "https://www.instagram.com/studiojoaovaz"
+            val uri = Uri.parse(instagramUrl)
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            try {
+                startActivity(intent)
+            } catch (e: ActivityNotFoundException) {
+                val webUri = Uri.parse(instagramUrl)
+                val webIntent = Intent(Intent.ACTION_VIEW, webUri)
+                startActivity(webIntent)
+            }
         }
 
         cardViewLogout.setOnClickListener {
@@ -100,5 +113,24 @@ class MainActivity : AppCompatActivity() {
 
         val dialog = builder.create()
         dialog.show()
+    }
+
+    fun openInstagramProfile(view: View?) {
+        val alertDialogBuilder = AlertDialog.Builder(this)
+        alertDialogBuilder.setTitle("V.1.0.0")
+        alertDialogBuilder.setMessage("App desenvolvido por um único desenvolvedor.")
+
+        alertDialogBuilder.setNeutralButton("Mais") { dialog, which ->
+            val linktreeUrl = "https://linktr.ee/sergiomarchewsky?utm_source=linktree_profile_share"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(linktreeUrl))
+            startActivity(intent)
+        }
+
+        alertDialogBuilder.setPositiveButton("Fechar") { dialog, which ->
+            // Ação de cancelamento, se desejar
+        }
+
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.show()
     }
 }

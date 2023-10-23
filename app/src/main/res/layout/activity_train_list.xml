@@ -7,6 +7,14 @@
     android:layout_height="match_parent"
     tools:context=".presentation.view.TrainListActivity">
 
+    <ImageView
+        android:id="@+id/image_view_logo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.4"
+        android:src="@drawable/joao_vaz_icon_dark"
+        tools:ignore="MissingConstraints" />
+
     <LinearLayout
         android:id="@+id/train_list_content"
         android:visibility="invisible"

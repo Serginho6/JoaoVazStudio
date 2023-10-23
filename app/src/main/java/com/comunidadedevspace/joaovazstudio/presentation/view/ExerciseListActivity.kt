@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -61,13 +62,24 @@ class ExerciseListActivity : AppCompatActivity() {
             .setLifecycleOwner(this)
             .build()
 
-        exerciseAdapter = ExerciseListAdapter(options)
+        exerciseAdapter = ExerciseListAdapter(options) {
+            AlertDialog.Builder(this)
+                .setTitle("Treino Concluído \uD83E\uDD75" )
+                .setMessage("\nUfa, o de hoje tá pago." + "\n\n\uD83C\uDF89 Parabéns e até o próximo!")
+                .setPositiveButton("OK") { dialog, _ ->
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    dialog.dismiss()
+                }
+                .setCancelable(false)  // Impede que o diálogo seja fechado ao tocar fora dele
+                .show()        }
+
         recyclerView.adapter = exerciseAdapter
 
         btnBackTrain = findViewById(R.id.btn_back_train)
 
         btnBackTrain.setOnClickListener {
-            val intent = Intent(this, TrainListActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
     }
@@ -80,5 +92,10 @@ class ExerciseListActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         exerciseAdapter.stopListening()
+    }
+
+    override fun onBackPressed() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 }

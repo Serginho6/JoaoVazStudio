@@ -9,7 +9,7 @@
     <include layout="@layout/toolbar" />
 
     <TextView
-        style="@style/Body1"
+        style="@style/Title3"
         android:id="@+id/selecione"
         android:text="Selecione sua ficha e bom treino!"
         android:layout_width="match_parent"
@@ -36,6 +36,7 @@
                 android:id="@+id/image_view_train"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:padding="4dp"
                 android:src="@drawable/train_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -80,6 +81,7 @@
                 android:id="@+id/image_view_imc"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:padding="6dp"
                 android:src="@drawable/imc_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -193,7 +195,7 @@
     <!--            </androidx.cardview.widget.CardView>-->
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_view_about"
+        android:id="@+id/card_view_instagram"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/card_view_imc"
@@ -208,27 +210,28 @@
             android:padding="24dp">
 
             <ImageView
-                android:id="@+id/image_view_about"
+                android:id="@+id/image_view_instagram"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/about_icon"
+                android:src="@drawable/instagram"
+                android:padding="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/text_view_about"
+                android:id="@+id/text_view_instagram"
                 style="@style/Body1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/bebasneue_regular"
                 android:letterSpacing="0.1"
-                android:text="Sobre o aplicativo"
+                android:text="instagram"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/image_view_about"
+                app:layout_constraintStart_toEndOf="@id/image_view_instagram"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -240,7 +243,7 @@
         android:id="@+id/card_view_logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/card_view_about"
+        android:layout_below="@id/card_view_instagram"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="15dp"
         app:cardCornerRadius="16dp">
@@ -279,12 +282,30 @@
 
     </androidx.cardview.widget.CardView>
 
-    <ImageView
-        android:id="@+id/image_view_logo"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_alignParentBottom="true"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_alignParentEnd="true"
-        android:src="@drawable/joao_vaz_icon_dark" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_margin="20dp">
+
+        <TextView
+            style="@style/Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="6dp"
+            android:text="app info" />
+
+        <ImageView
+            android:id="@+id/image_view_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/about_icon"
+            android:clickable="true"
+            android:onClick="openInstagramProfile"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

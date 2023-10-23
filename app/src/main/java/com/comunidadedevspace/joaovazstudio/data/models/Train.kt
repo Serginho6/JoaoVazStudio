@@ -1,14 +1,10 @@
 package com.comunidadedevspace.joaovazstudio.data.models
 
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
-@Entity(
-    tableName = "train",
-    foreignKeys = [ForeignKey(entity = User::class, parentColumns = ["id"], childColumns = ["userUid"], onDelete = ForeignKey.CASCADE)]
-)
+@Entity(tableName = "train")
 data class Train(
     @PrimaryKey
     val trainTitle: String,
