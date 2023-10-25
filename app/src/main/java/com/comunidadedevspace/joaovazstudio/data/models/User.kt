@@ -7,7 +7,6 @@ import java.io.Serializable
 @Entity(tableName = "users")
 data class User(
     @PrimaryKey
-    val id: Int,
     val name: String,
     val email: String,
     var password: String,

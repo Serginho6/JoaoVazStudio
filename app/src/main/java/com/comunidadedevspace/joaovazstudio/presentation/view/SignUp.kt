@@ -107,7 +107,6 @@ class SignUp : AppCompatActivity() {
 
     private fun saveAdditionalUserInfo(uid: String, name: String, phone: String, gender: String, height: String, weight: String) {
         val user = User(
-            id = 0,
             name = name,
             email = emailEditText.text.toString(),
             password = passwordEditText.text.toString(),
