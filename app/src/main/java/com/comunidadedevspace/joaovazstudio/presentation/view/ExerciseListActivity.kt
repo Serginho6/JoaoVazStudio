@@ -28,6 +28,8 @@ class ExerciseListActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
 
+    private var allItemsCompleted = false
+
     private var exerciseAdapter: ExerciseListAdapter? = null
 
     companion object {
@@ -65,22 +67,10 @@ class ExerciseListActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val exerciseList = exerciseListViewModel.getExerciseList(userUid, selectedTrainId)
             exerciseAdapter = ExerciseListAdapter(exerciseList) {
-                // Aqui você pode lidar com o que fazer quando todos os itens estão selecionados
+                allItemsCompleted = exerciseList.all { it.checked }
+                showCompletedDialog()
             }
             recyclerView.adapter = exerciseAdapter
-        }
-
-        exerciseAdapter = ExerciseListAdapter(emptyList()) {
-            AlertDialog.Builder(this)
-                .setTitle("Treino Concluído \uD83E\uDD75")
-                .setMessage("\nUfa, o de hoje tá pago." + "\n\n\uD83C\uDF89 Parabéns e até o próximo!")
-                .setPositiveButton("OK") { dialog, _ ->
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    dialog.dismiss()
-                }
-                .setCancelable(false)  // Impede que o diálogo seja fechado ao tocar fora dele
-                .show()
         }
 
         btnBackTrain = findViewById(R.id.btn_back_train)
@@ -89,6 +79,19 @@ class ExerciseListActivity : AppCompatActivity() {
             val intent = Intent(this, TrainListActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun showCompletedDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Treino Concluído \uD83E\uDD75")
+            .setMessage("\nUfa, o de hoje tá pago." + "\n\n\uD83C\uDF89 Parabéns e até o próximo!")
+            .setPositiveButton("OK") { dialog, _ ->
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                dialog.dismiss()
+            }
+            .setCancelable(false)  // Impede que o diálogo seja fechado ao tocar fora dele
+            .show()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

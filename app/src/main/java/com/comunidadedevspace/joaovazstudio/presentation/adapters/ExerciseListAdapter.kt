@@ -59,11 +59,6 @@ class ExerciseListAdapter(
         return exerciseList.size
     }
 
-    fun updateExerciseData(newExerciseList: List<Exercise>) {
-        exerciseList = newExerciseList
-        notifyDataSetChanged()
-    }
-
     class ExerciseListViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         private val tvExerciseTitle: TextView = view.findViewById(R.id.tv_exercise_selected_title)
         private val tvExerciseDesc: TextView = view.findViewById(R.id.tv_exercise_selected_description)
