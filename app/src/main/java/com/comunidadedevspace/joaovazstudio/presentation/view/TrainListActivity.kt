@@ -1,19 +1,19 @@
 package com.comunidadedevspace.joaovazstudio.presentation.view
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.comunidadedevspace.joaovazstudio.R
-import com.comunidadedevspace.joaovazstudio.data.models.Train
 import com.comunidadedevspace.joaovazstudio.presentation.adapters.TrainListAdapter
 import com.comunidadedevspace.joaovazstudio.presentation.viewmodel.TrainListViewModel
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import kotlinx.coroutines.launch
 
 class TrainListActivity : AppCompatActivity() {
 
@@ -25,7 +25,8 @@ class TrainListActivity : AppCompatActivity() {
     private lateinit var btnBackMain: Button
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var trainAdapter: FirestoreRecyclerAdapter<Train, TrainListAdapter.TrainListViewHolder>
+
+    private var trainAdapter: TrainListAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,39 +39,29 @@ class TrainListActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val trainListViewModel = ViewModelProvider(this).get(TrainListViewModel::class.java)
-        val query = trainListViewModel.getTrainListQuery(userUid)
 
-        val options = FirestoreRecyclerOptions.Builder<Train>()
-            .setQuery(query, Train::class.java)
-            .setLifecycleOwner(this)
-            .build()
-
-        trainAdapter = TrainListAdapter(options) { train ->
+        trainAdapter = TrainListAdapter(emptyList()) { train ->
             trainId = train.trainId
             openExerciseList(trainId)
         }
 
         recyclerView.adapter = trainAdapter
 
+        lifecycleScope.launch {
+            val trainList = trainListViewModel.getTrainList(userUid)
+            trainAdapter?.updateTrainData(trainList)
+        }
+
         btnBackMain = findViewById(R.id.btn_back_trains)
 
         btnBackMain.setOnClickListener {
-            finish()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
     }
 
     private fun openExerciseList(trainId: String) {
         val intent = ExerciseListActivity.start(this, trainId, userUid)
         startActivity(intent)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        trainAdapter.startListening()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        trainAdapter.stopListening()
     }
 }

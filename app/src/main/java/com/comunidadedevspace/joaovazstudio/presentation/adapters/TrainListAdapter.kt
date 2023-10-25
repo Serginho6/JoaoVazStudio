@@ -7,13 +7,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.comunidadedevspace.joaovazstudio.R
 import com.comunidadedevspace.joaovazstudio.data.models.Train
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
 class TrainListAdapter(
-    options: FirestoreRecyclerOptions<Train>,
+
+    private var trainList: List<Train>,
     private val openTrainDetailView: (train: Train) -> Unit
-) : FirestoreRecyclerAdapter<Train, TrainListAdapter.TrainListViewHolder>(options) {
+
+) : RecyclerView.Adapter<TrainListAdapter.TrainListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrainListViewHolder {
         val view: View = LayoutInflater
@@ -23,8 +23,18 @@ class TrainListAdapter(
         return TrainListViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: TrainListViewHolder, position: Int, model: Train) {
-        holder.bind(model, openTrainDetailView)
+    override fun onBindViewHolder(holder: TrainListViewHolder, position: Int) {
+        val train = trainList[position]
+        holder.bind(train, openTrainDetailView)
+    }
+
+    override fun getItemCount(): Int {
+        return trainList.size
+    }
+
+    fun updateTrainData(newTrainList: List<Train>) {
+        trainList = newTrainList
+        notifyDataSetChanged()
     }
 
     class TrainListViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {

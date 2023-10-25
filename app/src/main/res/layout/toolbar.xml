@@ -7,7 +7,7 @@
     android:elevation="4dp">
     
     <TextView
-        style="@style/Title3"
+        style="@style/Body1"
         android:text="Olá,"
         android:id="@+id/text_view_toolbar"
         android:layout_width="wrap_content"

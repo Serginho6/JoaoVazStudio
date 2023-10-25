@@ -9,13 +9,13 @@ import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.comunidadedevspace.joaovazstudio.R
-import com.comunidadedevspace.joaovazstudio.data.models.Exercise
 import com.comunidadedevspace.joaovazstudio.presentation.adapters.ExerciseListAdapter
 import com.comunidadedevspace.joaovazstudio.presentation.viewmodel.ExerciseListViewModel
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import kotlinx.coroutines.launch
 
 class ExerciseListActivity : AppCompatActivity() {
 
@@ -27,7 +27,8 @@ class ExerciseListActivity : AppCompatActivity() {
     private lateinit var btnBackTrain: Button
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var exerciseAdapter: ExerciseListAdapter
+
+    private var exerciseAdapter: ExerciseListAdapter? = null
 
     companion object {
         private const val CURRENT_TRAIN_ID_EXTRA = "trainId.extra"
@@ -45,6 +46,11 @@ class ExerciseListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_exercise_list)
 
+        if (savedInstanceState != null) {
+            selectedTrainId = savedInstanceState.getString(CURRENT_TRAIN_ID_EXTRA, "")
+            userUid = savedInstanceState.getString(USER_UID_EXTRA, "")
+        }
+
         sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
         userUid = sharedPreferences.getString("userUid", null) ?: ""
 
@@ -55,16 +61,18 @@ class ExerciseListActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val exerciseListViewModel = ViewModelProvider(this).get(ExerciseListViewModel::class.java)
-        val query = exerciseListViewModel.getExerciseListQuery(userUid, selectedTrainId)
 
-        val options = FirestoreRecyclerOptions.Builder<Exercise>()
-            .setQuery(query, Exercise::class.java)
-            .setLifecycleOwner(this)
-            .build()
+        lifecycleScope.launch {
+            val exerciseList = exerciseListViewModel.getExerciseList(userUid, selectedTrainId)
+            exerciseAdapter = ExerciseListAdapter(exerciseList) {
+                // Aqui você pode lidar com o que fazer quando todos os itens estão selecionados
+            }
+            recyclerView.adapter = exerciseAdapter
+        }
 
-        exerciseAdapter = ExerciseListAdapter(options) {
+        exerciseAdapter = ExerciseListAdapter(emptyList()) {
             AlertDialog.Builder(this)
-                .setTitle("Treino Concluído \uD83E\uDD75" )
+                .setTitle("Treino Concluído \uD83E\uDD75")
                 .setMessage("\nUfa, o de hoje tá pago." + "\n\n\uD83C\uDF89 Parabéns e até o próximo!")
                 .setPositiveButton("OK") { dialog, _ ->
                     val intent = Intent(this, MainActivity::class.java)
@@ -72,30 +80,20 @@ class ExerciseListActivity : AppCompatActivity() {
                     dialog.dismiss()
                 }
                 .setCancelable(false)  // Impede que o diálogo seja fechado ao tocar fora dele
-                .show()        }
-
-        recyclerView.adapter = exerciseAdapter
+                .show()
+        }
 
         btnBackTrain = findViewById(R.id.btn_back_train)
 
         btnBackTrain.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, TrainListActivity::class.java)
             startActivity(intent)
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        exerciseAdapter.startListening()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        exerciseAdapter.stopListening()
-    }
-
-    override fun onBackPressed() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(CURRENT_TRAIN_ID_EXTRA, selectedTrainId)
+        outState.putString(USER_UID_EXTRA, userUid)
     }
 }

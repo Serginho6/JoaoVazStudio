@@ -15,14 +15,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.comunidadedevspace.joaovazstudio.R
 import com.comunidadedevspace.joaovazstudio.data.models.Exercise
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
 class ExerciseListAdapter(
-    options: FirestoreRecyclerOptions<Exercise>,
+
+    private var exerciseList: List<Exercise>,
     private val onAllItemsSelected: () -> Unit
 
-) : FirestoreRecyclerAdapter<Exercise, ExerciseListAdapter.ExerciseListViewHolder>(options){
+) : RecyclerView.Adapter<ExerciseListAdapter.ExerciseListViewHolder>(){
 
     private val checkedExercisesSet: MutableSet<String> = mutableSetOf()
 
@@ -34,16 +33,17 @@ class ExerciseListAdapter(
         return ExerciseListViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ExerciseListViewHolder, position: Int, model: Exercise) {
-        holder.bind(model)
+    override fun onBindViewHolder(holder: ExerciseListViewHolder, position: Int) {
+        val exercise = exerciseList[position]
+        holder.bind(exercise)
 
-        holder.checkbox.isChecked = checkedExercisesSet.contains(model.title)
+        holder.checkbox.isChecked = checkedExercisesSet.contains(exercise.title)
 
         holder.checkbox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                checkedExercisesSet.add(model.title)
+                checkedExercisesSet.add(exercise.title)
             } else {
-                checkedExercisesSet.remove(model.title)
+                checkedExercisesSet.remove(exercise.title)
             }
 
             holder.updateAppearance(holder.checkbox.isChecked)
@@ -53,6 +53,15 @@ class ExerciseListAdapter(
             }
         }
         holder.updateAppearance(holder.checkbox.isChecked)
+    }
+
+    override fun getItemCount(): Int {
+        return exerciseList.size
+    }
+
+    fun updateExerciseData(newExerciseList: List<Exercise>) {
+        exerciseList = newExerciseList
+        notifyDataSetChanged()
     }
 
     class ExerciseListViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
