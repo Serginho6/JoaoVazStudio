@@ -41,7 +41,7 @@ class TrainListActivity : AppCompatActivity() {
         val trainListViewModel = ViewModelProvider(this).get(TrainListViewModel::class.java)
 
         trainAdapter = TrainListAdapter(emptyList()) { train ->
-            trainId = train.trainId
+            trainId = train.nome
             openExerciseList(trainId)
         }
 

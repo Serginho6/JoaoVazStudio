@@ -11,8 +11,8 @@ class TrainListViewModel : ViewModel() {
     suspend fun getTrainList(userUid: String): List<Train> {
         val querySnapshotTrain = db.collection("users")
             .document(userUid)
-            .collection("trains")
-            .orderBy("trainTitle")
+            .collection("treinos")
+            .orderBy("nome")
             .get()
             .await()
 

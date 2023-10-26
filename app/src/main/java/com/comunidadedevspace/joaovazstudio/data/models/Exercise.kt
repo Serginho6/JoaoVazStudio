@@ -7,7 +7,7 @@ import java.io.Serializable
 @Entity(tableName = "exercise")
 data class Exercise(
     @PrimaryKey
-    val title: String,
+    val nome: String,
     val desc: String,
     val youtube: String?,
     val checked: Boolean,

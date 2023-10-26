@@ -7,6 +7,14 @@
     android:layout_height="match_parent"
     tools:context=".presentation.view.ExerciseListActivity">
 
+    <ImageView
+        android:id="@+id/image_view_logo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.2"
+        android:src="@drawable/joao_vaz_icon_dark"
+        tools:ignore="MissingConstraints" />
+
     <TextView
         android:id="@+id/tv_exercises"
         style="@style/Title3"

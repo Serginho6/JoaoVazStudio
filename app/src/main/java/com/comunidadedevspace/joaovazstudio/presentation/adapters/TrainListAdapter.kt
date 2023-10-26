@@ -42,8 +42,8 @@ class TrainListAdapter(
         private val tvTrainDesc: TextView = view.findViewById(R.id.tv_train_description)
 
         fun bind(train: Train, openTrainDetailView: (train: Train) -> Unit) {
-            tvTrainTitle.text = train.trainTitle
-            tvTrainDesc.text = train.trainDesc
+            tvTrainTitle.text = train.nome
+            tvTrainDesc.text = train.desc
 
             view.setOnClickListener {
                 openTrainDetailView.invoke(train)

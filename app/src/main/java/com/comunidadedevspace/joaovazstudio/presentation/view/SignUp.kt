@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.comunidadedevspace.joaovazstudio.R
 import com.comunidadedevspace.joaovazstudio.data.firebase.FirebaseRepository
+import com.comunidadedevspace.joaovazstudio.data.models.Exercise
+import com.comunidadedevspace.joaovazstudio.data.models.Train
 import com.comunidadedevspace.joaovazstudio.data.models.User
 import com.comunidadedevspace.joaovazstudio.databinding.ActivitySignUpBinding
 import com.google.android.material.snackbar.Snackbar
@@ -19,12 +21,15 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SignUp : AppCompatActivity() {
 
     private val auth = FirebaseAuth.getInstance()
+    private var db: FirebaseFirestore = FirebaseFirestore.getInstance()
+
     private lateinit var binding: ActivitySignUpBinding
 
     private lateinit var nameEditText: EditText
@@ -74,7 +79,7 @@ class SignUp : AppCompatActivity() {
             val height = heightEditText.text.toString()
             val weight = weightEditText.text.toString()
 
-            if (name.isEmpty() ||email.isEmpty() || password.isEmpty() || phone.isEmpty() || gender.isEmpty() || height.isEmpty() || weight.isEmpty()) {
+            if (name.isEmpty() || email.isEmpty() || password.isEmpty() || phone.isEmpty() || gender.isEmpty() || height.isEmpty() || weight.isEmpty()) {
                 val snackbar =
                     Snackbar.make(view, "Preencha todos os campos", Snackbar.LENGTH_SHORT)
                 snackbar.setBackgroundTint(Color.RED)
@@ -86,6 +91,7 @@ class SignUp : AppCompatActivity() {
                         if (firebaseUser != null) {
                             val uid = firebaseUser.uid
                             saveAdditionalUserInfo(uid, name, phone, gender, height, weight)
+                            addExampleTrainAndExercise(uid)
                         }
                     }
                 }.addOnFailureListener { exception ->
@@ -105,7 +111,14 @@ class SignUp : AppCompatActivity() {
         }
     }
 
-    private fun saveAdditionalUserInfo(uid: String, name: String, phone: String, gender: String, height: String, weight: String) {
+    private fun saveAdditionalUserInfo(
+        uid: String,
+        name: String,
+        phone: String,
+        gender: String,
+        height: String,
+        weight: String
+    ) {
         val user = User(
             name = name,
             email = emailEditText.text.toString(),
@@ -122,8 +135,6 @@ class SignUp : AppCompatActivity() {
                     clearEditTextFields()
                     navigateToSignIn()
                 }
-            } else {
-                // Aqui você pode adicionar um Snackbar ou tratamento de erro, se necessário
             }
         }
 
@@ -135,6 +146,34 @@ class SignUp : AppCompatActivity() {
             }
         }
     }
+
+    private fun addExampleTrainAndExercise(uid: String) {
+        val train = Train(
+            nome = "Ficha Treino",
+            desc = "Adaptativo primeiros 30 dias",
+        )
+
+        val exercise = Exercise(
+            nome = "Bora começar? \uD83C\uDFCB️\u200D♀️",
+            desc = "Fale com seu personal do Studio!",
+            youtube = "xScwwJf6sew",
+            checked = false
+        )
+
+        db.collection("users")
+            .document(uid).collection("treinos")
+            .document(train.nome)
+            .set(train)
+
+            .addOnSuccessListener {
+                db.collection("users")
+                    .document(uid).collection("treinos")
+                    .document(train.nome)
+                    .collection("exercicios")
+                    .add(exercise)
+            }
+    }
+
 
     private fun clearEditTextFields() {
         nameEditText.text.clear()

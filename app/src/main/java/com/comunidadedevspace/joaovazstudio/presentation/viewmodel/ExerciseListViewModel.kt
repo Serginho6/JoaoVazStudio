@@ -11,10 +11,10 @@ class ExerciseListViewModel : ViewModel() {
     suspend fun getExerciseList(userUid: String, trainId: String): List<Exercise> {
         val querySnapshotExercise = db.collection("users")
             .document(userUid)
-            .collection("trains")
+            .collection("treinos")
             .document(trainId)
-            .collection("exercises")
-            .orderBy("title")
+            .collection("exercicios")
+            .orderBy("nome")
             .get()
             .await()
 

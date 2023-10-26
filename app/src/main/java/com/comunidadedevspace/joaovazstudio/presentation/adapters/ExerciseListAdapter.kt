@@ -37,13 +37,13 @@ class ExerciseListAdapter(
         val exercise = exerciseList[position]
         holder.bind(exercise)
 
-        holder.checkbox.isChecked = checkedExercisesSet.contains(exercise.title)
+        holder.checkbox.isChecked = checkedExercisesSet.contains(exercise.nome)
 
         holder.checkbox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                checkedExercisesSet.add(exercise.title)
+                checkedExercisesSet.add(exercise.nome)
             } else {
-                checkedExercisesSet.remove(exercise.title)
+                checkedExercisesSet.remove(exercise.nome)
             }
 
             holder.updateAppearance(holder.checkbox.isChecked)
@@ -66,7 +66,7 @@ class ExerciseListAdapter(
         val checkbox: CheckBox = view.findViewById(R.id.checkbox_exercise)
 
         fun bind(exercise: Exercise) {
-            tvExerciseTitle.text = exercise.title
+            tvExerciseTitle.text = exercise.nome
             tvExerciseDesc.text = exercise.desc
 
             val youtubeVideoId = exercise.youtube
