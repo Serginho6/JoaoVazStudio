@@ -148,30 +148,37 @@ class SignUp : AppCompatActivity() {
     }
 
     private fun addExampleTrainAndExercise(uid: String) {
-        val train = Train(
-            nome = "Ficha Treino",
-            desc = "Adaptativo primeiros 30 dias",
+        val trainData = listOf(
+            Pair("Treino 'A' \uD83D\uDCAA", "Membros Superiores"),
+            Pair("Treino 'B' \uD83E\uDDB5", "Membros Inferiores"),
+            Pair("Treino 'C' \uD83D\uDEB4", "Aeróbico")
         )
+        for ((trainName, trainDesc) in trainData) {
+            val train = Train(
+                nome = trainName,
+                desc = trainDesc
+            )
 
-        val exercise = Exercise(
-            nome = "Bora começar? \uD83C\uDFCB️\u200D♀️",
-            desc = "Fale com seu personal do Studio!",
-            youtube = "xScwwJf6sew",
-            checked = false
-        )
+            val exercise = Exercise(
+                nome = "Bora começar? \uD83C\uDFCB️\u200D♀️",
+                desc = "Fale pra seu personal passar os treinos!",
+                youtube = "xScwwJf6sew",
+                checked = false
+            )
 
-        db.collection("users")
-            .document(uid).collection("treinos")
-            .document(train.nome)
-            .set(train)
+            db.collection("users")
+                .document(uid).collection("treinos")
+                .document(train.nome)
+                .set(train)
 
-            .addOnSuccessListener {
-                db.collection("users")
-                    .document(uid).collection("treinos")
-                    .document(train.nome)
-                    .collection("exercicios")
-                    .add(exercise)
-            }
+                .addOnSuccessListener {
+                    db.collection("users")
+                        .document(uid).collection("treinos")
+                        .document(train.nome)
+                        .collection("exercicios")
+                        .add(exercise)
+                }
+        }
     }
 
 
