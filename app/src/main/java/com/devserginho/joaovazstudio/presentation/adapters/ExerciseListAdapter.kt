@@ -18,12 +18,12 @@ import com.devserginho.joaovazstudio.data.models.Exercise
 
 class ExerciseListAdapter(
 
-    private var exerciseList: List<Exercise>,
+    var exerciseList: List<Exercise>,
     private val onAllItemsSelected: () -> Unit
 
 ) : RecyclerView.Adapter<ExerciseListAdapter.ExerciseListViewHolder>(){
 
-    private val checkedExercisesSet: MutableSet<String> = mutableSetOf()
+    val checkedExercisesSet: MutableSet<String> = mutableSetOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseListViewHolder {
         val view: View = LayoutInflater

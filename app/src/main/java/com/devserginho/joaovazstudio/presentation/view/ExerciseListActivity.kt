@@ -76,19 +76,25 @@ class ExerciseListActivity : AppCompatActivity() {
         btnBackTrain = findViewById(R.id.btn_back_train)
 
         btnBackTrain.setOnClickListener {
-            AlertDialog.Builder(this)
-                .setTitle("Interromper treino?")
-                .setMessage("\nAo retornar você perde o seu progresso. \n\nDeseja mesmo voltar?")
-                .setPositiveButton("SIM") { dialog, _ ->
-                    val intent = Intent(this, TrainListActivity::class.java)
-                    startActivity(intent)
-                    dialog.dismiss()
-                }
-                .setNegativeButton("NÃO") { _, _ ->
-                    // Não faz nada, apenas fecha o diálogo
-                }
-                .setCancelable(true)
-                .show()
+            if (exerciseAdapter?.checkedExercisesSet?.isNotEmpty() == true) {
+                // Pelo menos um item está marcado, exibe a mensagem de confirmação
+                AlertDialog.Builder(this)
+                    .setTitle("Interromper treino?")
+                    .setMessage("\nAo retornar você perde o seu progresso. \n\nDeseja mesmo voltar?")
+                    .setPositiveButton("SIM") { dialog, _ ->
+                        val intent = Intent(this, TrainListActivity::class.java)
+                        startActivity(intent)
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton("NÃO") { _, _ ->
+                        // Não faz nada, apenas fecha o diálogo
+                    }
+                    .setCancelable(true)
+                    .show()
+            } else {
+                val intent = Intent(this, TrainListActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 

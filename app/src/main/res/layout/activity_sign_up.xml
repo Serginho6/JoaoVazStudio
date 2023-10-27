@@ -44,7 +44,7 @@
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:inputType="text"
-            android:hint="Seu nome"
+            android:hint="Como deseja ser chamado?"
             android:padding="10dp"
             android:maxLength="40" />
 

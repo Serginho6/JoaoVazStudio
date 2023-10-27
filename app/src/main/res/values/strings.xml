@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Joao Vaz Studio</string>
 
-    <string name="message_classificacao">Classificação: %1$s!</string>
+    <string name="message_classificacao">Classificação: %1$s</string>
 
     <string name="textNewUser">Ainda não é cadastrado? <xliff:g id="link" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" example="register">Registre-se aqui.</xliff:g></string>
 
