@@ -1,4 +1,4 @@
-package com.comunidadedevspace.joaovazstudio.presentation.view
+package com.devserginho.joaovazstudio.presentation.view
 
 import android.content.Intent
 import android.graphics.Color
@@ -9,12 +9,12 @@ import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.comunidadedevspace.joaovazstudio.R
-import com.comunidadedevspace.joaovazstudio.data.firebase.FirebaseRepository
-import com.comunidadedevspace.joaovazstudio.data.models.Exercise
-import com.comunidadedevspace.joaovazstudio.data.models.Train
-import com.comunidadedevspace.joaovazstudio.data.models.User
-import com.comunidadedevspace.joaovazstudio.databinding.ActivitySignUpBinding
+import com.devserginho.joaovazstudio.R
+import com.devserginho.joaovazstudio.data.firebase.FirebaseRepository
+import com.devserginho.joaovazstudio.data.models.Exercise
+import com.devserginho.joaovazstudio.data.models.Train
+import com.devserginho.joaovazstudio.data.models.User
+import com.devserginho.joaovazstudio.databinding.ActivitySignUpBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
@@ -161,7 +161,7 @@ class SignUp : AppCompatActivity() {
 
             val exercise = Exercise(
                 nome = "Bora começar? \uD83C\uDFCB️\u200D♀️",
-                desc = "Fale pra seu personal passar os treinos!",
+                desc = "Fale pro seu personal te passar os treinos!",
                 youtube = "xScwwJf6sew",
                 checked = false
             )

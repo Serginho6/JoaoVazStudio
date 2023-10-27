@@ -1,4 +1,4 @@
-package com.comunidadedevspace.joaovazstudio.presentation.adapters
+package com.devserginho.joaovazstudio.presentation.adapters
 
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -13,8 +13,8 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.comunidadedevspace.joaovazstudio.R
-import com.comunidadedevspace.joaovazstudio.data.models.Exercise
+import com.devserginho.joaovazstudio.R
+import com.devserginho.joaovazstudio.data.models.Exercise
 
 class ExerciseListAdapter(
 

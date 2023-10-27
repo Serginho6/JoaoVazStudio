@@ -1,12 +1,12 @@
-package com.comunidadedevspace.joaovazstudio.presentation.adapters
+package com.devserginho.joaovazstudio.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.comunidadedevspace.joaovazstudio.R
-import com.comunidadedevspace.joaovazstudio.data.models.Train
+import com.devserginho.joaovazstudio.R
+import com.devserginho.joaovazstudio.data.models.Train
 
 class TrainListAdapter(
 

@@ -44,9 +44,6 @@
             android:name=".presentation.view.ExerciseListActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.view.AboutActivity"
-            android:exported="false" />
-        <activity
             android:name=".presentation.view.SignIn"
             android:exported="true">
             <intent-filter>

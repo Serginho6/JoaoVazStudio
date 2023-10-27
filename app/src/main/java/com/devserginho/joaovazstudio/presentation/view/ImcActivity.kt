@@ -1,4 +1,4 @@
-package com.comunidadedevspace.joaovazstudio.presentation.view
+package com.devserginho.joaovazstudio.presentation.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.comunidadedevspace.joaovazstudio.R
+import com.devserginho.joaovazstudio.R
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 

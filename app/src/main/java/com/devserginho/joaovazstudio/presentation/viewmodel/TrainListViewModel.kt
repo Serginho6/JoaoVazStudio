@@ -1,7 +1,7 @@
-package com.comunidadedevspace.joaovazstudio.presentation.viewmodel
+package com.devserginho.joaovazstudio.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.comunidadedevspace.joaovazstudio.data.models.Train
+import com.devserginho.joaovazstudio.data.models.Train
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 

@@ -1,4 +1,4 @@
-package com.comunidadedevspace.joaovazstudio.presentation.view
+package com.devserginho.joaovazstudio.presentation.view
 
 import android.content.Context
 import android.content.Intent
@@ -20,7 +20,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.comunidadedevspace.joaovazstudio.R
+import com.devserginho.joaovazstudio.R
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth

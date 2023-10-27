@@ -1,8 +1,8 @@
-package com.comunidadedevspace.joaovazstudio.presentation.view
+package com.devserginho.joaovazstudio.presentation.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.comunidadedevspace.joaovazstudio.R
+import com.devserginho.joaovazstudio.R
 
 class PhysicalActivity : AppCompatActivity() {
 

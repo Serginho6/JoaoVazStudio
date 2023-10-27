@@ -1,4 +1,4 @@
-package com.comunidadedevspace.joaovazstudio.data.models
+package com.devserginho.joaovazstudio.data.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

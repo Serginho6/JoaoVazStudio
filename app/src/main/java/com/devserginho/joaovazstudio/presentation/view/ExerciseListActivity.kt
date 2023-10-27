@@ -1,4 +1,4 @@
-package com.comunidadedevspace.joaovazstudio.presentation.view
+package com.devserginho.joaovazstudio.presentation.view
 
 import android.content.Context
 import android.content.Intent
@@ -12,9 +12,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.comunidadedevspace.joaovazstudio.R
-import com.comunidadedevspace.joaovazstudio.presentation.adapters.ExerciseListAdapter
-import com.comunidadedevspace.joaovazstudio.presentation.viewmodel.ExerciseListViewModel
+import com.devserginho.joaovazstudio.R
+import com.devserginho.joaovazstudio.presentation.adapters.ExerciseListAdapter
+import com.devserginho.joaovazstudio.presentation.viewmodel.ExerciseListViewModel
 import kotlinx.coroutines.launch
 
 class ExerciseListActivity : AppCompatActivity() {

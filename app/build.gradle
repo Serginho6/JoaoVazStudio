@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace 'com.comunidadedevspace.joaovazstudio'
+    namespace 'com.devserginho.joaovazstudio'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.comunidadedevspace.joaovazstudio"
+        applicationId "com.devserginho.joaovazstudio"
         minSdk 21
         targetSdk 34
         versionCode 1
