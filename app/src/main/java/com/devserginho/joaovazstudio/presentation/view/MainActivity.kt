@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -14,7 +15,6 @@ import com.devserginho.joaovazstudio.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,6 +26,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         db = FirebaseFirestore.getInstance()
+
+        val loginMessage = intent.getStringExtra("loginMessage")
+        if (loginMessage != null) {
+            Toast.makeText(this, loginMessage, Toast.LENGTH_LONG).show()
+        }
 
         val textViewToolbar = findViewById<TextView>(R.id.text_view_toolbar)
 

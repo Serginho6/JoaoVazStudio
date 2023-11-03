@@ -160,7 +160,7 @@ class SignUp : AppCompatActivity() {
             )
 
             val exercise = Exercise(
-                nome = "Bora começar? \uD83C\uDFCB️\u200D♀️",
+                nome = "Bora começar? \uD83C\uDFCB\uD83C\uDFFD",
                 desc = "Fale pro seu personal te passar os treinos!",
                 youtube = "xScwwJf6sew",
                 checked = false

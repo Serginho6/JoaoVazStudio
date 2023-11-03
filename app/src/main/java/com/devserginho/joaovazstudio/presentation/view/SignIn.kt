@@ -119,13 +119,9 @@ class SignIn : AppCompatActivity() {
                             }
 
                             val intent = Intent(this@SignIn, MainActivity::class.java)
+                            intent.putExtra("loginMessage", "Login bem-sucedido")
                             startActivity(intent)
-
-                            val snackbar =
-                                Snackbar.make(view, "Login bem-sucedido", Snackbar.LENGTH_SHORT)
-                            val backgroundColor = Color.parseColor("#FF03DAC5")
-                            snackbar.setBackgroundTint(backgroundColor)
-                            snackbar.show()
+                            finish()
                         }
                     }.addOnFailureListener { exception ->
                     val errorMessage = when (exception) {
