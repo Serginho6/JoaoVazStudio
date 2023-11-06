@@ -1,27 +1,22 @@
 # JoaoVazStudio
-É um aplicativo em fase de desenvolvimento para criação de treinos e controle de evolução do físico para os alunos do Studio João Vaz Training.
+Criado especialmente para os alunos do Studio João Vaz Training com o intuito de eliminar as fichas-treino de papel, além de ter funcionalidades como o cálculo do IMC e link direto para o perfil do Instagram.
 
 ## :camera_flash: Screenshots
 <img src="/screenshots/screenshot-1.png" width="260">&emsp;<img src="/screenshots/screenshot-2.png" width="260">&emsp;<img src="/screenshots/screenshot-3.png" width="260">&emsp;<img src="/screenshots/screenshot-4.png" width="260">&emsp;<img src="/screenshots/screenshot-5.png" width="260">&emsp;<img src="/screenshots/screenshot-6.png" width="260">&emsp;<img src="/screenshots/screenshot-7.png" width="260">&emsp;<img src="/screenshots/screenshot-8.png" width="260">&emsp;<img src="/screenshots/screenshot-9.png" width="260">
 
-## Tecnologies
-* Kotlin
+## Kotlin Tecnologies
 * RecyclerView
 * RecyclerView Adapter
 * Viewmodels
-* FloatActionButton
-* CRUD
-* Room DataBase
-* Foreign Key
-* Shared Preferences
-* MVVM Architecture
-* Unit Testing
-* LiveData
 * Coroutines
+* Shared Preferences
+* Firebase Authentication
+* Cloud Firestore
+* Glide library
+* MVVM Architecture
 
 ## To-do
-* Firebase Authentication
-* Physical Assestment feature
+* Physical Assestment history
 * Edit Profile
 
 ## Author
