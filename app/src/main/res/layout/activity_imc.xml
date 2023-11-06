@@ -11,9 +11,9 @@
         android:id="@+id/imcIndex"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/btnCalcular"
-        android:layout_alignTop="@+id/edttext_altura"
-        android:layout_marginTop="20dp"
+        android:layout_above="@id/btnImcCalcular"
+        android:layout_alignTop="@+id/edt_text_altura"
+        android:layout_marginTop="40dp"
         android:src="@drawable/imc_index"/>
 
     <TextView
@@ -27,36 +27,59 @@
         android:textStyle="bold"
         android:layout_marginBottom="60dp"/>
 
+    <TextView
+        style="@style/Body1"
+        android:id="@+id/txt_peso"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Peso (kg):"
+        android:layout_below="@id/txtPreencha"
+        android:textAlignment="center"
+        android:layout_alignBaseline="@id/edt_text_peso"/>
+
     <EditText
         style="@style/Body1"
-        android:id="@+id/edttext_peso"
+        android:id="@+id/edt_text_peso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/txtPreencha"
+        android:layout_toEndOf="@id/txt_peso"
         android:hint="@string/peso"
         android:inputType="numberDecimal"
-        android:maxLength="10"/>
+        android:maxLength="3"/>
+
+    <TextView
+        style="@style/Body1"
+        android:id="@+id/txt_altura"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Altura (cm):"
+        android:layout_below="@id/txt_peso"
+        android:textAlignment="center"
+        android:layout_alignBaseline="@id/edt_text_altura"/>
 
     <EditText
         style="@style/Body1"
-        android:id="@+id/edttext_altura"
+        android:id="@+id/edt_text_altura"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edttext_peso"
+        android:layout_below="@id/edt_text_peso"
+        android:layout_toEndOf="@id/txt_altura"
         android:layout_marginTop="16dp"
         android:hint="@string/altura"
         android:inputType="numberDecimal"
-        android:maxLength="10"/>
+        android:maxLength="3"/>
 
     <Button
         style="@style/ButtonPrimary"
-        android:id="@+id/btnCalcular"
+        android:id="@+id/btnImcCalcular"
         android:text="@string/calcular"
         android:textStyle="bold"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"/>
+        android:layout_marginHorizontal="10dp"
+        android:background="@drawable/button_background"/>
 
 </RelativeLayout>

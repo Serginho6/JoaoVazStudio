@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,32 +10,34 @@
 
     <TextView
         style="@style/Title3"
-        android:id="@+id/seuimc"
+        android:id="@+id/tv_imc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/seu_imc"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textAlignment="center"/>
 
     <TextView
         style="@style/Title3"
-        android:id="@+id/textview_result"
+        android:id="@+id/tv_result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:textAlignment="center"
         android:textSize="38sp"
-        android:textColor="@color/sea_green"
-        tools:text="27.1020" />
+        tools:text="27.1020"
+        android:layout_below="@id/tv_imc"/>
 
     <TextView
+        android:id="@+id/tv_classificacao"
         style="@style/Title3"
-        android:id="@+id/textview_classificacao"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_below="@id/tv_result"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -43,69 +45,83 @@
 
     <TextView
         style="@style/Title3"
+        android:id="@+id/tv_tabela"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:text="@string/tabela"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_below="@id/tv_classificacao"/>
 
     <TextView
         style="@style/Body1"
+        android:id="@+id/tv_abaixo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:text="@string/abaixo_do_peso" />
+        android:text="@string/abaixo_do_peso"
+        android:layout_below="@id/tv_tabela"/>
 
     <TextView
         style="@style/Body1"
+        android:id="@+id/tv_normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:text="@string/peso_normal" />
+        android:text="@string/peso_normal"
+        android:layout_below="@id/tv_abaixo"/>
 
     <TextView
         style="@style/Body1"
+        android:id="@+id/tv_acima"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:text="@string/acima_do_peso" />
+        android:text="@string/acima_do_peso"
+        android:layout_below="@id/tv_normal"/>
 
     <TextView
         style="@style/Body1"
+        android:id="@+id/tv_obesidade_i"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:text="@string/obesidade_grau_i" />
+        android:text="@string/obesidade_grau_i"
+        android:layout_below="@id/tv_acima"/>
 
     <TextView
         style="@style/Body1"
+        android:id="@+id/tv_obesidade_ii"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:text="@string/obesidade_grau_ii" />
+        android:text="@string/obesidade_grau_ii"
+        android:layout_below="@id/tv_obesidade_i"/>
 
     <ImageView
+        android:id="@+id/img_body"
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/imc_result"/>
+        android:layout_height="250dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/imc_result"
+        android:layout_below="@id/tv_obesidade_ii"/>
 
     <ImageView
+        android:id="@+id/img_rank"
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:layout_marginTop="-40dp"
-        android:src="@drawable/imc_result_2"/>
+        android:layout_height="150dp"
+        android:layout_marginTop="-80dp"
+        android:src="@drawable/imc_result_2"
+        android:layout_below="@id/img_body"/>
 
-    <TextView
-        style="@style/Body1"
-        android:id="@+id/imcWiki"
-        android:layout_width="wrap_content"
+    <Button
+        style="@style/ButtonPrimary"
+        android:id="@+id/btnImcVoltar"
+        android:text="Voltar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:autoLink="web"
-        android:linksClickable="true"
-        android:textStyle="italic"
-        android:textSize="12sp"
-        android:text="@string/saber_mais"/>
+        android:layout_marginHorizontal="10dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/button_background"/>
 
-</LinearLayout>
+</RelativeLayout>

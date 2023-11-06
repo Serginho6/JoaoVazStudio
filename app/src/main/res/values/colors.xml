@@ -8,4 +8,11 @@
     <color name="white">#FFFFFFFF</color>
     <color name="sea_green">#62C49F</color>
     <color name="red">#BF0000</color>
-    </resources>
+
+    <color name="AbaixoDoPeso">#489DBF</color>
+    <color name="PesoNormal">#11b48c</color>
+    <color name="AcimaDoPeso">#FAD82C</color>
+    <color name="ObesidadeGrauI">#FF7042</color>
+    <color name="ObesidadeGrauII">#f9434b</color>
+
+</resources>

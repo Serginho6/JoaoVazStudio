@@ -44,7 +44,7 @@
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:inputType="text"
-            android:hint="Seu nome"
+            android:hint="Como deseja ser chamado?"
             android:padding="10dp"
             android:maxLength="40" />
 
@@ -112,7 +112,7 @@
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:inputType="numberPassword"
-            android:hint="Ex.: 12345678"
+            android:hint="Senha de 6 à 8 números"
             android:padding="10dp"
             android:maxLength="8" />
 
@@ -236,9 +236,9 @@
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
                     android:inputType="numberDecimal"
-                    android:hint="em metros"
+                    android:hint="em centímetros"
                     android:padding="10dp"
-                    android:maxLength="4" />
+                    android:maxLength="3" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -302,10 +302,11 @@
         style="@style/ButtonPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
+        android:layout_marginHorizontal="10dp"
         android:text="Salvar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/button_background"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
